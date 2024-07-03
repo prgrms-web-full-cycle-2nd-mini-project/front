@@ -1,4 +1,5 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
+import { COLORS } from './colors';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -33,6 +34,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
+  background-color: ${COLORS.primary};
   /* height: 2000px; */
 }
 menu, ol, ul {
