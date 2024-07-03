@@ -1,7 +1,6 @@
 import React from 'react'; // Add this line
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { COLORS } from '../styles/colors';
 // import Header from "../components/pages/rootLayout/Header";
 
 export default function RootLayout() {
