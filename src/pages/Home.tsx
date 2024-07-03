@@ -1,5 +1,7 @@
 import React from 'react';
 
 export default function Home() {
-  return <div>Home</div>;
+  return <HomeStyle>Home</HomeStyle>;
 }
+
+const HomeStyle = styled.div``;
