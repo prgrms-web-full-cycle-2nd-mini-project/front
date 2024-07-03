@@ -1,5 +1,13 @@
 import React from 'react';
 
+import Typography from '../components/common/Typography';
+
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Typography $variant='largetitle' $color='secondary'>
+        Home
+      </Typography>
+    </div>
+  );
 }
