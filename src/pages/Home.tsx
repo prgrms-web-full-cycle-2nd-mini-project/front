@@ -1,7 +1,13 @@
 import React from 'react';
 
-export default function Home() {
-  return <HomeStyle>Home</HomeStyle>;
-}
+import Typography from '../components/common/Typography';
 
-const HomeStyle = styled.div``;
+export default function Home() {
+  return (
+    <div>
+      <Typography $variant='largetitle' $color='secondary'>
+        Home
+      </Typography>
+    </div>
+  );
+}
