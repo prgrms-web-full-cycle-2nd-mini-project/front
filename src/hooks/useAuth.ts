@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import { SignupProps } from "../pages/Signup";
-import { useAuthStore } from "../stores/authStore";
-import { login, signup } from "../apis/auth.api";
+import { useNavigate } from 'react-router-dom';
+import { SignupProps } from '../pages/Signup';
+import { useAuthStore } from '../stores/authStore';
+import { login, signup } from '../apis/auth.api';
 
 export const useAuth = () => {
   const navigate = useNavigate();
@@ -11,10 +11,10 @@ export const useAuth = () => {
     try {
       await signup(data);
 
-      alert("회원가입이 완료되었습니다.");
-      navigate("/login");
+      alert('회원가입이 완료되었습니다.');
+      navigate('/login');
     } catch (error) {
-      console.error("회원가입 오류", error);
+      console.error('회원가입 오류', error);
     }
   };
 
@@ -23,11 +23,11 @@ export const useAuth = () => {
       await login(data);
 
       storeLogin();
-      alert("로그인이 완료되었습니다.");
-      navigate("/");
+      alert('로그인이 완료되었습니다.');
+      navigate('/');
     } catch (error) {
-      alert("로그인에 실패했습니다.");
-      console.error("로그인 실패:", error);
+      alert('로그인에 실패했습니다.');
+      console.error('로그인 실패:', error);
     }
   };
 

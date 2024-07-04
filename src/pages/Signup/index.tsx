@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import SignupForm from "../../components/auth/SignupForm";
-import AuthCover from "../../components/auth/AuthCover";
+import React from 'react';
+import styled from 'styled-components';
+import SignupForm from '../../components/auth/SignupForm';
+import AuthCover from '../../components/auth/AuthCover';
 
 export interface SignupProps {
   email: string;

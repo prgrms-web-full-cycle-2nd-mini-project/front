@@ -1,9 +1,9 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import styled from "styled-components";
-import { SignupProps } from "../../pages/Signup";
-import { useAuth } from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
+import { SignupProps } from '../../pages/Signup';
+import { useAuth } from '../../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 export default function SignupForm() {
   const {
@@ -11,7 +11,7 @@ export default function SignupForm() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<SignupProps>({
-    mode: "onChange",
+    mode: 'onChange',
   });
   const { userSignup } = useAuth();
 
@@ -27,7 +27,7 @@ export default function SignupForm() {
           <InputStyle
             type="email"
             placeholder="이메일을 입력해주세요"
-            {...register("email", {
+            {...register('email', {
               required: true,
               pattern: /^\S+@\S+$/i,
             })}
@@ -42,7 +42,7 @@ export default function SignupForm() {
             isValid={!errors.password}
             type="password"
             placeholder="비밀번호를 입력해주세요"
-            {...register("password", {
+            {...register('password', {
               required: true,
               minLength: 6,
             })}
@@ -114,14 +114,14 @@ export const InputStyle = styled.input<{ isValid: boolean }>`
 
   background-color: inherit;
   border-bottom: ${(props) =>
-    props.isValid ? "1px solid #ccc" : "1px solid crimson"};
+    props.isValid ? '1px solid #ccc' : '1px solid crimson'};
   font-size: 16px;
   margin-bottom: 5px;
   transition: border-bottom 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: ${(props) => (props.isValid ? "#333" : "crimson")};
+    border-color: ${(props) => (props.isValid ? '#333' : 'crimson')};
   }
 `;
 

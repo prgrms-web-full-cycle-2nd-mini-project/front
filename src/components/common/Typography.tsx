@@ -4,10 +4,22 @@ import styled, { css } from 'styled-components';
 import { FONT_STYLE } from '../../styles/typography';
 import { COLORS } from '../../styles/colors';
 
-const Typography = ({ $variant, $color, children, $style, ...props }: PropsWithChildren<TypoProps>) => {
+const Typography = ({
+  $variant,
+  $color,
+  children,
+  $style,
+  ...props
+}: PropsWithChildren<TypoProps>) => {
   const Component = TAG_MAPPING[$variant] || 'p';
   return (
-    <StyledTypography as={Component} $variant={$variant} $color={$color} $style={$style} {...props}>
+    <StyledTypography
+      as={Component}
+      $variant={$variant}
+      $color={$color}
+      $style={$style}
+      {...props}
+    >
       {children}
     </StyledTypography>
   );

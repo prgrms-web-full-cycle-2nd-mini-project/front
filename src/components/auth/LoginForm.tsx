@@ -1,14 +1,14 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { SignupProps } from "../../pages/Signup";
-import { useAuth } from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { SignupProps } from '../../pages/Signup';
+import { useAuth } from '../../hooks/useAuth';
+import { Link } from 'react-router-dom';
 import {
   ErrorMessage,
   InputStyle,
   SignUpLink,
   SignupFormStyle,
-} from "./SignupForm";
+} from './SignupForm';
 
 export default function LoginForm() {
   const {
@@ -16,7 +16,7 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<SignupProps>({
-    mode: "onChange",
+    mode: 'onChange',
   });
   const { userLogin } = useAuth();
 
@@ -32,7 +32,7 @@ export default function LoginForm() {
           <InputStyle
             type="email"
             placeholder="이메일을 입력해주세요"
-            {...register("email", {
+            {...register('email', {
               required: true,
               pattern: /^\S+@\S+$/i,
             })}
@@ -47,7 +47,7 @@ export default function LoginForm() {
             isValid={!errors.password}
             type="password"
             placeholder="비밀번호를 입력해주세요"
-            {...register("password", {
+            {...register('password', {
               required: true,
               minLength: 6,
             })}
