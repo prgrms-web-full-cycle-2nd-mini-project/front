@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import { SignupProps } from '../../pages/Signup';
 import { useAuth } from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
+import Typography from '../common/Typography';
 
 export default function SignupForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitted },
   } = useForm<SignupProps>({
     mode: 'onChange',
   });
@@ -21,7 +22,7 @@ export default function SignupForm() {
 
   return (
     <SignupFormStyle>
-      <h1>회원가입</h1>
+      <Typography $variant="title1">회원가입</Typography>
       <form onSubmit={handleSubmit(handleSignup)}>
         <fieldset>
           <InputStyle
@@ -31,10 +32,13 @@ export default function SignupForm() {
               required: true,
               pattern: /^\S+@\S+$/i,
             })}
+            isSubmitted={isSubmitted}
             isValid={!errors.email}
           />
-          {errors.email && (
-            <ErrorMessage>올바른 이메일을 입력해주세요</ErrorMessage>
+          {isSubmitted && errors.email && (
+            <Typography $variant="body1" $color="error">
+              올바른 이메일을 입력해주세요
+            </Typography>
           )}
         </fieldset>
         <fieldset>
@@ -46,9 +50,16 @@ export default function SignupForm() {
               required: true,
               minLength: 6,
             })}
+            isSubmitted={isSubmitted}
           />
-          {errors.password && (
-            <ErrorMessage>비밀번호는 6자 이상이어야 합니다</ErrorMessage>
+          {isSubmitted && errors.password ? (
+            <Typography $variant="body1" $color="error">
+              비밀번호는 6자 이상이어야 합니다
+            </Typography>
+          ) : (
+            <Typography $variant="body1" $color="gray50">
+              비밀번호는 6자 이상이어야 합니다
+            </Typography>
           )}
         </fieldset>
         <button type="submit" disabled={!isValid}>
@@ -85,7 +96,7 @@ export const SignupFormStyle = styled.div`
 
   fieldset {
     border: none;
-    margin: 10px 0;
+    margin: 10px;
     width: 80%;
   }
 
@@ -107,28 +118,26 @@ export const SignupFormStyle = styled.div`
   }
 `;
 
-export const InputStyle = styled.input<{ isValid: boolean }>`
+export const InputStyle = styled.input<{
+  isValid: boolean;
+  isSubmitted: boolean;
+}>`
   width: 100%;
   padding: 10px;
   border: none;
+  margin-bottom: 5px;
 
   background-color: inherit;
-  border-bottom: ${(props) =>
-    props.isValid ? '1px solid #ccc' : '1px solid crimson'};
+  border-bottom: ${({ isValid, isSubmitted }) =>
+    isSubmitted && !isValid ? '1px solid crimson' : '1px solid #ccc'};
   font-size: 16px;
-  margin-bottom: 5px;
   transition: border-bottom 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: ${(props) => (props.isValid ? '#333' : 'crimson')};
+    border-color: ${({ isValid, isSubmitted }) =>
+      isSubmitted && !isValid ? 'crimson' : '#333'};
   }
-`;
-
-export const ErrorMessage = styled.div`
-  color: crimson;
-  font-size: 14px;
-  margin-top: 5px;
 `;
 
 export const SignUpLink = styled.div`
