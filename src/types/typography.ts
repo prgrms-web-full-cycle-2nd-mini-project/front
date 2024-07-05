@@ -17,9 +17,13 @@ export type TypoProps = {
     | 'active';
   $color?: Color;
   $style?: CSSProp;
+  children:string
 };
 
-export const TAG_MAPPING: Record<TypoProps['$variant'], keyof JSX.IntrinsicElements> = {
+export const TAG_MAPPING: Record<
+  TypoProps['$variant'],
+  keyof JSX.IntrinsicElements
+> = {
   largetitle: 'h1',
   title1: 'h1',
   title2: 'h2',

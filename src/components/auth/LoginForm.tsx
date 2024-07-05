@@ -1,24 +1,20 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { SignupProps } from "../../pages/Signup";
-import { useAuth } from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
-import {
-  ErrorMessage,
-  InputStyle,
-  SignUpLink,
-  SignupFormStyle,
-} from "./SignupForm";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { SignupProps } from '../../pages/Signup';
+import { useAuth } from '../../hooks/useAuth';
+import { Link } from 'react-router-dom';
+import { InputStyle, SignUpLink, SignupFormStyle } from './SignupForm';
+import Typography from '../common/Typography';
 
 export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitted },
   } = useForm<SignupProps>({
-    mode: "onChange",
+    mode: 'onChange',
   });
-  const { userLogin } = useAuth();
+  const { userLogin, errorMessage } = useAuth();
 
   const handleSignup = (data: SignupProps) => {
     userLogin(data);
@@ -26,39 +22,58 @@ export default function LoginForm() {
 
   return (
     <SignupFormStyle>
-      <h1>로그인</h1>
+      <Typography $variant="title1">로그인</Typography>
       <form onSubmit={handleSubmit(handleSignup)}>
         <fieldset>
           <InputStyle
+            // 개발용 더미 메일
+            defaultValue="apple@banana.carrot"
             type="email"
             placeholder="이메일을 입력해주세요"
-            {...register("email", {
+            {...register('email', {
               required: true,
               pattern: /^\S+@\S+$/i,
             })}
             isValid={!errors.email}
+            isSubmitted={isSubmitted}
           />
-          {errors.email && (
-            <ErrorMessage>올바른 이메일을 입력해주세요</ErrorMessage>
+          {isSubmitted && errors.email && (
+            <Typography $variant="body1" $color="error">
+              올바른 이메일을 형식을 입력해주세요
+            </Typography>
           )}
         </fieldset>
         <fieldset>
           <InputStyle
+            // 개발용 더미 메일
+            defaultValue="abc123"
+            isSubmitted={isSubmitted}
             isValid={!errors.password}
             type="password"
             placeholder="비밀번호를 입력해주세요"
-            {...register("password", {
+            {...register('password', {
               required: true,
               minLength: 6,
             })}
           />
-          {errors.password && (
-            <ErrorMessage>비밀번호는 6자 이상이어야 합니다</ErrorMessage>
+          {isSubmitted && errors.password ? (
+            <Typography $variant="body1" $color="error">
+              비밀번호는 6자 이상이어야 합니다
+            </Typography>
+          ) : (
+            <Typography $variant="body1" $color="gray50">
+              비밀번호는 6자 이상이어야 합니다
+            </Typography>
           )}
         </fieldset>
         <button type="submit" disabled={!isValid}>
           시작하기
         </button>
+        {errorMessage && (
+          <Typography $variant="body1" $color="error">
+            {errorMessage}
+          </Typography>
+        )}
       </form>
       <SignUpLink>
         계정이 없으신가요? <Link to="/signup">회원가입</Link>

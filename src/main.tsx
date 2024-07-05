@@ -11,5 +11,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <GlobalStyle />
       <App />
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
