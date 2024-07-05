@@ -14,7 +14,7 @@ export default function SignupForm() {
   } = useForm<SignupProps>({
     mode: 'onChange',
   });
-  const { userSignup } = useAuth();
+  const { userSignup, errorMessage } = useAuth();
 
   const handleSignup = (data: SignupProps) => {
     userSignup(data);
@@ -65,6 +65,11 @@ export default function SignupForm() {
         <button type="submit" disabled={!isValid}>
           가입하기
         </button>
+        {errorMessage && (
+          <Typography $variant="body1" $color="error">
+            {errorMessage}
+          </Typography>
+        )}
       </form>
       <SignUpLink>
         계정이 없으신가요? <Link to="/login">로그인</Link>

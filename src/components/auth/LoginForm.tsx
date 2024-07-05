@@ -14,7 +14,7 @@ export default function LoginForm() {
   } = useForm<SignupProps>({
     mode: 'onChange',
   });
-  const { userLogin } = useAuth();
+  const { userLogin, errorMessage } = useAuth();
 
   const handleSignup = (data: SignupProps) => {
     userLogin(data);
@@ -39,7 +39,7 @@ export default function LoginForm() {
           />
           {isSubmitted && errors.email && (
             <Typography $variant="body1" $color="error">
-              올바른 이메일을 입력해주세요
+              올바른 이메일을 형식을 입력해주세요
             </Typography>
           )}
         </fieldset>
@@ -69,6 +69,11 @@ export default function LoginForm() {
         <button type="submit" disabled={!isValid}>
           시작하기
         </button>
+        {errorMessage && (
+          <Typography $variant="body1" $color="error">
+            {errorMessage}
+          </Typography>
+        )}
       </form>
       <SignUpLink>
         계정이 없으신가요? <Link to="/signup">회원가입</Link>
