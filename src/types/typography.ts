@@ -17,6 +17,7 @@ export type TypoProps = {
     | 'active';
   $color?: Color;
   $style?: CSSProp;
+  children:string
 };
 
 export const TAG_MAPPING: Record<

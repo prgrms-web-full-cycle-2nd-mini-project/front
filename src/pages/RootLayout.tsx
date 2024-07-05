@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'; // Add this line
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { useAuthStore } from '../stores/authStore';
 
 export default function RootLayout() {

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { TAG_MAPPING, TypoProps } from '../../types/typography';
 import styled, { css } from 'styled-components';
 import { FONT_STYLE } from '../../styles/typography';
@@ -10,7 +10,7 @@ const Typography = ({
   children,
   $style,
   ...props
-}: PropsWithChildren<TypoProps>) => {
+}: TypoProps) => {
   const Component = TAG_MAPPING[$variant] || 'p';
   return (
     <StyledTypography
