@@ -1,12 +1,20 @@
-import React from 'react'; // Add this line
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react'; // Add this line
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import Header from "../components/pages/rootLayout/Header";
+import { useAuthStore } from '../stores/authStore';
 
 export default function RootLayout() {
+  const { isLoggedIn } = useAuthStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <>
-      {/* <Header /> */}
       <ContentContainer>
         <Outlet />
       </ContentContainer>
