@@ -70,6 +70,13 @@ a {
   text-decoration:none;
   color:inherit;
 }
+
+button{
+  border:none;
+  background-color: transparent;
+  cursor:pointer;
+}
+
 `;
 
 export default GlobalStyle;
