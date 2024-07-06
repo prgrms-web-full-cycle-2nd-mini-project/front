@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { SignupProps } from '../pages/Signup';
 import { useAuthStore } from '../stores/authStore';
-import { login, signup } from '../apis/auth.api';
+import { fetchCheckAuth, fetchLogin, fetchSignup } from '../apis/auth.api';
 import { useState } from 'react';
 
 /* 
@@ -11,12 +11,24 @@ TODO: 로그아웃
    */
 export const useAuth = () => {
   const navigate = useNavigate();
-  const { storeLogin } = useAuthStore();
+  const { storeLogin, storeLogout } = useAuthStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const verifyAuth = async () => {
+    try {
+      await fetchCheckAuth();
+      // console.log('res', res);
+      storeLogin();
+      navigate('/');
+    } catch (error) {
+      // console.log('error', error);
+      storeLogout();
+    }
+  };
 
   const userSignup = async (data: SignupProps) => {
     try {
-      await signup(data);
+      await fetchSignup(data);
 
       alert('회원가입이 완료되었습니다.');
       navigate('/login');
@@ -28,7 +40,7 @@ export const useAuth = () => {
 
   const userLogin = async (data: SignupProps) => {
     try {
-      await login(data);
+      await fetchLogin(data);
 
       storeLogin();
       navigate('/');
@@ -43,6 +55,7 @@ export const useAuth = () => {
     userSignup,
     errorMessage,
     setErrorMessage,
+    verifyAuth,
     // userResetPassword,
     // userResetRequest,
     // resetRequested,

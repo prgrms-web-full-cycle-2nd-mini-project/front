@@ -3,15 +3,23 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useAuthStore } from '../stores/authStore';
+import { useAuth } from '../hooks/useAuth';
 
 export default function RootLayout() {
   const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
+  const { verifyAuth } = useAuth();
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/login');
-    }
+    const checkAuth = async () => {
+      await verifyAuth();
+
+      if (!isLoggedIn) {
+        navigate('/login');
+      }
+    };
+
+    checkAuth();
   }, [isLoggedIn, navigate]);
 
   return (
