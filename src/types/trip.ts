@@ -5,3 +5,9 @@ export type TripData = {
   xCoordinates: number;
   yCoordinates: number;
 };
+
+export type LocationList = {
+  location: string;
+  xCoordinate: number;
+  yCoordinate: number;
+};

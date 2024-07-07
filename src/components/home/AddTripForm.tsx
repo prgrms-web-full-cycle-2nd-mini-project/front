@@ -4,6 +4,7 @@ import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
 import { AddButton } from '../common/AddButton';
 import { TripData } from '../../types/trip';
+import { useMap } from '../../hooks/useMap';
 
 export const AddTripForm = () => {
   const [tripData, setTripData] = useState<TripData>({
@@ -15,7 +16,8 @@ export const AddTripForm = () => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTripData({ ...tripData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setTripData({ ...tripData, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -44,13 +46,16 @@ export const AddTripForm = () => {
             style={{ marginBottom: '24px' }}
           />
           <div className="locationDateWrapper">
-            <TextInput
-              name="location"
-              label="location"
-              value={tripData.location}
-              onChange={handleChange}
-              placeholder="어디로 떠나시나요?"
-            />
+            <div style={{ position: 'relative', width: '100%' }}>
+              <TextInput
+                name="location"
+                label="location"
+                value={tripData.location}
+                onChange={handleChange}
+                placeholder="어디로 떠나시나요?"
+                button
+              />
+            </div>
             <DateInput
               name="date"
               label="date"
@@ -82,4 +87,7 @@ const AddTripFormStyle = styled.div`
     justify-content: space-between;
     gap: 24px;
   }
+`;
+const MapAddButton = styled(AddButton)`
+  position: absolute;
 `;

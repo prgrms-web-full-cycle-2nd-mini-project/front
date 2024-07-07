@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { AddButton } from '../AddButton';
 
 type InputProps = {
   placeholder: string;
@@ -8,6 +9,7 @@ type InputProps = {
   value: string;
   style?: React.CSSProperties;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  button?: boolean;
 };
 
 export const TextInput = ({
@@ -17,6 +19,7 @@ export const TextInput = ({
   value,
   style,
   onChange,
+  button = false,
 }: InputProps) => {
   return (
     <InputStyle>
@@ -30,12 +33,25 @@ export const TextInput = ({
         placeholder={placeholder}
         style={style}
       />
+      {button && (
+        <div className="button">
+          <AddButton size="small" type="button" />
+        </div>
+      )}
     </InputStyle>
   );
 };
 
 const InputStyle = styled.div`
+  position: relative;
   width: 100%;
+  .button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+  }
 `;
 
 const Label = styled.label`
