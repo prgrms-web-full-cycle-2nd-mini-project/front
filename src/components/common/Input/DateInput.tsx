@@ -4,13 +4,21 @@ import styled from 'styled-components';
 type InputProps = {
   name: string;
   label: string;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
 };
 
-export const DateInput = ({ name, label }: InputProps) => {
+export const DateInput = ({ name, label, value, onChange }: InputProps) => {
   return (
     <InputStyle>
       <Label htmlFor={name}>{label}</Label>
-      <Input type="date" id={name} name={name} />
+      <Input
+        type="date"
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
     </InputStyle>
   );
 };

@@ -5,10 +5,19 @@ type InputProps = {
   placeholder: string;
   name: string;
   label: string;
+  value: string;
   style?: React.CSSProperties;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
-export const TextInput = ({ placeholder, name, label, style }: InputProps) => {
+export const TextInput = ({
+  placeholder,
+  name,
+  label,
+  value,
+  style,
+  onChange,
+}: InputProps) => {
   return (
     <InputStyle>
       <Label htmlFor={name}>{label}</Label>
@@ -16,6 +25,8 @@ export const TextInput = ({ placeholder, name, label, style }: InputProps) => {
         type="text"
         id={name}
         name={name}
+        value={value}
+        onChange={onChange}
         placeholder={placeholder}
         style={style}
       />

@@ -4,9 +4,14 @@ import { ButtonProps } from '../../types/button';
 import { COLORS } from '../../styles/colors';
 import { IoAddOutline } from 'react-icons/io5';
 
-export const AddButton = ({ size, disabled = false, onClick }: ButtonProps) => {
+export const AddButton = ({
+  size,
+  disabled = false,
+  type = 'submit',
+  onClick,
+}: ButtonProps) => {
   return (
-    <Button size={size} disabled={disabled} onClick={onClick}>
+    <Button type={type} size={size} disabled={disabled} onClick={onClick}>
       <IoAddOutline />
     </Button>
   );
