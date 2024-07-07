@@ -1,4 +1,4 @@
-import { TripDetail } from '../types/trip';
+import { IMainTripData } from '../types/trip';
 import axiosInstance from './axiosInstance';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 const fetchTripsByPage = async ({
   plan,
   current,
-}: Props): Promise<TripDetail[]> => {
+}: Props): Promise<IMainTripData[]> => {
   const response = await axiosInstance.get(
     `/trips?plan=${plan}&page=${current}`,
   );
