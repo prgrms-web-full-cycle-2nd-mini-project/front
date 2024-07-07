@@ -32,15 +32,18 @@ export default function Home() {
 const HomeStyle = styled.div`
   .addForm {
     display: flex;
-    flex: wrap;
+    flex-wrap: wrap;
     justify-content: space-between;
 
     .info {
       flex: 1;
+      min-width: 500px;
+      margin-bottom: 30px;
     }
 
     .form {
       flex: 1.5;
+      min-width: 500px;
     }
   }
 `;
