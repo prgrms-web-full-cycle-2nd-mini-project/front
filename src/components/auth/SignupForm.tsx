@@ -121,7 +121,7 @@ export const SignupFormStyle = styled.div`
     background-color: #f0f0f0;
     cursor: not-allowed;
   }
-`;
+`; 
 
 export const InputStyle = styled.input<{
   $isValid: boolean;

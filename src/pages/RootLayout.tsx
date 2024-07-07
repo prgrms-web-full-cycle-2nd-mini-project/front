@@ -32,9 +32,13 @@ export default function RootLayout() {
 }
 
 const ContentContainer = styled.div`
+  // 너비 추가
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
   height: 100vh;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
 `;
