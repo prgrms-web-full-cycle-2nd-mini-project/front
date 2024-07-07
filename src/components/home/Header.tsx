@@ -12,13 +12,7 @@ export const Header = () => {
         <button type="button">
           <Typography $variant={'title1'}>로그아웃</Typography>
         </button>
-        <MdLogout
-          style={{
-            marginLeft: '20px',
-            fontSize: '30px',
-            color: COLORS.secondary,
-          }}
-        />
+        <LoginIcon />
       </div>
     </HeaderStyle>
   );
@@ -27,8 +21,15 @@ const HeaderStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 40px;
   .logout {
     display: flex;
     align-items: center;
   }
+`;
+
+const LoginIcon = styled(MdLogout)`
+  margin-left: 20px;
+  font-size: 30px;
+  color: ${COLORS.secondary};
 `;
