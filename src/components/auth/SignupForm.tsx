@@ -32,8 +32,8 @@ export default function SignupForm() {
               required: true,
               pattern: /^\S+@\S+$/i,
             })}
-            isSubmitted={isSubmitted}
-            isValid={!errors.email}
+            $isSubmitted={isSubmitted}
+            $isValid={!errors.email}
           />
           {isSubmitted && errors.email && (
             <Typography $variant="body1" $color="error">
@@ -43,14 +43,14 @@ export default function SignupForm() {
         </fieldset>
         <fieldset>
           <InputStyle
-            isValid={!errors.password}
+            $isValid={!errors.password}
             type="password"
             placeholder="비밀번호를 입력해주세요"
             {...register('password', {
               required: true,
               minLength: 6,
             })}
-            isSubmitted={isSubmitted}
+            $isSubmitted={isSubmitted}
           />
           {isSubmitted && errors.password ? (
             <Typography $variant="body1" $color="error">
@@ -124,8 +124,8 @@ export const SignupFormStyle = styled.div`
 `; 
 
 export const InputStyle = styled.input<{
-  isValid: boolean;
-  isSubmitted: boolean;
+  $isValid: boolean;
+  $isSubmitted: boolean;
 }>`
   width: 100%;
   padding: 10px;
@@ -133,14 +133,14 @@ export const InputStyle = styled.input<{
   margin-bottom: 5px;
 
   background-color: inherit;
-  border-bottom: ${({ isValid, isSubmitted }) =>
+  border-bottom: ${({ $isValid: isValid, $isSubmitted: isSubmitted }) =>
     isSubmitted && !isValid ? '1px solid crimson' : '1px solid #ccc'};
   font-size: 16px;
   transition: border-bottom 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: ${({ isValid, isSubmitted }) =>
+    border-color: ${({ $isValid: isValid, $isSubmitted: isSubmitted }) =>
       isSubmitted && !isValid ? 'crimson' : '#333'};
   }
 `;

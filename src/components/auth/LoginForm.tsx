@@ -34,8 +34,8 @@ export default function LoginForm() {
               required: true,
               pattern: /^\S+@\S+$/i,
             })}
-            isValid={!errors.email}
-            isSubmitted={isSubmitted}
+            $isValid={!errors.email}
+            $isSubmitted={isSubmitted}
           />
           {isSubmitted && errors.email && (
             <Typography $variant="body1" $color="error">
@@ -47,8 +47,8 @@ export default function LoginForm() {
           <InputStyle
             // 개발용 더미 메일
             defaultValue="abc123"
-            isSubmitted={isSubmitted}
-            isValid={!errors.password}
+            $isSubmitted={isSubmitted}
+            $isValid={!errors.password}
             type="password"
             placeholder="비밀번호를 입력해주세요"
             {...register('password', {
