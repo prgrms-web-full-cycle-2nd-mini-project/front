@@ -5,40 +5,44 @@ import styled from 'styled-components';
 import { AddButton } from '../common/AddButton';
 import { TripData } from '../../types/trip';
 
-import { addTrip } from '../../apis/addTrip.api';
+import { createTrip } from '../../apis/createTrip.api';
+import { useTripStore } from '../../stores/tripStore';
 
 export const AddTripForm = () => {
   const [tripData, setTripData] = useState<TripData>({
     title: '',
     date: '',
     location: '',
-    xCoordinates: 0,
-    yCoordinates: 0,
+    xCoordinate: 0,
+    yCoordinate: 0,
   });
+
+  const addTrip = useTripStore((state) => state.addTrip);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTripData({ ...tripData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const dummy = {
       title: '여행1',
       date: '2024-07-17',
       location: '마린보이수영장',
-      xCoordinates: 37.52227112904044,
-      yCoordinates: 127.19057861054482,
+      xCoordinate: 37.52227112904044,
+      yCoordinate: 127.19057861054482,
     };
 
-    addTrip(dummy);
+    const trips = await createTrip(dummy);
+    addTrip(trips);
     setTripData({
       ...tripData,
       title: '',
       date: '',
       location: '',
-      xCoordinates: 0,
-      yCoordinates: 0,
+      xCoordinate: 0,
+      yCoordinate: 0,
     });
   };
 
