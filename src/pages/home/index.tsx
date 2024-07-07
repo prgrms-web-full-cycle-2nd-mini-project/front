@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Typography from '../../components/common/Typography';
 
 import { AddTripForm } from '../../components/home/AddTripForm';
+import OngoingTrips from '../../components/home/OngoingTrips';
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
           <AddTripForm />
         </div>
       </div>
+      <OngoingTrips />
     </HomeStyle>
   );
 }
