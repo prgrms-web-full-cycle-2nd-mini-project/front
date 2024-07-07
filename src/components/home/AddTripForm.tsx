@@ -33,10 +33,12 @@ const AddTripFormStyle = styled.div`
   align-items: end;
   justify-content: flex-end;
   gap: 24px;
+
   .addTripForm {
     width: 85%;
     max-width: 500px;
   }
+
   .locationDateWrapper {
     display: flex;
     align-items: center;
