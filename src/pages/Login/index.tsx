@@ -1,13 +1,13 @@
 import React from 'react';
 import AuthCover from '../../components/auth/AuthCover';
 import LoginForm from '../../components/auth/LoginForm';
-import { SignupStyle } from '../Signup/index';
+import BookStyleContainer from '../../components/common/BookStyleContainer';
 
 export default function Login() {
   return (
-    <SignupStyle>
+    <BookStyleContainer>
       <AuthCover />
       <LoginForm />
-    </SignupStyle>
+    </BookStyleContainer>
   );
 }
