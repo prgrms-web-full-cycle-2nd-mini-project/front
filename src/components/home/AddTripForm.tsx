@@ -4,9 +4,7 @@ import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
 import { AddButton } from '../common/AddButton';
 import { TripData } from '../../types/trip';
-
 import { createTrip } from '../../apis/createTrip.api';
-import { useTripStore } from '../../stores/tripStore';
 
 export const AddTripForm = () => {
   const [tripData, setTripData] = useState<TripData>({
@@ -17,14 +15,12 @@ export const AddTripForm = () => {
     yCoordinate: 0,
   });
 
-  const addTrip = useTripStore((state) => state.addTrip);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTripData({ ...tripData, [name]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const dummy = {
       title: '여행1',
@@ -34,8 +30,8 @@ export const AddTripForm = () => {
       yCoordinate: 127.19057861054482,
     };
 
-    const trips = await createTrip(dummy);
-    addTrip(trips);
+    createTrip(dummy);
+
     setTripData({
       ...tripData,
       title: '',
