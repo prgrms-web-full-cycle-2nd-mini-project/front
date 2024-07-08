@@ -25,7 +25,6 @@ export const TripCard = ({ title, location, date }: TripCardProps) => {
 
         <Typography $variant={'title3'}>{location}</Typography>
       </div>
-
       <Typography $variant={'subtitle2'} $color="gray60">
         {date}
       </Typography>
