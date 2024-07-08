@@ -20,3 +20,13 @@ export type TripDetail = {
   completedCount: number;
   totalCount: number;
 };
+
+export type Pagination = {
+  totalPage: number;
+  currentPage: number;
+};
+
+export interface IMainTripData {
+  trips: TripDetail[];
+  pagination: Pagination;
+}

@@ -1,11 +1,9 @@
 import React from 'react';
-
 import { Header } from '../../components/home/Header';
 import styled from 'styled-components';
 import Typography from '../../components/common/Typography';
-
 import { AddTripForm } from '../../components/home/AddTripForm';
-import OngoingTrips from '../../components/home/OngoingTrips';
+import { TripList } from '../../components/home/TripList';
 
 export default function Home() {
   return (
@@ -26,7 +24,7 @@ export default function Home() {
           <AddTripForm />
         </div>
       </div>
-      <OngoingTrips />
+      <TripList />
     </HomeStyle>
   );
 }
