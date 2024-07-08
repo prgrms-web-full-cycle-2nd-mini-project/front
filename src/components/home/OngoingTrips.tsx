@@ -3,18 +3,33 @@ import { IMainTripData, TripDetail } from '../../types/trip';
 import styled from 'styled-components';
 
 import { TripCard } from '../common/card/TripCard';
+import { TripMainCard } from '../common/card/TripMainCard';
 
 type OngoingTripsProps = {
   mainTrips: TripDetail[] | undefined;
 };
 
 export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
+  if (!mainTrips || mainTrips.length === 0) {
+    return null;
+  }
+
+  const mainTrip = mainTrips[0];
+
+  const subTrips = mainTrips.slice(1, 5);
+
   return (
     <OngoingTripsStyle>
       <ListBox>
-        <MainCard></MainCard>
+        <MainCard>
+          <TripMainCard
+            title={mainTrip.title}
+            location={mainTrip.location}
+            date={mainTrip.date}
+          />
+        </MainCard>
         <SubCard>
-          {mainTrips?.slice(1, 5).map((trips) => {
+          {subTrips.map((trips) => {
             return (
               <TripCard
                 title={trips.title}

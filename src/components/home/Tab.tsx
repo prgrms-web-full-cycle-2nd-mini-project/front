@@ -55,7 +55,7 @@ export const TabList = ({ activeTab, setActiveTab }: TabListProps) => {
   };
 
   return (
-    <ul>
+    <ul style={{ marginBottom: '40px' }}>
       <Tab
         tab="ongoing"
         activeTab={activeTab}

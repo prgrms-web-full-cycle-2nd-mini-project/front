@@ -3,8 +3,9 @@ import Typography from '../Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../../styles/colors';
 import { IoClose } from 'react-icons/io5';
+import { formatISODate } from '../../../utils/formatData';
 
-type TripCardProps = {
+export type TripCardProps = {
   title: string;
   location: string;
   date: string;
@@ -26,7 +27,7 @@ export const TripCard = ({ title, location, date }: TripCardProps) => {
         <Typography $variant={'title3'}>{location}</Typography>
       </div>
       <Typography $variant={'subtitle2'} $color="gray60">
-        {date}
+        {formatISODate(date)}
       </Typography>
     </TripCardStyle>
   );
