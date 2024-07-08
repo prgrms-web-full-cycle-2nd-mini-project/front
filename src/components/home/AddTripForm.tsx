@@ -4,15 +4,15 @@ import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
 import { AddButton } from '../common/AddButton';
 import { TripData } from '../../types/trip';
-import { useMap } from '../../hooks/useMap';
+import { createTrip } from '../../apis/createTrip.api';
 
 export const AddTripForm = () => {
   const [tripData, setTripData] = useState<TripData>({
     title: '',
     date: '',
     location: '',
-    xCoordinates: 0,
-    yCoordinates: 0,
+    xCoordinate: 0,
+    yCoordinate: 0,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,14 +22,23 @@ export const AddTripForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(tripData);
+    const dummy = {
+      title: '여행1',
+      date: '2024-07-17',
+      location: '마린보이수영장',
+      xCoordinate: 37.52227112904044,
+      yCoordinate: 127.19057861054482,
+    };
+
+    createTrip(dummy);
+
     setTripData({
       ...tripData,
       title: '',
       date: '',
       location: '',
-      xCoordinates: 0,
-      yCoordinates: 0,
+      xCoordinate: 0,
+      yCoordinate: 0,
     });
   };
 

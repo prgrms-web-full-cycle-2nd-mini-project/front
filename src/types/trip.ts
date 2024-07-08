@@ -2,8 +2,8 @@ export type TripData = {
   title: string;
   date: string;
   location: string;
-  xCoordinates: number;
-  yCoordinates: number;
+  xCoordinate: number;
+  yCoordinate: number;
 };
 
 export type LocationList = {
@@ -11,3 +11,22 @@ export type LocationList = {
   xCoordinate: number;
   yCoordinate: number;
 };
+
+export type TripDetail = {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  completedCount: number;
+  totalCount: number;
+};
+
+export type Pagination = {
+  totalPage: number;
+  currentPage: number;
+};
+
+export interface IMainTripData {
+  trips: TripDetail[];
+  pagination: Pagination;
+}

@@ -14,7 +14,8 @@ export type TypoProps = {
     | 'button1'
     | 'button2'
     | 'caption1'
-    | 'active';
+    | 'active'
+    | 'cardTitle';
   $color?: Color;
   $style?: CSSProp;
   children: string;
@@ -36,4 +37,5 @@ export const TAG_MAPPING: Record<
   button2: 'span',
   caption1: 'span',
   active: 'span',
+  cardTitle: 'h6',
 };
