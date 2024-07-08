@@ -14,6 +14,7 @@ export const TripList = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetchMainTrips(true);
+      console.log(result);
       if (result && result.trips) {
         setMainTrips(result.trips);
       }

@@ -5,13 +5,18 @@ import { COLORS } from '../../../styles/colors';
 import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
+import { Gauge } from '../Gauge';
 
-export const TripMainCard = ({ title, location, date }: TripCardProps) => {
+export const TripMainCard = ({
+  title,
+  location,
+  date,
+  percent,
+}: TripCardProps) => {
   return (
     <TripCardStyle>
       <div className="title">
         <Typography $variant={'largetitle'}>{title}</Typography>
-
         <Typography
           $variant={'title1'}
           $color="secondary"
@@ -19,9 +24,14 @@ export const TripMainCard = ({ title, location, date }: TripCardProps) => {
         >
           {location}
         </Typography>
-        <Typography $variant={'title3'} $color="gray80">
+        <Typography
+          $variant={'title3'}
+          $color="gray80"
+          $style={{ marginBottom: '10px' }}
+        >
           {formatISODate(date)}
         </Typography>
+        <Gauge percent={percent} />
       </div>
       <div className="sub">
         <img src="/src/assets/airplane.png" />

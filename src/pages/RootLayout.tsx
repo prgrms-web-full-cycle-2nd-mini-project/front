@@ -36,9 +36,9 @@ const ContentContainer = styled.div`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 50px 20px;
   display: flex;
-  height: 100vh;
+  //height: 100vh;
   justify-content: center;
   flex-direction: column;
 `;

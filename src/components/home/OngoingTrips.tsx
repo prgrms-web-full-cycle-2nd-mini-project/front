@@ -15,39 +15,48 @@ export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
   }
 
   const mainTrip = mainTrips[0];
-
+  const { completedCount, totalCount, title, location, date } = mainTrip;
   const subTrips = mainTrips.slice(1, 5);
+  const calculatePercent = ({
+    totalCount,
+    completedCount,
+  }: {
+    totalCount: number;
+    completedCount: number;
+  }): number => {
+    return totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+  };
 
   return (
-    <OngoingTripsStyle>
-      <ListBox>
-        <MainCard>
-          <TripMainCard
-            title={mainTrip.title}
-            location={mainTrip.location}
-            date={mainTrip.date}
-          />
-        </MainCard>
-        <SubCard>
-          {subTrips.map((trips) => {
-            return (
-              <TripCard
-                title={trips.title}
-                location={trips.location}
-                date={trips.date}
-              />
-            );
-          })}
-        </SubCard>
-      </ListBox>
-    </OngoingTripsStyle>
+    <div>
+      <div>
+        <TripMainCard
+          title={title}
+          location={location}
+          date={date}
+          percent={calculatePercent({ completedCount, totalCount })}
+        />
+      </div>
+      <SubCard>
+        {subTrips.map((trips) => {
+          return (
+            <TripCard
+              title={trips.title}
+              location={trips.location}
+              date={trips.date}
+              percent={calculatePercent({
+                completedCount: trips.completedCount,
+                totalCount: trips.totalCount,
+              })}
+            />
+          );
+        })}
+      </SubCard>
+    </div>
   );
 };
 
-const OngoingTripsStyle = styled.div``;
-const ListBox = styled.div``;
-const MainCard = styled.div``;
 const SubCard = styled.div`
   display: flex;
-  gap: 24px;
+  justify-content: space-between;
 `;

@@ -4,14 +4,16 @@ import styled from 'styled-components';
 import { COLORS } from '../../../styles/colors';
 import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
+import { Gauge } from '../Gauge';
 
 export type TripCardProps = {
   title: string;
   location: string;
   date: string;
+  percent?: number;
 };
 
-export const TripCard = ({ title, location, date }: TripCardProps) => {
+export const TripCard = ({ title, location, date, percent }: TripCardProps) => {
   return (
     <TripCardStyle>
       <div>
@@ -26,9 +28,16 @@ export const TripCard = ({ title, location, date }: TripCardProps) => {
 
         <Typography $variant={'title3'}>{location}</Typography>
       </div>
-      <Typography $variant={'subtitle2'} $color="gray60">
-        {formatISODate(date)}
-      </Typography>
+      <div>
+        <Typography
+          $variant={'subtitle2'}
+          $color="gray60"
+          $style={{ marginBottom: '10px' }}
+        >
+          {formatISODate(date)}
+        </Typography>
+        <Gauge percent={percent} />
+      </div>
     </TripCardStyle>
   );
 };
@@ -37,8 +46,8 @@ const TripCardStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 260px;
-  height: 260px;
+  width: 270px;
+  height: 270px;
   padding: 30px;
   background-color: ${COLORS.white};
   border-radius: 20px;
