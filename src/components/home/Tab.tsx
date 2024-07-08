@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Typography from '../common/Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
 
 export type Tab = 'ongoing' | 'completed';
+
 type TabProps = {
   tab: Tab;
   activeTab: Tab;
   onClick: (tab: Tab) => void;
   label: string;
+};
+
+type TabListProps = {
+  activeTab: Tab;
+  setActiveTab: (tab: Tab) => void;
 };
 
 const Tab = ({ tab, activeTab, onClick, label }: TabProps) => {
@@ -43,8 +49,7 @@ const TabItem = styled.li<{ active: boolean }>`
     }
   `}
 `;
-export const TabList = () => {
-  const [activeTab, setActiveTab] = useState<Tab>('ongoing');
+export const TabList = ({ activeTab, setActiveTab }: TabListProps) => {
   const handleClick = (tab: Tab) => {
     setActiveTab(tab);
   };

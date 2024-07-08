@@ -12,6 +12,7 @@ export const FONT_STYLE = {
     button2: '15px',
     caption1: '10px',
     active: '16px',
+    cardTitle: '24px',
   },
   fontWeight: {
     largetitle: 700,
@@ -26,6 +27,7 @@ export const FONT_STYLE = {
     button2: 500,
     caption1: 400,
     active: 600,
+    cardTitle: 600,
   },
   lineHeight: {
     largetitle: '110%',
@@ -40,5 +42,6 @@ export const FONT_STYLE = {
     button2: '20px',
     caption1: '110%',
     active: '110%',
+    cardTitle: '110%',
   },
 } as const;

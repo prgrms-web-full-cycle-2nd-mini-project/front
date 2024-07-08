@@ -9,7 +9,7 @@ type Props = {
 const fetchTripsByPage = async ({
   plan,
   current,
-}: Props): Promise<IMainTripData[]> => {
+}: Props): Promise<IMainTripData> => {
   const response = await axiosInstance.get(
     `/trips?plan=${plan}&page=${current}`,
   );
