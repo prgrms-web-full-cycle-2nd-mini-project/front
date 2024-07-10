@@ -33,7 +33,7 @@ export const TripMainCard = ({
         >
           {formatISODate(date)}
         </Typography>
-        <Gauge percent={percent} />
+        <Gauge $percent={percent} />
       </div>
       <div className="sub">
         <img src="/src/assets/airplane.png" />

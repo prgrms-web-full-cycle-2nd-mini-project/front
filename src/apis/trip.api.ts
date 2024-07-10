@@ -32,3 +32,9 @@ export const fetchMainTrips = async (tripPlan: boolean) => {
   // 완료된 여행 로직 추가
   return await fetchTripsByPage({ plan: 'false', current: 1 });
 };
+
+export const fetchDeleteTrip = async (tripId: string) => {
+  const response = await axiosInstance.delete(`/trips/${tripId}`);
+
+  return response.data;
+};

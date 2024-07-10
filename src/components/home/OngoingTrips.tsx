@@ -18,7 +18,7 @@ export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
     return <p>일정을 가지고 오고 있습니다.</p>;
   }
   const mainTrip = mainTrips[0];
-  const { completedCount, totalCount, title, location, date } = mainTrip;
+  const { id, completedCount, totalCount, title, location, date } = mainTrip;
   const subTrips = mainTrips.slice(1, 5);
   const calculatePercent = ({
     totalCount,
@@ -38,16 +38,18 @@ export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
           location={location}
           date={date}
           percent={calculatePercent({ completedCount, totalCount })}
+          tripId={id}
         />
       </div>
       <SubCard>
         {subTrips.map((trips) => {
           return (
             <TripCard
-              key={trips.title}
+              key={trips.id}
               title={trips.title}
               location={trips.location}
               date={trips.date}
+              tripId={trips.id}
               percent={calculatePercent({
                 completedCount: trips.completedCount,
                 totalCount: trips.totalCount,

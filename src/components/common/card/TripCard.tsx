@@ -1,20 +1,32 @@
 import React from 'react';
-import Typography from '../Typography';
-import styled from 'styled-components';
-import { COLORS } from '../../../styles/colors';
 import { IoClose } from 'react-icons/io5';
+import styled from 'styled-components';
+import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
+import { COLORS } from '../../../styles/colors';
 import { formatISODate } from '../../../utils/formatData';
 import { Gauge } from '../Gauge';
-import { fetchDeleteTrip } from '../../../apis/tripDetail.api';
+import Typography from '../Typography';
 
 export type TripCardProps = {
   title: string;
   location: string;
   date: string;
   percent?: number;
+  tripId: string;
 };
 
-export const TripCard = ({ title, location, date, percent }: TripCardProps) => {
+export const TripCard = ({
+  title,
+  location,
+  date,
+  percent,
+  tripId,
+}: TripCardProps) => {
+  const mutation = useDeleteTrip();
+
+  const deleteTrip = (id: string) => {
+    mutation.mutate(id);
+  };
   return (
     <TripCardStyle>
       <div>
@@ -23,7 +35,10 @@ export const TripCard = ({ title, location, date, percent }: TripCardProps) => {
             {title}
           </Typography>
           <button>
-            <IoClose style={{ fontSize: '25px' }} />
+            <IoClose
+              style={{ fontSize: '25px' }}
+              onClick={() => deleteTrip(tripId)}
+            />
           </button>
         </div>
 
@@ -37,7 +52,7 @@ export const TripCard = ({ title, location, date, percent }: TripCardProps) => {
         >
           {formatISODate(date)}
         </Typography>
-        <Gauge percent={percent} />
+        <Gauge $percent={percent} />
       </div>
     </TripCardStyle>
   );
