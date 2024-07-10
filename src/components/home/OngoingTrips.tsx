@@ -7,9 +7,10 @@ import { TripMainCard } from '../common/card/TripMainCard';
 
 type OngoingTripsProps = {
   mainTrips: TripDetail[] | undefined;
+  isLoading: boolean;
 };
 
-export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
+export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   if (!mainTrips || mainTrips.length === 0) {
     return null;
   }
@@ -41,6 +42,7 @@ export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
         {subTrips.map((trips) => {
           return (
             <TripCard
+              key={trips.title}
               title={trips.title}
               location={trips.location}
               date={trips.date}
@@ -58,5 +60,5 @@ export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
 
 const SubCard = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 20px;
 `;

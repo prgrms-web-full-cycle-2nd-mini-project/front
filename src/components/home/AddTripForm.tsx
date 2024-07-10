@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { TextInput } from '../common/Input/TextInput';
 import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
-import { AddButton } from '../common/AddButton';
+import { AddButton } from '../common/button/AddButton';
 import { TripData } from '../../types/trip';
-import { createTrip } from '../../apis/createTrip.api';
+import { createTrip } from '../../apis/trip.api';
 
 export const AddTripForm = () => {
   const [tripData, setTripData] = useState<TripData>({

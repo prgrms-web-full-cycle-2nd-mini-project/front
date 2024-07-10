@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AddButton } from '../AddButton';
+import { AddButton } from '../button/AddButton';
 
 type InputProps = {
   placeholder: string;

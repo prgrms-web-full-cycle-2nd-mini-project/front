@@ -16,13 +16,15 @@ export const TripMainCard = ({
   return (
     <TripCardStyle>
       <div className="title">
-        <Typography $variant={'largetitle'}>{title}</Typography>
         <Typography
           $variant={'title1'}
           $color="secondary"
           $style={{ marginBottom: '20px' }}
         >
           {location}
+        </Typography>
+        <Typography $variant={'largetitle'} $style={{ marginBottom: '20px' }}>
+          {title}
         </Typography>
         <Typography
           $variant={'title3'}

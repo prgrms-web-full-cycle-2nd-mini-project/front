@@ -1,7 +1,13 @@
-import { IMainTripData } from '../types/trip';
+import { IMainTripData, TripData } from '../types/trip';
 import axiosInstance from './axiosInstance';
 
-type Props = {
+export const createTrip = async (tripData: TripData) => {
+  const response = await axiosInstance.post('/trips', tripData);
+
+  return response.data;
+};
+
+type TripProps = {
   plan: string;
   current: number;
 };
@@ -9,7 +15,7 @@ type Props = {
 const fetchTripsByPage = async ({
   plan,
   current,
-}: Props): Promise<IMainTripData> => {
+}: TripProps): Promise<IMainTripData> => {
   const response = await axiosInstance.get(
     `/trips?plan=${plan}&page=${current}`,
   );
@@ -22,4 +28,5 @@ export const fetchMainTrips = async (tripPlan: boolean) => {
     return await fetchTripsByPage({ plan: 'true', current: 1 });
   }
   // 완료된 여행 로직 추가
+  return await fetchTripsByPage({ plan: 'false', current: 1 });
 };

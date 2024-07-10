@@ -5,6 +5,7 @@ import { COLORS } from '../../../styles/colors';
 import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { Gauge } from '../Gauge';
+import { fetchDeleteTrip } from '../../../apis/tripDetail.api';
 
 export type TripCardProps = {
   title: string;
@@ -46,7 +47,7 @@ const TripCardStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 270px;
+  width: 25%;
   height: 270px;
   padding: 30px;
   background-color: ${COLORS.white};
