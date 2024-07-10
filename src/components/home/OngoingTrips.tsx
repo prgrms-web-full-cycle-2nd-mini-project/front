@@ -10,6 +10,16 @@ type OngoingTripsProps = {
   isLoading: boolean;
 };
 
+export const calculatePercent = ({
+  totalCount,
+  completedCount,
+}: {
+  totalCount: number;
+  completedCount: number;
+}): number => {
+  return totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+};
+
 export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   if (!mainTrips || mainTrips.length === 0) {
     return null;
@@ -20,15 +30,6 @@ export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   const mainTrip = mainTrips[0];
   const { id, completedCount, totalCount, title, location, date } = mainTrip;
   const subTrips = mainTrips.slice(1, 5);
-  const calculatePercent = ({
-    totalCount,
-    completedCount,
-  }: {
-    totalCount: number;
-    completedCount: number;
-  }): number => {
-    return totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
-  };
 
   return (
     <div>

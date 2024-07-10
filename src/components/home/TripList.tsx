@@ -9,10 +9,15 @@ import { useTrip } from '../../hooks/useTrip';
 
 export const TripList = () => {
   const [activeTab, setActiveTab] = useState<Tab>('ongoing');
-
-  const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(true);
-  // const { data: completedTripsData, isLoading: isCompletedLoading } =
-  //   useTrip(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(
+    true,
+    1,
+  );
+  const { data: completedTripsData, isLoading: isCompletedLoading } = useTrip(
+    true,
+    currentPage,
+  );
 
   return (
     <TripListStyle>
@@ -23,7 +28,10 @@ export const TripList = () => {
           isLoading={isOngoingLoading}
         />
       ) : (
-        <CompletedTrips />
+        <CompletedTrips
+          mainTrips={completedTripsData?.trips}
+          isLoading={isCompletedLoading}
+        />
       )}
     </TripListStyle>
   );
