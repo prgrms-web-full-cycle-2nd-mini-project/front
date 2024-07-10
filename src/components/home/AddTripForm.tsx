@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
 import { TripData } from '../../types/trip';
 import { createTrip } from '../../apis/trip.api';
+import { useCreateTrip } from '../../hooks/useCreateTrip';
 
 export const AddTripForm = () => {
   const [tripData, setTripData] = useState<TripData>({
@@ -14,6 +15,8 @@ export const AddTripForm = () => {
     xCoordinate: 0,
     yCoordinate: 0,
   });
+
+  const mutation = useCreateTrip();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,8 +33,8 @@ export const AddTripForm = () => {
       yCoordinate: 127.19057861054482,
     };
 
-    createTrip(dummy);
-
+    const newTrip: TripData = dummy;
+    mutation.mutate(newTrip);
     setTripData({
       ...tripData,
       title: '',

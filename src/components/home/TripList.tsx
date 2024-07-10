@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { IMainTripData, TripDetail } from '../../types/trip';
+import React, { useState } from 'react';
 
 import { Tab, TabList } from './Tab';
 import styled from 'styled-components';
@@ -9,7 +8,6 @@ import { OngoingTrips } from './OngoingTrips';
 import { useTrip } from '../../hooks/useTrip';
 
 export const TripList = () => {
-  const [mainTrips, setMainTrips] = useState<TripDetail[] | undefined>([]);
   const [activeTab, setActiveTab] = useState<Tab>('ongoing');
 
   const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(true);

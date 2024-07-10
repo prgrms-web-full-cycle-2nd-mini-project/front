@@ -1,7 +1,9 @@
-import { IMainTripData, TripData } from '../types/trip';
+import { ITripResponse, TripData } from '../types/trip';
 import axiosInstance from './axiosInstance';
 
-export const createTrip = async (tripData: TripData) => {
+export const createTrip = async (
+  tripData: TripData,
+): Promise<ITripResponse> => {
   const response = await axiosInstance.post('/trips', tripData);
 
   return response.data;
@@ -15,7 +17,7 @@ type TripProps = {
 const fetchTripsByPage = async ({
   plan,
   current,
-}: TripProps): Promise<IMainTripData> => {
+}: TripProps): Promise<ITripResponse> => {
   const response = await axiosInstance.get(
     `/trips?plan=${plan}&page=${current}`,
   );

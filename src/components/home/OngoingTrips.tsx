@@ -1,5 +1,5 @@
 import React from 'react';
-import { IMainTripData, TripDetail } from '../../types/trip';
+import { TripDetail } from '../../types/trip';
 import styled from 'styled-components';
 
 import { TripCard } from '../common/card/TripCard';
@@ -14,7 +14,9 @@ export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   if (!mainTrips || mainTrips.length === 0) {
     return null;
   }
-
+  if (isLoading) {
+    return <p>일정을 가지고 오고 있습니다.</p>;
+  }
   const mainTrip = mainTrips[0];
   const { completedCount, totalCount, title, location, date } = mainTrip;
   const subTrips = mainTrips.slice(1, 5);
