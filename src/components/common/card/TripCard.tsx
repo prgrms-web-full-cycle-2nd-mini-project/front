@@ -6,6 +6,7 @@ import { COLORS } from '../../../styles/colors';
 import { formatISODate } from '../../../utils/formatData';
 import { Gauge } from '../Gauge';
 import Typography from '../Typography';
+import { useNavigate } from 'react-router-dom';
 
 export type TripCardProps = {
   title: string;
@@ -23,12 +24,12 @@ export const TripCard = ({
   tripId,
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
-
+  const navigate = useNavigate();
   const deleteTrip = (id: string) => {
     mutation.mutate(id);
   };
   return (
-    <TripCardStyle>
+    <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div>
         <div className="title">
           <Typography $variant={'cardTitle'} $style={{ marginBottom: '20px' }}>
