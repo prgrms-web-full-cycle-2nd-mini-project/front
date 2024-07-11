@@ -6,15 +6,18 @@ import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
+import { useNavigate } from 'react-router-dom';
 
 export const TripMainCard = ({
   title,
   location,
   date,
   percent,
+  tripId,
 }: TripCardProps) => {
+  const navigate = useNavigate();
   return (
-    <TripCardStyle>
+    <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div className="title">
         <Typography $variant={'largetitle'}>{title}</Typography>
         <Typography
@@ -52,6 +55,7 @@ const TripCardStyle = styled.div`
   background-color: ${COLORS.white};
   border-radius: 20px;
   margin-bottom: 20px;
+  cursor: pointer;
   .sub {
     display: flex;
     align-items: flex-start;

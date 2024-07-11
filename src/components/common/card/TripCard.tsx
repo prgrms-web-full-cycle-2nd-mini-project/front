@@ -67,6 +67,7 @@ const TripCardStyle = styled.div`
   padding: 30px;
   background-color: ${COLORS.white};
   border-radius: 20px;
+  cursor: pointer;
   .title {
     display: flex;
     justify-content: space-between;
