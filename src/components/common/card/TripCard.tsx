@@ -62,7 +62,6 @@ const TripCardStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   height: 270px;
   padding: 30px;
   background-color: ${COLORS.white};
