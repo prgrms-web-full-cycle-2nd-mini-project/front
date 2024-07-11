@@ -1,5 +1,5 @@
 import React from 'react';
-import { IMainTripData, TripDetail } from '../../types/trip';
+import { TripDetail } from '../../types/trip';
 import styled from 'styled-components';
 
 import { TripCard } from '../common/card/TripCard';
@@ -7,25 +7,30 @@ import { TripMainCard } from '../common/card/TripMainCard';
 
 type OngoingTripsProps = {
   mainTrips: TripDetail[] | undefined;
+  isLoading: boolean;
 };
 
-export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
+export const calculatePercent = ({
+  totalCount,
+  completedCount,
+}: {
+  totalCount: number;
+  completedCount: number;
+}): number => {
+  return totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+};
+
+export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   if (!mainTrips || mainTrips.length === 0) {
     return null;
   }
+  if (isLoading) {
+    return <p>일정을 가지고 오고 있습니다.</p>;
+  }
 
   const mainTrip = mainTrips[0];
-  const { completedCount, totalCount, title, location, date } = mainTrip;
+  const { id, completedCount, totalCount, title, location, date } = mainTrip;
   const subTrips = mainTrips.slice(1, 5);
-  const calculatePercent = ({
-    totalCount,
-    completedCount,
-  }: {
-    totalCount: number;
-    completedCount: number;
-  }): number => {
-    return totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
-  };
 
   return (
     <div>
@@ -35,15 +40,18 @@ export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
           location={location}
           date={date}
           percent={calculatePercent({ completedCount, totalCount })}
+          tripId={id}
         />
       </div>
       <SubCard>
         {subTrips.map((trips) => {
           return (
             <TripCard
+              key={trips.id}
               title={trips.title}
               location={trips.location}
               date={trips.date}
+              tripId={trips.id}
               percent={calculatePercent({
                 completedCount: trips.completedCount,
                 totalCount: trips.totalCount,
@@ -57,6 +65,8 @@ export const OngoingTrips = ({ mainTrips }: OngoingTripsProps) => {
 };
 
 const SubCard = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  flex-wrap: wrap;
 `;

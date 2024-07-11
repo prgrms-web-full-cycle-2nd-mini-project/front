@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createTrip } from '../apis/trip.api';
+import { fetchDeleteTrip } from '../apis/trip.api';
 
-export const useCreateTrip = () => {
+export const useDeleteTrip = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createTrip,
+    mutationFn: fetchDeleteTrip,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['trips'] });
     },

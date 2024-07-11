@@ -19,13 +19,15 @@ export const TripMainCard = ({
   return (
     <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div className="title">
-        <Typography $variant={'largetitle'}>{title}</Typography>
         <Typography
           $variant={'title1'}
           $color="secondary"
           $style={{ marginBottom: '20px' }}
         >
           {location}
+        </Typography>
+        <Typography $variant={'largetitle'} $style={{ marginBottom: '20px' }}>
+          {title}
         </Typography>
         <Typography
           $variant={'title3'}
@@ -34,7 +36,7 @@ export const TripMainCard = ({
         >
           {formatISODate(date)}
         </Typography>
-        <Gauge percent={percent} />
+        <Gauge $percent={percent} />
       </div>
       <div className="sub">
         <img src="/src/assets/airplane.png" />

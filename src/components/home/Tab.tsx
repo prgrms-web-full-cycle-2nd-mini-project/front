@@ -20,7 +20,7 @@ type TabListProps = {
 
 const Tab = ({ tab, activeTab, onClick, label }: TabProps) => {
   return (
-    <TabItem onClick={() => onClick(tab)} active={activeTab === tab}>
+    <TabItem onClick={() => onClick(tab)} $active={activeTab === tab}>
       <Typography
         $variant={`${activeTab === tab ? 'active' : 'body1'}`}
         $color={`${activeTab === tab ? 'secondary' : 'gray40'}`}
@@ -31,12 +31,12 @@ const Tab = ({ tab, activeTab, onClick, label }: TabProps) => {
   );
 };
 
-const TabItem = styled.li<{ active: boolean }>`
+const TabItem = styled.li<{ $active: boolean }>`
   position: relative;
   cursor: pointer;
 
-  ${({ active }) =>
-    active &&
+  ${({ $active }) =>
+    $active &&
     `
     &::after {
       content: '';
