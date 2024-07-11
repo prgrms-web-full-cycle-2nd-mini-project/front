@@ -13,7 +13,7 @@ export const CompletedTrips = ({
   mainTrips,
   isLoading,
 }: CompletedTripsProps) => {
-  if (!mainTrips || mainTrips.length === 0) {
+  if (!mainTrips) {
     return null;
   }
   if (isLoading) {
@@ -21,30 +21,29 @@ export const CompletedTrips = ({
   }
 
   return (
-    <div>
-      <SubCard>
-        {mainTrips.map((trips) => {
-          return (
-            <TripCard
-              key={trips.id}
-              title={trips.title}
-              location={trips.location}
-              date={trips.date}
-              tripId={trips.id}
-              percent={calculatePercent({
-                completedCount: trips.completedCount,
-                totalCount: trips.totalCount,
-              })}
-            />
-          );
-        })}
-      </SubCard>
-    </div>
+    <SubCard>
+      {mainTrips.map((trips) => {
+        return (
+          <TripCard
+            key={trips.id}
+            title={trips.title}
+            location={trips.location}
+            date={trips.date}
+            tripId={trips.id}
+            percent={calculatePercent({
+              completedCount: trips.completedCount,
+              totalCount: trips.totalCount,
+            })}
+          />
+        );
+      })}
+    </SubCard>
   );
 };
 
 const SubCard = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 네 개의 열로 설정 */
   gap: 20px;
   flex-wrap: wrap;
 `;

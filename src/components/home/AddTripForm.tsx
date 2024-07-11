@@ -29,9 +29,9 @@ export const AddTripForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const dummy = {
-      title: '여행1',
-      date: '2024-07-17',
-      location: '마린보이수영장',
+      title: tripData.title,
+      date: tripData.date,
+      location: tripData.location,
       xCoordinate: 37.52227112904044,
       yCoordinate: 127.19057861054482,
     };

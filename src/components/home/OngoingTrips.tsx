@@ -27,6 +27,7 @@ export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   if (isLoading) {
     return <p>일정을 가지고 오고 있습니다.</p>;
   }
+
   const mainTrip = mainTrips[0];
   const { id, completedCount, totalCount, title, location, date } = mainTrip;
   const subTrips = mainTrips.slice(1, 5);
@@ -64,6 +65,8 @@ export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
 };
 
 const SubCard = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  flex-wrap: wrap;
 `;

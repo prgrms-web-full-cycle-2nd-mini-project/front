@@ -14,8 +14,9 @@ export const TripList = () => {
     true,
     1,
   );
+
   const { data: completedTripsData, isLoading: isCompletedLoading } = useTrip(
-    true,
+    false,
     currentPage,
   );
 
