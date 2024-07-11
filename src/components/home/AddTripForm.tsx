@@ -3,11 +3,14 @@ import { TextInput } from '../common/Input/TextInput';
 import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
-import { TripData } from '../../types/trip';
-import { createTrip } from '../../apis/trip.api';
+import { TripData, TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
 
-export const AddTripForm = () => {
+export const AddTripForm = ({
+  mainTrips,
+}: {
+  mainTrips?: TripDetail[] | undefined;
+}) => {
   const [tripData, setTripData] = useState<TripData>({
     title: '',
     date: '',
@@ -35,6 +38,7 @@ export const AddTripForm = () => {
 
     const newTrip: TripData = dummy;
     mutation.mutate(newTrip);
+
     setTripData({
       ...tripData,
       title: '',
@@ -76,7 +80,7 @@ export const AddTripForm = () => {
             />
           </div>
         </div>
-        <AddButton />
+        <AddButton disabled={mainTrips && mainTrips.length >= 5} />
       </AddTripFormStyle>
     </form>
   );
@@ -99,7 +103,4 @@ const AddTripFormStyle = styled.div`
     justify-content: space-between;
     gap: 24px;
   }
-`;
-const MapAddButton = styled(AddButton)`
-  position: absolute;
 `;
