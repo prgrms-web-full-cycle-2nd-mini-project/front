@@ -26,7 +26,7 @@ export type Pagination = {
   currentPage: number;
 };
 
-export interface IMainTripData {
+export interface ITripResponse {
   trips: TripDetail[];
   pagination: Pagination;
 }

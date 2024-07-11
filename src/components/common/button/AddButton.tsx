@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { ButtonProps } from '../../types/button';
-import { COLORS } from '../../styles/colors';
+import { ButtonProps } from '../../../types/button';
+import { COLORS } from '../../../styles/colors';
 import { IoAddOutline } from 'react-icons/io5';
 
 export const AddButton = ({

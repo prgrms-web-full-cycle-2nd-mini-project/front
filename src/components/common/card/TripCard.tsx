@@ -1,28 +1,45 @@
 import React from 'react';
-import Typography from '../Typography';
-import styled from 'styled-components';
-import { COLORS } from '../../../styles/colors';
 import { IoClose } from 'react-icons/io5';
+import styled from 'styled-components';
+import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
+import { COLORS } from '../../../styles/colors';
 import { formatISODate } from '../../../utils/formatData';
 import { Gauge } from '../Gauge';
+import Typography from '../Typography';
+import { useNavigate } from 'react-router-dom';
 
 export type TripCardProps = {
   title: string;
   location: string;
   date: string;
   percent?: number;
+  tripId: string;
 };
 
-export const TripCard = ({ title, location, date, percent }: TripCardProps) => {
+export const TripCard = ({
+  title,
+  location,
+  date,
+  percent,
+  tripId,
+}: TripCardProps) => {
+  const mutation = useDeleteTrip();
+  const navigate = useNavigate();
+  const deleteTrip = (id: string) => {
+    mutation.mutate(id);
+  };
   return (
-    <TripCardStyle>
+    <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div>
         <div className="title">
           <Typography $variant={'cardTitle'} $style={{ marginBottom: '20px' }}>
             {title}
           </Typography>
           <button>
-            <IoClose style={{ fontSize: '25px' }} />
+            <IoClose
+              style={{ fontSize: '25px' }}
+              onClick={() => deleteTrip(tripId)}
+            />
           </button>
         </div>
 
@@ -36,7 +53,7 @@ export const TripCard = ({ title, location, date, percent }: TripCardProps) => {
         >
           {formatISODate(date)}
         </Typography>
-        <Gauge percent={percent} />
+        <Gauge $percent={percent} />
       </div>
     </TripCardStyle>
   );
@@ -46,7 +63,6 @@ const TripCardStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 270px;
   height: 270px;
   padding: 30px;
   background-color: ${COLORS.white};

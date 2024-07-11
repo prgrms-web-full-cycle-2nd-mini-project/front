@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { TextInput } from '../common/Input/TextInput';
 import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
-import { AddButton } from '../common/AddButton';
-import { TripData } from '../../types/trip';
-import { createTrip } from '../../apis/createTrip.api';
+import { AddButton } from '../common/button/AddButton';
+import { TripData, TripDetail } from '../../types/trip';
+import { useCreateTrip } from '../../hooks/useCreateTrip';
 
-export const AddTripForm = () => {
+export const AddTripForm = ({
+  mainTrips,
+}: {
+  mainTrips?: TripDetail[] | undefined;
+}) => {
   const [tripData, setTripData] = useState<TripData>({
     title: '',
     date: '',
@@ -14,6 +18,8 @@ export const AddTripForm = () => {
     xCoordinate: 0,
     yCoordinate: 0,
   });
+
+  const mutation = useCreateTrip();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,14 +29,15 @@ export const AddTripForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const dummy = {
-      title: '여행1',
-      date: '2024-07-17',
-      location: '마린보이수영장',
+      title: tripData.title,
+      date: tripData.date,
+      location: tripData.location,
       xCoordinate: 37.52227112904044,
       yCoordinate: 127.19057861054482,
     };
 
-    createTrip(dummy);
+    const newTrip: TripData = dummy;
+    mutation.mutate(newTrip);
 
     setTripData({
       ...tripData,
@@ -73,7 +80,7 @@ export const AddTripForm = () => {
             />
           </div>
         </div>
-        <AddButton />
+        <AddButton disabled={mainTrips && mainTrips.length >= 5} />
       </AddTripFormStyle>
     </form>
   );
@@ -96,7 +103,4 @@ const AddTripFormStyle = styled.div`
     justify-content: space-between;
     gap: 24px;
   }
-`;
-const MapAddButton = styled(AddButton)`
-  position: absolute;
 `;
