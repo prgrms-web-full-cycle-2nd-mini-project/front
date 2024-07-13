@@ -7,7 +7,6 @@ import { TripList } from '../../components/home/TripList';
 import { useTrip } from '../../hooks/useTrip';
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState(1);
   const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(
     true,
     1,
