@@ -26,9 +26,7 @@ const fetchTripsByPage = async ({
 };
 
 export const fetchMainTrips = async (tripPlan: boolean, current: number) => {
-  const planValue = tripPlan ? true : false;
-
-  return await fetchTripsByPage({ plan: planValue, current });
+  return await fetchTripsByPage({ plan: tripPlan, current });
 };
 
 export const fetchDeleteTrip = async (tripId: string) => {
