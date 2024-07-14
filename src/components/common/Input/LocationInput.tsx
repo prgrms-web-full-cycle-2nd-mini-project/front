@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Typography from '../Typography';
 import { AddButton } from '../button/AddButton';
 
-export interface Place {
+interface Place {
   address_name: string;
   category_group_code: string;
   category_group_name: string;
@@ -25,6 +25,7 @@ type InputProps = {
   setKeyword: React.Dispatch<React.SetStateAction<string>>;
   places: Place[];
 };
+
 const LocationInput = ({
   label,
   name,
@@ -32,8 +33,35 @@ const LocationInput = ({
   setKeyword,
   places,
 }: InputProps) => {
+  const [isListVisible, setIsListVisible] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const handleButtonClick = () => {
+    setIsListVisible(!isListVisible);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      wrapperRef.current &&
+      !wrapperRef.current.contains(event.target as Node)
+    ) {
+      setIsListVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isListVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isListVisible]);
+
   return (
-    <InputStyle>
+    <InputStyle ref={wrapperRef}>
       <SearchForm>
         <Label htmlFor={name}>{label}</Label>
         <Input
@@ -45,17 +73,17 @@ const LocationInput = ({
           placeholder="어디로 떠나시나요?"
         />
         <div className="button">
-          <AddButton size="small" type="submit" />
+          <AddButton size="small" type="submit" onClick={handleButtonClick} />
         </div>
       </SearchForm>
-      {places.length > 0 && (
+      {isListVisible && places.length > 0 && (
         <PlacesList>
           {places.map((place, index) => (
             <PlaceItem key={index}>
               {place.place_name}
-              {/* <Typography $variant={'caption1'}>
+              <Typography $variant={'caption1'}>
                 {place.address_name}
-              </Typography> */}
+              </Typography>
             </PlaceItem>
           ))}
         </PlacesList>
