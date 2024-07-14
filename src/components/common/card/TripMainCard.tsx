@@ -17,13 +17,13 @@ export const TripMainCard = ({
   tripId,
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
-  const navigate = useNavigate();
+
   const deleteTrip = (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     mutation.mutate(id);
   };
   return (
-    <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
+    <TripCardStyle>
       <div className="title">
         <Typography
           $variant={'title1'}
