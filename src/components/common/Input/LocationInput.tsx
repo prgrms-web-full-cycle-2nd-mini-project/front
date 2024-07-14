@@ -1,98 +1,85 @@
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
+import Typography from '../Typography';
+import { AddButton } from '../button/AddButton';
+
+export interface Place {
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  category_name: string;
+  distance: string;
+  id: string;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+  x: string;
+  y: string;
+}
 
 type InputProps = {
   name: string;
   label: string;
-  apiKey: string;
+  keyword: string;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
+  places: Place[];
 };
-const LocationInput = ({ label, name, apiKey }: InputProps) => {
-  const mapRef = useRef(null);
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&libraries=services,clusterer,drawing`;
-    script.async = true;
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      const { kakao } = window;
-      const map = new kakao.maps.Map(mapRef.current, {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      });
-
-      const ps = new kakao.maps.services.Places();
-      const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-
-      const input = inputRef.current;
-
-      const searchPlaces = () => {
-        const keyword = input.value;
-        if (!keyword.replace(/^\s+|\s+$/g, '')) {
-          return false;
-        }
-        ps.keywordSearch(keyword, placesSearchCB);
-      };
-
-      const placesSearchCB = (data, status, pagination) => {
-        if (status === kakao.maps.services.Status.OK) {
-          const bounds = new kakao.maps.LatLngBounds();
-
-          for (let i = 0; i < data.length; i++) {
-            displayMarker(data[i]);
-            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-          }
-
-          map.setBounds(bounds);
-        }
-      };
-
-      const displayMarker = (place) => {
-        const marker = new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(place.y, place.x),
-        });
-
-        kakao.maps.event.addListener(marker, 'click', () => {
-          infowindow.setContent(
-            `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`,
-          );
-          infowindow.open(map, marker);
-        });
-      };
-
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          searchPlaces();
-        }
-      });
-    };
-
-    return () => script.remove();
-  }, [apiKey]);
-
+const LocationInput = ({
+  label,
+  name,
+  keyword,
+  setKeyword,
+  places,
+}: InputProps) => {
   return (
-    <InputWrapper>
-      <Label htmlFor={name}>{label}</Label>
-      <Input
-        type="text"
-        id={name}
-        name={name}
-        ref={inputRef}
-        placeholder="어디로 떠나시나요?"
-      />
-      <MapContainer id="map" ref={mapRef}></MapContainer>
-    </InputWrapper>
+    <InputStyle>
+      <SearchForm>
+        <Label htmlFor={name}>{label}</Label>
+        <Input
+          type="text"
+          id={name}
+          name={name}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          placeholder="어디로 떠나시나요?"
+        />
+        <div className="button">
+          <AddButton size="small" type="submit" />
+        </div>
+      </SearchForm>
+      {places.length > 0 && (
+        <PlacesList>
+          {places.map((place, index) => (
+            <PlaceItem key={index}>
+              {place.place_name}
+              {/* <Typography $variant={'caption1'}>
+                {place.address_name}
+              </Typography> */}
+            </PlaceItem>
+          ))}
+        </PlacesList>
+      )}
+    </InputStyle>
   );
 };
 
 export default LocationInput;
 
-const InputWrapper = styled.div`
-  margin-bottom: 15px;
+const InputStyle = styled.div`
+  position: relative;
+  width: 100%;
+  .button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+  }
+`;
+
+const SearchForm = styled.div`
+  position: relative;
 `;
 
 const Label = styled.label`
@@ -107,12 +94,36 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
+  padding: 24px;
+  border-radius: 50px;
+  border: none;
 `;
 
-const MapContainer = styled.div`
-  height: 400px;
-  width: 100%;
+const slideDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const PlacesList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: ${slideDown} 0.3s ease-out;
+  background-color: white;
+`;
+
+const PlaceItem = styled.li`
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  &:last-child {
+    border-bottom: none;
+  }
 `;

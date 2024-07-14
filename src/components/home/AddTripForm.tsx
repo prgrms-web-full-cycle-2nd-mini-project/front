@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
 import { TripData, TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
-
-import PlacesSearch from './PlacesSearch';
+import LocationInput, { Place } from '../common/Input/LocationInput';
 
 export const AddTripForm = ({
   mainTrips,
@@ -20,6 +19,8 @@ export const AddTripForm = ({
     xCoordinate: 0,
     yCoordinate: 0,
   });
+  const [keyword, setKeyword] = useState('');
+  const [places, setPlaces] = useState<Place[]>([]);
 
   const mutation = useCreateTrip();
 
@@ -30,6 +31,7 @@ export const AddTripForm = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    searchPlaces(e);
     const dummy = {
       title: tripData.title,
       date: tripData.date,
@@ -51,6 +53,33 @@ export const AddTripForm = ({
     });
   };
 
+  const searchPlaces = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!keyword.trim()) {
+      alert('키워드를 입력해주세요!');
+      return;
+    }
+    if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
+      const ps = new window.kakao.maps.services.Places();
+      ps.keywordSearch(keyword, placesSearchCB);
+    } else {
+      alert('Kakao Maps API가 로드되지 않았습니다.');
+    }
+  };
+
+  const placesSearchCB = (data: any, status: any) => {
+    if (status === window.kakao.maps.services.Status.OK) {
+      setPlaces(data.slice(0, 4));
+      console.log(data);
+    } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+      alert('검색 결과가 존재하지 않습니다.');
+      setPlaces([]);
+    } else if (status === window.kakao.maps.services.Status.ERROR) {
+      alert('검색 결과 중 오류가 발생했습니다.');
+      setPlaces([]);
+    }
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -66,13 +95,12 @@ export const AddTripForm = ({
             />
             <div className="locationDateWrapper">
               <div style={{ position: 'relative', width: '100%' }}>
-                <TextInput
+                <LocationInput
                   name="location"
                   label="location"
-                  value={tripData.location}
-                  onChange={handleChange}
-                  placeholder="어디로 떠나시나요?"
-                  button
+                  keyword={keyword}
+                  setKeyword={setKeyword}
+                  places={places}
                 />
               </div>
               <DateInput
@@ -87,7 +115,6 @@ export const AddTripForm = ({
           <AddButton disabled={mainTrips && mainTrips.length >= 5} />
         </AddTripFormStyle>
       </form>
-      <PlacesSearch />
     </>
   );
 };

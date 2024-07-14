@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Typography from '../common/Typography';
 
-// Component
 const PlaceSearch: React.FC = () => {
   const [keyword, setKeyword] = useState('');
   const [places, setPlaces] = useState<any[]>([]);
@@ -59,7 +58,7 @@ const PlaceSearch: React.FC = () => {
 };
 
 export default PlaceSearch;
-// styled-components
+
 const Container = styled.div`
   width: 100%;
   max-width: 600px;
