@@ -1,88 +1,76 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextInput } from '../common/Input/TextInput';
 import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
-import { TripData, TripDetail } from '../../types/trip';
+import { TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
+import LocationInput from '../common/Input/LocationInput';
+import useTripForm from '../../hooks/useTripForm';
+import usePlacesSearch, { Place } from '../../hooks/usePlacesSearch';
 
 export const AddTripForm = ({
   mainTrips,
 }: {
   mainTrips?: TripDetail[] | undefined;
 }) => {
-  const [tripData, setTripData] = useState<TripData>({
-    title: '',
-    date: '',
-    location: '',
-    xCoordinate: 0,
-    yCoordinate: 0,
-  });
+  const { tripData, setTripData, handleChange, resetForm } = useTripForm();
 
-  const mutation = useCreateTrip();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setTripData({ ...tripData, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const dummy = {
-      title: tripData.title,
-      date: tripData.date,
-      location: tripData.location,
-      xCoordinate: 37.52227112904044,
-      yCoordinate: 127.19057861054482,
-    };
-
-    const newTrip: TripData = dummy;
-    mutation.mutate(newTrip);
-
+  const handlePlaceSelect = (place: Place) => {
     setTripData({
       ...tripData,
-      title: '',
-      date: '',
-      location: '',
-      xCoordinate: 0,
-      yCoordinate: 0,
+      location: place.place_name,
+      xCoordinate: parseFloat(place.x),
+      yCoordinate: parseFloat(place.y),
     });
   };
 
+  const mutation = useCreateTrip();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    mutation.mutate(tripData);
+    console.log(tripData, 'x,y 좌표');
+    resetForm();
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <AddTripFormStyle>
-        <div className="addTripForm">
-          <TextInput
-            name="title"
-            label="title"
-            value={tripData.title}
-            onChange={handleChange}
-            placeholder="떠날 여행의 제목을 정해보세요"
-            style={{ marginBottom: '24px' }}
-          />
-          <div className="locationDateWrapper">
-            <div style={{ position: 'relative', width: '100%' }}>
-              <TextInput
-                name="location"
-                label="location"
-                value={tripData.location}
+    <>
+      <form onSubmit={handleSubmit}>
+        <AddTripFormStyle>
+          <div className="addTripForm">
+            <TextInput
+              name="title"
+              label="title"
+              value={tripData.title}
+              onChange={handleChange}
+              placeholder="떠날 여행의 제목을 정해보세요"
+              style={{ marginBottom: '24px' }}
+            />
+            <div className="locationDateWrapper">
+              <div style={{ position: 'relative', width: '100%' }}>
+                <LocationInput
+                  name="location"
+                  label="location"
+                  value={tripData.location}
+                  onChange={handleChange}
+                  handlePlaceSelect={handlePlaceSelect}
+                />
+              </div>
+              <DateInput
+                name="date"
+                label="date"
+                value={tripData.date}
                 onChange={handleChange}
-                placeholder="어디로 떠나시나요?"
-                button
               />
             </div>
-            <DateInput
-              name="date"
-              label="date"
-              value={tripData.date}
-              onChange={handleChange}
-            />
           </div>
-        </div>
-        <AddButton disabled={mainTrips && mainTrips.length >= 5} />
-      </AddTripFormStyle>
-    </form>
+
+          <AddButton disabled={mainTrips && mainTrips.length >= 5} />
+        </AddTripFormStyle>
+      </form>
+    </>
   );
 };
 

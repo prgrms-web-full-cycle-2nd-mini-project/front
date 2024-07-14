@@ -22,6 +22,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -76,7 +77,39 @@ button{
   background-color: transparent;
   cursor:pointer;
 }
+ 
 
+  input {
+    &:focus, &:active {
+      outline: none;
+      box-shadow: none;
+      background-color: white;  
+    }
+
+    &:-webkit-autofill {
+      background-color: white !important;
+      -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+      -webkit-text-fill-color: black !important;
+    }
+
+    &:-moz-autofill {
+      background-color: white !important;
+      box-shadow: 0 0 0px 1000px white inset !important;
+      -moz-text-fill-color: black !important;
+    }
+
+    &:-o-autofill {
+      background-color: white !important;
+      box-shadow: 0 0 0px 1000px white inset !important;
+      -o-text-fill-color: black !important;
+    }
+
+    &:-ms-autofill {
+      background-color: white !important;
+      box-shadow: 0 0 0px 1000px white inset !important;
+      -ms-text-fill-color: black !important;
+    }
+  }
 `;
 
 export default GlobalStyle;

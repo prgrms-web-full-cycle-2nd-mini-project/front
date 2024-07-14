@@ -1,90 +1,63 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import { AddButton } from '../button/AddButton';
+import { COLORS } from '../../../styles/colors';
+import usePlacesSearch, { Place } from '../../../hooks/usePlacesSearch';
+
 import styled from 'styled-components';
 
 type InputProps = {
   name: string;
   label: string;
-  apiKey: string;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  handlePlaceSelect: (place: Place) => void;
 };
-const LocationInput = ({ label, name, apiKey }: InputProps) => {
-  const mapRef = useRef(null);
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${apiKey}&libraries=services,clusterer,drawing`;
-    script.async = true;
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      const { kakao } = window;
-      const map = new kakao.maps.Map(mapRef.current, {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
-      });
-
-      const ps = new kakao.maps.services.Places();
-      const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-
-      const input = inputRef.current;
-
-      const searchPlaces = () => {
-        const keyword = input.value;
-        if (!keyword.replace(/^\s+|\s+$/g, '')) {
-          return false;
-        }
-        ps.keywordSearch(keyword, placesSearchCB);
-      };
-
-      const placesSearchCB = (data, status, pagination) => {
-        if (status === kakao.maps.services.Status.OK) {
-          const bounds = new kakao.maps.LatLngBounds();
-
-          for (let i = 0; i < data.length; i++) {
-            displayMarker(data[i]);
-            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-          }
-
-          map.setBounds(bounds);
-        }
-      };
-
-      const displayMarker = (place) => {
-        const marker = new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(place.y, place.x),
-        });
-
-        kakao.maps.event.addListener(marker, 'click', () => {
-          infowindow.setContent(
-            `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`,
-          );
-          infowindow.open(map, marker);
-        });
-      };
-
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          searchPlaces();
-        }
-      });
-    };
-
-    return () => script.remove();
-  }, [apiKey]);
+const LocationInput = ({
+  label,
+  name,
+  onChange,
+  value,
+  handlePlaceSelect,
+}: InputProps) => {
+  const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
+    usePlacesSearch();
 
   return (
-    <InputWrapper>
-      <Label htmlFor={name}>{label}</Label>
-      <Input
-        type="text"
-        id={name}
-        name={name}
-        ref={inputRef}
-        placeholder="어디로 떠나시나요?"
-      />
-      <MapContainer id="map" ref={mapRef}></MapContainer>
+    <InputWrapper ref={wrapperRef}>
+      <SearchForm>
+        <Label htmlFor={name}>{label}</Label>
+        <Input
+          type="text"
+          id={name}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder="어디로 떠나시나요?"
+          $isListVisible={isListVisible}
+        />
+        <ButtonWrapper>
+          <AddButton
+            size="small"
+            type="button"
+            onClick={() => searchPlaces(value)}
+          />
+        </ButtonWrapper>
+      </SearchForm>
+      {isListVisible && places.length > 0 && (
+        <PlacesList>
+          {places.map((place, index) => (
+            <PlaceItem
+              key={index}
+              onClick={() => {
+                handlePlaceSelect(place);
+                setIsListVisible(false);
+              }}
+            >
+              {place.place_name}
+            </PlaceItem>
+          ))}
+        </PlacesList>
+      )}
     </InputWrapper>
   );
 };
@@ -92,27 +65,52 @@ const LocationInput = ({ label, name, apiKey }: InputProps) => {
 export default LocationInput;
 
 const InputWrapper = styled.div`
-  margin-bottom: 15px;
+  position: relative;
+  width: 100%;
+`;
+
+const SearchForm = styled.div`
+  position: relative;
 `;
 
 const Label = styled.label`
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
   visibility: hidden;
   height: 0;
   margin: 0;
   padding: 0;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ $isListVisible: boolean }>`
   width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
+  padding: 24px;
+  border-radius: ${({ $isListVisible }) =>
+    $isListVisible ? '30px 30px 0 0' : '30px'};
+  border: none;
 `;
 
-const MapContainer = styled.div`
-  height: 400px;
+const ButtonWrapper = styled.div`
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
+const PlacesList = styled.ul`
   width: 100%;
+  position: absolute;
+  list-style: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 30px 30px;
+  background-color: ${COLORS.white};
+`;
+
+const PlaceItem = styled.li`
+  cursor: pointer;
+  padding: 15px;
+  border-bottom: 1px solid ${COLORS.gray30};
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 30px;
+  }
 `;
