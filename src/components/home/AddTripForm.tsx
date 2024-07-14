@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
 import { TripData, TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
-import { PlacesSearch } from './PlacesSearch';
+
+import PlacesSearch from './PlacesSearch';
 
 export const AddTripForm = ({
   mainTrips,
@@ -51,41 +52,43 @@ export const AddTripForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <AddTripFormStyle>
-        <div className="addTripForm">
-          <TextInput
-            name="title"
-            label="title"
-            value={tripData.title}
-            onChange={handleChange}
-            placeholder="떠날 여행의 제목을 정해보세요"
-            style={{ marginBottom: '24px' }}
-          />
-          <div className="locationDateWrapper">
-            <div style={{ position: 'relative', width: '100%' }}>
-              <TextInput
-                name="location"
-                label="location"
-                value={tripData.location}
+    <>
+      <form onSubmit={handleSubmit}>
+        <AddTripFormStyle>
+          <div className="addTripForm">
+            <TextInput
+              name="title"
+              label="title"
+              value={tripData.title}
+              onChange={handleChange}
+              placeholder="떠날 여행의 제목을 정해보세요"
+              style={{ marginBottom: '24px' }}
+            />
+            <div className="locationDateWrapper">
+              <div style={{ position: 'relative', width: '100%' }}>
+                <TextInput
+                  name="location"
+                  label="location"
+                  value={tripData.location}
+                  onChange={handleChange}
+                  placeholder="어디로 떠나시나요?"
+                  button
+                />
+              </div>
+              <DateInput
+                name="date"
+                label="date"
+                value={tripData.date}
                 onChange={handleChange}
-                placeholder="어디로 떠나시나요?"
-                button
               />
             </div>
-            <DateInput
-              name="date"
-              label="date"
-              value={tripData.date}
-              onChange={handleChange}
-            />
           </div>
-        </div>
 
-        <AddButton disabled={mainTrips && mainTrips.length >= 5} />
-      </AddTripFormStyle>
+          <AddButton disabled={mainTrips && mainTrips.length >= 5} />
+        </AddTripFormStyle>
+      </form>
       <PlacesSearch />
-    </form>
+    </>
   );
 };
 
