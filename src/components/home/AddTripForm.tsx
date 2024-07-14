@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
 import { TripData, TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
+import { PlacesSearch } from './PlacesSearch';
 
 export const AddTripForm = ({
   mainTrips,
@@ -80,8 +81,10 @@ export const AddTripForm = ({
             />
           </div>
         </div>
+
         <AddButton disabled={mainTrips && mainTrips.length >= 5} />
       </AddTripFormStyle>
+      <PlacesSearch />
     </form>
   );
 };
