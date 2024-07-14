@@ -25,7 +25,8 @@ export const TripCard = ({
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
   const navigate = useNavigate();
-  const deleteTrip = (id: string) => {
+  const deleteTrip = (id: string, event: React.MouseEvent) => {
+    event.stopPropagation();
     mutation.mutate(id);
   };
   return (
@@ -35,11 +36,8 @@ export const TripCard = ({
           <Typography $variant={'cardTitle'} $style={{ marginBottom: '20px' }}>
             {title}
           </Typography>
-          <button>
-            <IoClose
-              style={{ fontSize: '25px' }}
-              onClick={() => deleteTrip(tripId)}
-            />
+          <button onClick={(e) => deleteTrip(tripId, e)}>
+            <IoClose style={{ fontSize: '25px' }} />
           </button>
         </div>
 

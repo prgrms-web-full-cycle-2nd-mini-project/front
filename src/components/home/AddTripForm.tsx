@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
 import { TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
-import LocationInput, { Place } from '../common/Input/LocationInput';
+import LocationInput from '../common/Input/LocationInput';
 import useTripForm from '../../hooks/useTripForm';
+import usePlacesSearch, { Place } from '../../hooks/usePlacesSearch';
 
 export const AddTripForm = ({
   mainTrips,
@@ -30,6 +31,7 @@ export const AddTripForm = ({
     e.preventDefault();
 
     mutation.mutate(tripData);
+    console.log(tripData, 'x,y 좌표');
     resetForm();
   };
 

@@ -1,24 +1,9 @@
 import React from 'react';
 import { AddButton } from '../button/AddButton';
 import { COLORS } from '../../../styles/colors';
-import usePlacesSearch from '../../../hooks/usePlacesSearch';
+import usePlacesSearch, { Place } from '../../../hooks/usePlacesSearch';
 
 import styled from 'styled-components';
-
-export interface Place {
-  address_name: string;
-  category_group_code: string;
-  category_group_name: string;
-  category_name: string;
-  distance: string;
-  id: string;
-  phone: string;
-  place_name: string;
-  place_url: string;
-  road_address_name: string;
-  x: string;
-  y: string;
-}
 
 type InputProps = {
   name: string;
@@ -27,7 +12,6 @@ type InputProps = {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   handlePlaceSelect: (place: Place) => void;
 };
-
 const LocationInput = ({
   label,
   name,

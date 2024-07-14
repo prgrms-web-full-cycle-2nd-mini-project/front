@@ -7,6 +7,7 @@ import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
 import { useNavigate } from 'react-router-dom';
+import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
 
 export const TripMainCard = ({
   title,
@@ -15,7 +16,12 @@ export const TripMainCard = ({
   percent,
   tripId,
 }: TripCardProps) => {
+  const mutation = useDeleteTrip();
   const navigate = useNavigate();
+  const deleteTrip = (id: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    mutation.mutate(id);
+  };
   return (
     <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div className="title">
@@ -40,7 +46,7 @@ export const TripMainCard = ({
       </div>
       <div className="sub">
         <img src="/src/assets/airplane.png" />
-        <button>
+        <button onClick={(e) => deleteTrip(tripId, e)}>
           <IoClose style={{ fontSize: '25px' }} />
         </button>
       </div>
