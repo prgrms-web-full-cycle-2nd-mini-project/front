@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled, { keyframes } from 'styled-components';
-import Typography from '../Typography';
+import React from 'react';
 import { AddButton } from '../button/AddButton';
 import { COLORS } from '../../../styles/colors';
+import usePlacesSearch from '../../../hooks/usePlacesSearch';
+
+import styled from 'styled-components';
 
 export interface Place {
   address_name: string;
@@ -24,44 +25,18 @@ type InputProps = {
   label: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
-  onPlaceSelect: (place: Place) => void;
-  places: Place[];
+  handlePlaceSelect: (place: Place) => void;
 };
 
 const LocationInput = ({
   label,
   name,
-  value,
   onChange,
-  onPlaceSelect,
-  places,
+  value,
+  handlePlaceSelect,
 }: InputProps) => {
-  const [isListVisible, setIsListVisible] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  const handleButtonClick = () => {
-    value && setIsListVisible(!isListVisible);
-  };
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      wrapperRef.current &&
-      !wrapperRef.current.contains(event.target as Node)
-    ) {
-      setIsListVisible(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isListVisible) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isListVisible]);
+  const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
+    usePlacesSearch();
 
   return (
     <InputWrapper ref={wrapperRef}>
@@ -80,7 +55,7 @@ const LocationInput = ({
           <AddButton
             size="small"
             type="button"
-            onClick={() => setIsListVisible(true)}
+            onClick={() => searchPlaces(value)}
           />
         </ButtonWrapper>
       </SearchForm>
@@ -90,7 +65,7 @@ const LocationInput = ({
             <PlaceItem
               key={index}
               onClick={() => {
-                onPlaceSelect(place);
+                handlePlaceSelect(place);
                 setIsListVisible(false);
               }}
             >
