@@ -6,23 +6,34 @@ import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
+import { useNavigate } from 'react-router-dom';
+import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
 
 export const TripMainCard = ({
   title,
   location,
   date,
   percent,
+  tripId,
 }: TripCardProps) => {
+  const mutation = useDeleteTrip();
+  const navigate = useNavigate();
+  const deleteTrip = (id: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    mutation.mutate(id);
+  };
   return (
-    <TripCardStyle>
+    <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div className="title">
-        <Typography $variant={'largetitle'}>{title}</Typography>
         <Typography
           $variant={'title1'}
           $color="secondary"
           $style={{ marginBottom: '20px' }}
         >
           {location}
+        </Typography>
+        <Typography $variant={'largetitle'} $style={{ marginBottom: '20px' }}>
+          {title}
         </Typography>
         <Typography
           $variant={'title3'}
@@ -31,11 +42,11 @@ export const TripMainCard = ({
         >
           {formatISODate(date)}
         </Typography>
-        <Gauge percent={percent} />
+        <Gauge $percent={percent} />
       </div>
       <div className="sub">
         <img src="/src/assets/airplane.png" />
-        <button>
+        <button onClick={(e) => deleteTrip(tripId, e)}>
           <IoClose style={{ fontSize: '25px' }} />
         </button>
       </div>
@@ -52,6 +63,7 @@ const TripCardStyle = styled.div`
   background-color: ${COLORS.white};
   border-radius: 20px;
   margin-bottom: 20px;
+  cursor: pointer;
   .sub {
     display: flex;
     align-items: flex-start;
