@@ -29,6 +29,15 @@ export const AddTripForm = ({
     setTripData({ ...tripData, [name]: value });
   };
 
+  const handlePlaceSelect = (place: Place) => {
+    setTripData({
+      ...tripData,
+      location: place.place_name,
+      xCoordinate: parseFloat(place.x),
+      yCoordinate: parseFloat(place.y),
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     searchPlaces(e);
@@ -98,8 +107,9 @@ export const AddTripForm = ({
                 <LocationInput
                   name="location"
                   label="location"
-                  keyword={keyword}
-                  setKeyword={setKeyword}
+                  value={tripData.location}
+                  onChange={handleChange}
+                  onPlaceSelect={handlePlaceSelect}
                   places={places}
                 />
               </div>

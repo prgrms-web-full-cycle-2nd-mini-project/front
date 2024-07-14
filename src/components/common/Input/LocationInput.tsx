@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Typography from '../Typography';
 import { AddButton } from '../button/AddButton';
+import { COLORS } from '../../../styles/colors';
 
-interface Place {
+export interface Place {
   address_name: string;
   category_group_code: string;
   category_group_name: string;
@@ -21,23 +22,25 @@ interface Place {
 type InputProps = {
   name: string;
   label: string;
-  keyword: string;
-  setKeyword: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onPlaceSelect: (place: Place) => void;
   places: Place[];
 };
 
 const LocationInput = ({
   label,
   name,
-  keyword,
-  setKeyword,
+  value,
+  onChange,
+  onPlaceSelect,
   places,
 }: InputProps) => {
   const [isListVisible, setIsListVisible] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const handleButtonClick = () => {
-    setIsListVisible(!isListVisible);
+    value && setIsListVisible(!isListVisible);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -61,49 +64,50 @@ const LocationInput = ({
   }, [isListVisible]);
 
   return (
-    <InputStyle ref={wrapperRef}>
+    <InputWrapper ref={wrapperRef}>
       <SearchForm>
         <Label htmlFor={name}>{label}</Label>
         <Input
           type="text"
           id={name}
           name={name}
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
+          value={value}
+          onChange={onChange}
           placeholder="어디로 떠나시나요?"
+          $isListVisible={isListVisible}
         />
-        <div className="button">
-          <AddButton size="small" type="submit" onClick={handleButtonClick} />
-        </div>
+        <ButtonWrapper>
+          <AddButton
+            size="small"
+            type="button"
+            onClick={() => setIsListVisible(true)}
+          />
+        </ButtonWrapper>
       </SearchForm>
       {isListVisible && places.length > 0 && (
         <PlacesList>
           {places.map((place, index) => (
-            <PlaceItem key={index}>
+            <PlaceItem
+              key={index}
+              onClick={() => {
+                onPlaceSelect(place);
+                setIsListVisible(false);
+              }}
+            >
               {place.place_name}
-              <Typography $variant={'caption1'}>
-                {place.address_name}
-              </Typography>
             </PlaceItem>
           ))}
         </PlacesList>
       )}
-    </InputStyle>
+    </InputWrapper>
   );
 };
 
 export default LocationInput;
 
-const InputStyle = styled.div`
+const InputWrapper = styled.div`
   position: relative;
   width: 100%;
-  .button {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    right: 5%;
-    transform: translateY(-50%);
-  }
 `;
 
 const SearchForm = styled.div`
@@ -112,46 +116,42 @@ const SearchForm = styled.div`
 
 const Label = styled.label`
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
   visibility: hidden;
   height: 0;
   margin: 0;
   padding: 0;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ $isListVisible: boolean }>`
   width: 100%;
   padding: 24px;
-  border-radius: 50px;
+  border-radius: ${({ $isListVisible }) =>
+    $isListVisible ? '30px 30px 0 0' : '30px'};
   border: none;
 `;
 
-const slideDown = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+const ButtonWrapper = styled.div`
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 const PlacesList = styled.ul`
+  width: 100%;
+  position: absolute;
   list-style: none;
-  padding: 0;
-  margin-top: 10px;
-  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  animation: ${slideDown} 0.3s ease-out;
-  background-color: white;
+  border-radius: 0 0 30px 30px;
+  background-color: ${COLORS.white};
 `;
 
 const PlaceItem = styled.li`
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  padding: 15px;
+  border-bottom: 1px solid ${COLORS.gray30};
   &:last-child {
     border-bottom: none;
+    padding-bottom: 30px;
   }
 `;
