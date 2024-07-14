@@ -13,6 +13,12 @@ export const fetchLogin = async (userData: SignupProps) => {
   return response.data;
 };
 
+export const fetchLogout = async () => {
+  const response = await axiosInstance.post('/users/logout');
+
+  return response.data;
+};
+
 export const fetchCheckAuth = async () => {
   const response = await axiosInstance.post('/users/auth/check');
 

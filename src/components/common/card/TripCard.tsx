@@ -52,7 +52,7 @@ export const TripCard = ({
         >
           {formatISODate(date)}
         </Typography>
-        <Gauge $percent={100} />
+        <Gauge $percent={percent} />
       </div>
     </TripCardStyle>
   );

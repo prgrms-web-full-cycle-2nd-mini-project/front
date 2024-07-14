@@ -1,7 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { SignupProps } from '../pages/Signup';
 import { useAuthStore } from '../stores/authStore';
-import { fetchCheckAuth, fetchLogin, fetchSignup } from '../apis/auth.api';
+import {
+  fetchCheckAuth,
+  fetchLogin,
+  fetchLogout,
+  fetchSignup,
+} from '../apis/auth.api';
 import { useState } from 'react';
 
 /* 
@@ -50,8 +55,19 @@ export const useAuth = () => {
     }
   };
 
+  const userLogout = async () => {
+    try {
+      await fetchLogout();
+      storeLogout();
+      navigate('/');
+    } catch (error) {
+      console.error('로그아웃 실패:', error);
+    }
+  };
+
   return {
     userLogin,
+    userLogout,
     userSignup,
     errorMessage,
     setErrorMessage,
