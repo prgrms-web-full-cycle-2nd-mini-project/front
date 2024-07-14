@@ -29,6 +29,7 @@ export const TripCard = ({
     event.stopPropagation();
     mutation.mutate(id);
   };
+  console.log(percent);
   return (
     <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div>
@@ -51,7 +52,7 @@ export const TripCard = ({
         >
           {formatISODate(date)}
         </Typography>
-        <Gauge $percent={percent} />
+        <Gauge $percent={100} />
       </div>
     </TripCardStyle>
   );
