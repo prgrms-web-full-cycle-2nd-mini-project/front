@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from '../../components/home/Header';
 import styled from 'styled-components';
 import Typography from '../../components/common/Typography';
@@ -7,10 +7,7 @@ import { TripList } from '../../components/home/TripList';
 import { useTrip } from '../../hooks/useTrip';
 
 export default function Home() {
-  const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(
-    true,
-    1,
-  );
+  const { data: ongoingTripsData } = useTrip(true, 1);
 
   return (
     <HomeStyle>

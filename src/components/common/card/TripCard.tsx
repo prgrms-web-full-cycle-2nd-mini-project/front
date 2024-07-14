@@ -29,7 +29,7 @@ export const TripCard = ({
     event.stopPropagation();
     mutation.mutate(id);
   };
-  console.log(percent);
+
   return (
     <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
       <div>

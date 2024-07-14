@@ -3,22 +3,19 @@ import React from 'react';
 import Typography from '../common/Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';
+import { useTripStore } from '../../stores/tripTapStore';
 
 export type Tab = 'ongoing' | 'completed';
 
 type TabProps = {
   tab: Tab;
-  activeTab: Tab;
+
   onClick: (tab: Tab) => void;
   label: string;
 };
 
-type TabListProps = {
-  activeTab: Tab;
-  setActiveTab: (tab: Tab) => void;
-};
-
-const Tab = ({ tab, activeTab, onClick, label }: TabProps) => {
+const Tab = ({ tab, onClick, label }: TabProps) => {
+  const { activeTab } = useTripStore();
   return (
     <TabItem onClick={() => onClick(tab)} $active={activeTab === tab}>
       <Typography
@@ -49,25 +46,16 @@ const TabItem = styled.li<{ $active: boolean }>`
     }
   `}
 `;
-export const TabList = ({ activeTab, setActiveTab }: TabListProps) => {
+export const TabList = () => {
+  const { setActiveTab } = useTripStore();
   const handleClick = (tab: Tab) => {
     setActiveTab(tab);
   };
 
   return (
     <ul style={{ marginBottom: '40px' }}>
-      <Tab
-        tab="ongoing"
-        activeTab={activeTab}
-        onClick={handleClick}
-        label="계획 중인 여행"
-      />
-      <Tab
-        tab="completed"
-        activeTab={activeTab}
-        onClick={handleClick}
-        label="완료된 여행"
-      />
+      <Tab tab="ongoing" onClick={handleClick} label="계획 중인 여행" />
+      <Tab tab="completed" onClick={handleClick} label="완료된 여행" />
     </ul>
   );
 };
