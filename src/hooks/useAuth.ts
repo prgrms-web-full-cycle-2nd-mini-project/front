@@ -17,11 +17,10 @@ export const useAuth = () => {
   const verifyAuth = async () => {
     try {
       await fetchCheckAuth();
-      // console.log('res', res);
       storeLogin();
       navigate('/');
     } catch (error) {
-      // console.log('error', error);
+      console.log('error', error);
       storeLogout();
     }
   };

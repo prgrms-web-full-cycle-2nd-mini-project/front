@@ -1,7 +1,6 @@
 import React from 'react';
 import useTripDetail from '../../hooks/useTripDetail';
 import { Box, Modal } from '@mui/material';
-import Typography from '../common/Typography';
 import styled from 'styled-components';
 import { BookStyleContainer } from '../../styles/BookStyleStyles';
 import TripDetailLeft from './TripDetailLeft';
@@ -9,32 +8,48 @@ import TripDetailRight from './TripDetailRight';
 
 interface ITripDetailModalProps {
   tripId: string;
+  onClose: () => void;
+  open: boolean;
 }
 
-export default function TripDetailModal({ tripId }: ITripDetailModalProps) {
-  const { tripDetailData } = useTripDetail(tripId);
+export default function TripDetailModal({
+  tripId,
+  onClose,
+  open,
+}: ITripDetailModalProps) {
+  const { tripDetailData, isLoading } = useTripDetail(tripId);
   console.log(tripDetailData);
 
   return (
-    <Modal
-      open={true}
-      onClose={() => {}}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh', // 화면 전체 높이
-        }}
+    tripDetailData && (
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
       >
-        <BookStyleContainer>
-          <TripDetailLeft />
-          <TripDetailRight />
-        </BookStyleContainer>
-      </Box>
-    </Modal>
+        <BackdropStyle onClick={onClose}>
+          <ContentStyle onClick={(e) => e.stopPropagation()}>
+            <TripDetailLeft tripDetailData={tripDetailData} />
+            <TripDetailRight
+              scheduleListData={tripDetailData.schedules}
+              tripId={tripDetailData.id}
+            />
+          </ContentStyle>
+        </BackdropStyle>
+      </Modal>
+    )
   );
 }
+
+const BackdropStyle = styled(Box)`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const ContentStyle = styled(BookStyleContainer)`
+  cursor: default;
+`;
