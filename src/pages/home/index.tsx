@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from '../../components/home/Header';
 import styled from 'styled-components';
 import Typography from '../../components/common/Typography';
 import { AddTripForm } from '../../components/home/AddTripForm';
 import { TripList } from '../../components/home/TripList';
 import { useTrip } from '../../hooks/useTrip';
+import TripDetailModal from '../../components/TripDetailModal';
 
 export default function Home() {
-  const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(
-    true,
-    1,
-  );
-
+  const { data: ongoingTripsData } = useTrip(true, 1);
+  console.log(ongoingTripsData);
   return (
     <HomeStyle>
       <Header />
@@ -31,6 +29,13 @@ export default function Home() {
         </div>
       </div>
       <TripList />
+      <TripDetailModal
+        tripId={'668f7d32835b9992ffb9412b'}
+        onClose={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+        open={true}
+      />
     </HomeStyle>
   );
 }

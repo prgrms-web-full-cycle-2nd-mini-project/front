@@ -1,7 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { SignupProps } from '../pages/Signup';
 import { useAuthStore } from '../stores/authStore';
-import { fetchCheckAuth, fetchLogin, fetchSignup } from '../apis/auth.api';
+import {
+  fetchCheckAuth,
+  fetchLogin,
+  fetchLogout,
+  fetchSignup,
+} from '../apis/auth.api';
 import { useState } from 'react';
 
 /* 
@@ -9,6 +14,7 @@ TODO: 중복메일 확인
 TODO: 회원가입 안되는 이유 알려주기(비번 체크 다름, 이메일 형식 다름 등등)
 TODO: 로그아웃
    */
+
 export const useAuth = () => {
   const navigate = useNavigate();
   const { storeLogin, storeLogout } = useAuthStore();
@@ -17,11 +23,10 @@ export const useAuth = () => {
   const verifyAuth = async () => {
     try {
       await fetchCheckAuth();
-      // console.log('res', res);
       storeLogin();
       navigate('/');
     } catch (error) {
-      // console.log('error', error);
+      console.log('error', error);
       storeLogout();
     }
   };
@@ -50,8 +55,19 @@ export const useAuth = () => {
     }
   };
 
+  const userLogout = async () => {
+    try {
+      await fetchLogout();
+      storeLogout();
+      navigate('/');
+    } catch (error) {
+      console.error('로그아웃 실패:', error);
+    }
+  };
+
   return {
     userLogin,
+    userLogout,
     userSignup,
     errorMessage,
     setErrorMessage,

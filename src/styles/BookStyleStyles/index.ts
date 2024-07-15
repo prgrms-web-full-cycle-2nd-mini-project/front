@@ -8,6 +8,7 @@ export const LeftPageContainerStyle = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 
   border-right: 2px solid #dee8e0;
 `;
@@ -25,12 +26,12 @@ export const RightPageContainerStyle = styled.section`
 export const BookStyleContainer = styled.main`
   display: flex;
   min-height: 600px;
-  height: 80vh;
+  height: 90vh;
   max-height: 800px;
   justify-content: space-between;
   align-items: center;
   /* margin: 80px auto; */
-  background-color: #f9f9f9;
+  background-color: white;
   outline: 1px solid #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

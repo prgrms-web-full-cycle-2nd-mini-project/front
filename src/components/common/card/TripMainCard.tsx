@@ -6,7 +6,7 @@ import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
-import { useNavigate } from 'react-router-dom';
+
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
 
 export const TripMainCard = ({
@@ -17,13 +17,13 @@ export const TripMainCard = ({
   tripId,
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
-  const navigate = useNavigate();
+
   const deleteTrip = (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     mutation.mutate(id);
   };
   return (
-    <TripCardStyle onClick={() => navigate(`/detail/${tripId}`)}>
+    <TripCardStyle>
       <div className="title">
         <Typography
           $variant={'title1'}

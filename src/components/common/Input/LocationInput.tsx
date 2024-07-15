@@ -11,6 +11,7 @@ type InputProps = {
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   handlePlaceSelect: (place: Place) => void;
+  button?: boolean;
 };
 const LocationInput = ({
   label,
@@ -18,6 +19,7 @@ const LocationInput = ({
   onChange,
   value,
   handlePlaceSelect,
+  button,
 }: InputProps) => {
   const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
     usePlacesSearch();
@@ -35,13 +37,15 @@ const LocationInput = ({
           placeholder="어디로 떠나시나요?"
           $isListVisible={isListVisible}
         />
-        <ButtonWrapper>
-          <AddButton
-            size="small"
-            type="button"
-            onClick={() => searchPlaces(value)}
-          />
-        </ButtonWrapper>
+        {button && (
+          <ButtonWrapper>
+            <AddButton
+              size="small"
+              type="button"
+              onClick={() => searchPlaces(value)}
+            />
+          </ButtonWrapper>
+        )}
       </SearchForm>
       {isListVisible && places.length > 0 && (
         <PlacesList>

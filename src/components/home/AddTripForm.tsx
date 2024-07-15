@@ -7,7 +7,8 @@ import { TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
 import LocationInput from '../common/Input/LocationInput';
 import useTripForm from '../../hooks/useTripForm';
-import usePlacesSearch, { Place } from '../../hooks/usePlacesSearch';
+import { Place } from '../../hooks/usePlacesSearch';
+import { useTripStore } from '../../stores/tripTapStore';
 
 export const AddTripForm = ({
   mainTrips,
@@ -15,7 +16,7 @@ export const AddTripForm = ({
   mainTrips?: TripDetail[] | undefined;
 }) => {
   const { tripData, setTripData, handleChange, resetForm } = useTripForm();
-
+  const { activeTab } = useTripStore();
   const handlePlaceSelect = (place: Place) => {
     setTripData({
       ...tripData,
@@ -56,6 +57,7 @@ export const AddTripForm = ({
                   value={tripData.location}
                   onChange={handleChange}
                   handlePlaceSelect={handlePlaceSelect}
+                  button
                 />
               </div>
               <DateInput
@@ -67,7 +69,11 @@ export const AddTripForm = ({
             </div>
           </div>
 
-          <AddButton disabled={mainTrips && mainTrips.length >= 5} />
+          <AddButton
+            disabled={
+              activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5
+            }
+          />
         </AddTripFormStyle>
       </form>
     </>
