@@ -18,10 +18,10 @@ export default function TripDetailLeft({
       <TripDetailLeftStyle>
         <TripDetailTitle tripDetailData={tripDetailData} />
         <TripDetailMap
-          lat={tripDetailData.xCoordinate}
-          lng={tripDetailData.yCoordinate}
+          lat={tripDetailData.yCoordinate}
+          lng={tripDetailData.xCoordinate}
         />
-        <AddScehduleForm />
+        <AddScehduleForm tripId={tripDetailData.id} />
       </TripDetailLeftStyle>
     </LeftPageContainerStyle>
   );

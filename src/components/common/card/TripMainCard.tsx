@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '../Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../../styles/colors';
@@ -8,6 +8,7 @@ import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
 
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
+import TripDetailModal from '../../TripDetailModal';
 
 export const TripMainCard = ({
   title,
@@ -17,13 +18,18 @@ export const TripMainCard = ({
   tripId,
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
 
   const deleteTrip = (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     mutation.mutate(id);
   };
   return (
-    <TripCardStyle>
+    <TripCardStyle onClick={handleClick}>
       <div className="title">
         <Typography
           $variant={'title1'}
@@ -50,6 +56,11 @@ export const TripMainCard = ({
           <IoClose style={{ fontSize: '25px' }} />
         </button>
       </div>
+      <TripDetailModal
+        tripId={tripId}
+        onClose={() => setOpen(false)}
+        open={open}
+      />
     </TripCardStyle>
   );
 };

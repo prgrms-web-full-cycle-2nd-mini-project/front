@@ -47,6 +47,26 @@ export const fetchUpdateTripCheck = async (
   return response.data;
 };
 
+export interface ITripScheduleRequest {
+  todo: string;
+  location: string;
+  xCoordinate: number;
+  yCoordinate: number;
+  startTime: string;
+  endTime: string;
+}
+
+export const fetchCreateTripSchedule = async (
+  tripId: string,
+  schedule: ITripScheduleRequest,
+) => {
+  const response = await axiosInstance.post(
+    `/trips/${tripId}/schedules`,
+    schedule,
+  );
+
+  return response.data;
+};
 export const fetchUpdateTripSchedule = async (
   tripId: string,
   scheduleId: string,

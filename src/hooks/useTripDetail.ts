@@ -4,6 +4,7 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import {
+  fetchCreateTripSchedule,
   fetchDeleteTrip,
   fetchDeleteTripSchedule,
   fetchGetTripDetail,
@@ -11,6 +12,7 @@ import {
   fetchUpdateTripCheck,
   fetchUpdateTripSchedule,
   ITripDetailRequest,
+  ITripScheduleRequest,
 } from '../apis/tripDetail.api';
 import { queryClient } from '../apis/queryClient';
 import { ISchedule } from '../apis/tripDetail';
@@ -44,6 +46,27 @@ export const useUpdateTripDetail = (tripId: string) => {
   };
 
   return { updateTripDetail };
+};
+
+export const useCreateTripSchedule = (tripId: string) => {
+  const { mutate } = useMutation({
+    mutationFn: ({
+      tripId,
+      schedule,
+    }: {
+      tripId: string;
+      schedule: ITripScheduleRequest;
+    }) => fetchCreateTripSchedule(tripId, schedule),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['trip', tripId] as InvalidateQueryFilters);
+    },
+  });
+
+  const createTripSchedule = (schedule: ITripScheduleRequest) => {
+    mutate({ tripId, schedule });
+  };
+
+  return { createTripSchedule };
 };
 
 export const useUpdateTripSchedule = (tripId: string) => {

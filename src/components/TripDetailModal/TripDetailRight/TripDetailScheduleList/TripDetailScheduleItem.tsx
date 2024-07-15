@@ -23,8 +23,6 @@ interface ITripDetailScheduleItemProps {
 
 interface FormData {
   startTime: string;
-  endTime: string;
-  location: string;
   todo: string;
 }
 
@@ -47,7 +45,7 @@ export default function TripDetailScheduleItem({
 
   const onSubmit = (data: FormData) => {
     updateTripSchedule(scheduleData.id, {
-      location: data.location,
+      location: scheduleData.location,
       todo: data.todo,
       startTime: data.startTime,
       endTime: data.startTime,
@@ -60,9 +58,10 @@ export default function TripDetailScheduleItem({
   };
 
   const handleClick = (e: React.MouseEvent) => {
+    if (isEditting) return;
     const position = {
-      lat: scheduleData.xCoordinate,
-      lng: scheduleData.yCoordinate,
+      lat: scheduleData.yCoordinate,
+      lng: scheduleData.xCoordinate,
     };
 
     if (!map) return;
@@ -77,6 +76,9 @@ export default function TripDetailScheduleItem({
     scheduleData && (
       <TripDetailScheduleItemStyle onSubmit={handleSubmit(onSubmit)}>
         <TimeBox>
+          <Typography $variant="subtitle1" $color="gray100">
+            {`${idx}.`}
+          </Typography>
           {isEditting ? (
             <>
               <div>
@@ -93,9 +95,6 @@ export default function TripDetailScheduleItem({
             </>
           ) : (
             <>
-              <Typography $variant="subtitle1" $color="gray100">
-                {`${idx}.`}
-              </Typography>
               <Typography $variant="subtitle2" $color="gray60">
                 {`${formatToTime(scheduleData.startTime)} `}
               </Typography>
@@ -116,17 +115,7 @@ export default function TripDetailScheduleItem({
           <ScheduleItemContentListStyle>
             <div>
               <Typography $variant="subtitle2">장소</Typography>
-              {isEditting ? (
-                <ScheduleInput
-                  {...register('location')}
-                  type="text"
-                  defaultValue={scheduleData.location}
-                />
-              ) : (
-                <Typography $variant="body2">
-                  {scheduleData.location}
-                </Typography>
-              )}
+              <Typography $variant="body2">{scheduleData.location}</Typography>
             </div>
             <div>
               <Typography $variant="subtitle2">메모</Typography>

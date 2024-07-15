@@ -1,36 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '../../common/Typography';
 import styled from 'styled-components';
-import { Button, TextField } from '@mui/material';
+import { Alert, Button, Snackbar, TextField } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Input } from '../styledComponent/Input';
 import usePlacesSearch, { Place } from '../../../hooks/usePlacesSearch';
 import { COLORS } from '../../../styles/colors';
+import { useMapStore } from '../../../stores/mapStore';
+import { useCreateTripSchedule } from '../../../hooks/useTripDetail';
 
 interface FormData {
   location: string;
   todo: string;
   startTime: string;
-  endTime: string;
-  xCoordinate: number;
-  yCoordinate: number;
 }
 
-export default function AddScheduleForm() {
+export default function AddScheduleForm({ tripId }: { tripId: string }) {
   const { register, handleSubmit, setValue, watch } = useForm<FormData>();
   const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
     usePlacesSearch();
+  const [validLocation, setValidLocation] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [valid, setValid] = useState(false);
+  const { map } = useMapStore();
+  const [position, setPosition] = useState({ lat: 0, lng: 0 });
+  const { createTripSchedule } = useCreateTripSchedule(tripId);
+
+  const locationValue = watch('location');
+  const todoValue = watch('todo');
+  const startTimeValue = watch('startTime');
+
+  useEffect(() => {
+    if (locationValue && todoValue && startTimeValue) {
+      setValid(true);
+    } else {
+      setValid(false);
+    }
+  }, [locationValue, todoValue, startTimeValue]);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    // endTime 없앴는데 일단 api 수정안해서 그냥 startTime으로 넣자
-    console.log(data);
+    if (!valid || !validLocation) {
+      setOpen(true);
+      return;
+    }
+
+    createTripSchedule({
+      location: data.location,
+      todo: data.todo,
+      startTime: data.startTime,
+      endTime: data.startTime,
+      xCoordinate: position.lng,
+      yCoordinate: position.lat,
+    });
   };
+
   const handlePlaceSelect = (place: Place) => {
     setValue('location', place.place_name);
-    setValue('xCoordinate', +place.x);
-    setValue('yCoordinate', +place.y);
+    setPosition({ lat: +place.y, lng: +place.x });
     setIsListVisible(false);
+    setValidLocation(true);
+    if (!map) return;
+    map.panTo({ lat: +place.y, lng: +place.x });
   };
+
   return (
     <AddScheduleFormStyle>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -42,6 +85,7 @@ export default function AddScheduleForm() {
             style={{ width: '80%' }}
             onChange={(e) => {
               setValue('location', e.target.value);
+              setValidLocation(false);
               searchPlaces(e.target.value);
             }}
           />
@@ -72,7 +116,20 @@ export default function AddScheduleForm() {
           />
           <div></div>
         </TimeInputContainer>
-        <SubmitButtonStyle type="submit">+</SubmitButtonStyle>
+        <SubmitButtonStyle
+          type="submit"
+          style={{
+            backgroundColor: valid ? '#678c6e' : COLORS.gray30,
+          }}
+        >
+          +
+        </SubmitButtonStyle>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            {!valid && '모든 항목을 입력해주세요.'}
+            {valid && !validLocation && '장소를 정확히 지정해주세요!'}
+          </Alert>
+        </Snackbar>
       </form>
     </AddScheduleFormStyle>
   );

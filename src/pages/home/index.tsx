@@ -8,7 +8,7 @@ import { useTrip } from '../../hooks/useTrip';
 
 export default function Home() {
   const { data: ongoingTripsData } = useTrip(true, 1);
-  console.log(ongoingTripsData);
+  // console.log(ongoingTripsData);
   return (
     <HomeStyle>
       <Header />

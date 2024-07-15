@@ -22,12 +22,12 @@ export default function TripDetailRight({
       return {
         id: schedule.id,
         addressName: schedule.location,
-        position: { lat: schedule.xCoordinate, lng: schedule.yCoordinate },
+        position: { lat: schedule.yCoordinate, lng: schedule.xCoordinate },
         idx: idx,
       };
     });
     setInfos(infos);
-  }, []);
+  }, [scheduleListData]);
 
   return (
     <RightPageContainerStyle>

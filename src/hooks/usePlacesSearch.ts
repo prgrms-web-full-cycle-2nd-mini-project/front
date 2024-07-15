@@ -22,14 +22,14 @@ const usePlacesSearch = () => {
 
   const searchPlaces = (keyword: string) => {
     if (!keyword.trim()) {
-      alert('키워드를 입력해주세요!');
+      // alert('키워드를 입력해주세요!');
       return;
     }
     if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
       const ps = new window.kakao.maps.services.Places();
       ps.keywordSearch(keyword, placesSearchCB);
     } else {
-      alert('Kakao Maps API가 로드되지 않았습니다.');
+      // alert('Kakao Maps API가 로드되지 않았습니다.');
     }
   };
 
@@ -38,11 +38,11 @@ const usePlacesSearch = () => {
       setPlaces(data.slice(0, 5));
       setIsListVisible(true);
     } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
-      alert('검색 결과가 존재하지 않습니다.');
+      // alert('검색 결과가 존재하지 않습니다.');
       setPlaces([]);
       setIsListVisible(false);
     } else if (status === window.kakao.maps.services.Status.ERROR) {
-      alert('검색 결과 중 오류가 발생했습니다.');
+      // alert('검색 결과 중 오류가 발생했습니다.');
       setPlaces([]);
       setIsListVisible(false);
     }

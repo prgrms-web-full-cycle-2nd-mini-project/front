@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useMapStore } from '../../../../stores/mapStore';
+import { useInfoStore, useMapStore } from '../../../../stores/mapStore';
 import MarkerContainer from './MarkersContainer.tsx';
 
 interface ITripDetailMapProps {
@@ -10,6 +10,7 @@ interface ITripDetailMapProps {
 
 export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
   const { setMap } = useMapStore();
+  const { infos } = useInfoStore();
 
   useEffect(() => {
     const mapOptions = {
@@ -22,7 +23,7 @@ export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
     });
 
     setMap(map);
-  }, []);
+  }, [infos]);
 
   return (
     <>

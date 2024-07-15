@@ -15,7 +15,6 @@ interface ITripDetailTitleProps {
 }
 interface FormData {
   title: string;
-  location: string;
   date: string;
 }
 
@@ -31,7 +30,7 @@ export default function TripDetailTitle({
     if (isEditting) {
       updateTripDetail({
         title: data.title,
-        location: data.location,
+        location: tripDetailData.location,
         date: data.date,
         xCoordinate: tripDetailData.xCoordinate,
         yCoordinate: tripDetailData.yCoordinate,
@@ -58,15 +57,9 @@ export default function TripDetailTitle({
       {isEditting ? (
         <SubtitleContainer>
           <div>
-            <label htmlFor="trip-location">
-              <Typography $variant="subtitle2">장소: </Typography>
-            </label>
-            <SubtitleInput
-              id="trip-location"
-              type="text"
-              {...register('location')}
-              defaultValue={tripDetailData.location}
-            />
+            <Typography $variant="body1" $color="gray70">
+              {tripDetailData.location}
+            </Typography>
           </div>
           <div>
             <label htmlFor="trip-date">
