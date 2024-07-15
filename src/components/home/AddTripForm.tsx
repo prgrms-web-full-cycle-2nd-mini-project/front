@@ -57,6 +57,7 @@ export const AddTripForm = ({
                   value={tripData.location}
                   onChange={handleChange}
                   handlePlaceSelect={handlePlaceSelect}
+                  button
                 />
               </div>
               <DateInput

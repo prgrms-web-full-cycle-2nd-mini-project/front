@@ -6,7 +6,7 @@ import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
-import { useNavigate } from 'react-router-dom';
+
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
 
 export const TripMainCard = ({

@@ -18,7 +18,6 @@ export default function TripDetailModal({
   open,
 }: ITripDetailModalProps) {
   const { tripDetailData, isLoading } = useTripDetail(tripId);
-  console.log(tripDetailData);
 
   return (
     tripDetailData && (
