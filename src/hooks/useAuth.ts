@@ -3,6 +3,7 @@ import { SignupProps } from '../pages/Signup';
 import { useAuthStore } from '../stores/authStore';
 import {
   fetchCheckAuth,
+  fetchEmailAuth,
   fetchLogin,
   fetchLogout,
   fetchSignup,
@@ -28,6 +29,18 @@ export const useAuth = () => {
     } catch (error) {
       console.log('error', error);
       storeLogout();
+    }
+  };
+
+  const verifyEmail = async (email: string) => {
+    try {
+      await fetchEmailAuth(email);
+
+      setErrorMessage(null);
+    } catch (error: any) {
+      if (error.status === 400) {
+        setErrorMessage('중복된 이메일입니다');
+      }
     }
   };
 
@@ -72,6 +85,7 @@ export const useAuth = () => {
     errorMessage,
     setErrorMessage,
     verifyAuth,
+    verifyEmail,
     // userResetPassword,
     // userResetRequest,
     // resetRequested,

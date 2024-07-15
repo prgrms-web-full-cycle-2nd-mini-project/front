@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { SignupProps } from '../pages/Signup';
 import axiosInstance from './axiosInstance';
 
@@ -23,4 +24,16 @@ export const fetchCheckAuth = async () => {
   const response = await axiosInstance.post('/users/auth/check');
 
   return response.data;
+};
+
+export const fetchEmailAuth = async (email: string) => {
+  try {
+    const response = await axiosInstance.post('/users/email/check', { email });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw error.response;
+    }
+  }
 };
