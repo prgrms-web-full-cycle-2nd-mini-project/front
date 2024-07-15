@@ -5,7 +5,6 @@ import Typography from '../../components/common/Typography';
 import { AddTripForm } from '../../components/home/AddTripForm';
 import { TripList } from '../../components/home/TripList';
 import { useTrip } from '../../hooks/useTrip';
-import TripDetailModal from '../../components/TripDetailModal';
 
 export default function Home() {
   const { data: ongoingTripsData } = useTrip(true, 1);
@@ -29,13 +28,6 @@ export default function Home() {
         </div>
       </div>
       <TripList />
-      <TripDetailModal
-        tripId={'668f7d32835b9992ffb9412b'}
-        onClose={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-        open={true}
-      />
     </HomeStyle>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import styled from 'styled-components';
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
@@ -7,6 +7,7 @@ import { formatISODate } from '../../../utils/formatData';
 import { Gauge } from '../Gauge';
 import Typography from '../Typography';
 import { useNavigate } from 'react-router-dom';
+import TripDetailModal from '../../TripDetailModal';
 
 export type TripCardProps = {
   title: string;
@@ -24,37 +25,52 @@ export const TripCard = ({
   tripId,
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
+  const [open, setOpen] = useState(false);
 
   const deleteTrip = (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     mutation.mutate(id);
   };
 
-  return (
-    <TripCardStyle>
-      <div>
-        <div className="title">
-          <Typography $variant={'cardTitle'} $style={{ marginBottom: '20px' }}>
-            {title}
-          </Typography>
-          <button onClick={(e) => deleteTrip(tripId, e)}>
-            <IoClose style={{ fontSize: '25px' }} />
-          </button>
-        </div>
+  const handleClick = () => {
+    setOpen(true);
+  };
 
-        <Typography $variant={'title3'}>{location}</Typography>
-      </div>
-      <div>
-        <Typography
-          $variant={'subtitle2'}
-          $color="gray60"
-          $style={{ marginBottom: '10px' }}
-        >
-          {formatISODate(date)}
-        </Typography>
-        <Gauge $percent={percent} />
-      </div>
-    </TripCardStyle>
+  return (
+    <>
+      <TripCardStyle onClick={handleClick}>
+        <div>
+          <div className="title">
+            <Typography
+              $variant={'cardTitle'}
+              $style={{ marginBottom: '20px' }}
+            >
+              {title}
+            </Typography>
+            <button onClick={(e) => deleteTrip(tripId, e)}>
+              <IoClose style={{ fontSize: '25px' }} />
+            </button>
+          </div>
+
+          <Typography $variant={'title3'}>{location}</Typography>
+        </div>
+        <div>
+          <Typography
+            $variant={'subtitle2'}
+            $color="gray60"
+            $style={{ marginBottom: '10px' }}
+          >
+            {formatISODate(date)}
+          </Typography>
+          <Gauge $percent={percent} />
+        </div>
+      </TripCardStyle>
+      <TripDetailModal
+        tripId={tripId}
+        onClose={() => setOpen(false)}
+        open={open}
+      />
+    </>
   );
 };
 
