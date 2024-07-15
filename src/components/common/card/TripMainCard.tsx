@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '../Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../../styles/colors';
@@ -24,44 +24,50 @@ export const TripMainCard = ({
     setOpen(true);
   };
 
+  useEffect(() => {
+    console.log(open);
+  }, [open]);
+
   const deleteTrip = (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     mutation.mutate(id);
   };
   return (
-    <TripCardStyle onClick={handleClick}>
-      <div className="title">
-        <Typography
-          $variant={'title1'}
-          $color="secondary"
-          $style={{ marginBottom: '20px' }}
-        >
-          {location}
-        </Typography>
-        <Typography $variant={'largetitle'} $style={{ marginBottom: '20px' }}>
-          {title}
-        </Typography>
-        <Typography
-          $variant={'title3'}
-          $color="gray80"
-          $style={{ marginBottom: '10px' }}
-        >
-          {formatISODate(date)}
-        </Typography>
-        <Gauge $percent={percent} />
-      </div>
-      <div className="sub">
-        <img src="/src/assets/airplane.png" />
-        <button onClick={(e) => deleteTrip(tripId, e)}>
-          <IoClose style={{ fontSize: '25px' }} />
-        </button>
-      </div>
+    <>
+      <TripCardStyle onClick={handleClick}>
+        <div className="title">
+          <Typography
+            $variant={'title1'}
+            $color="secondary"
+            $style={{ marginBottom: '20px' }}
+          >
+            {location}
+          </Typography>
+          <Typography $variant={'largetitle'} $style={{ marginBottom: '20px' }}>
+            {title}
+          </Typography>
+          <Typography
+            $variant={'title3'}
+            $color="gray80"
+            $style={{ marginBottom: '10px' }}
+          >
+            {formatISODate(date)}
+          </Typography>
+          <Gauge $percent={percent} />
+        </div>
+        <div className="sub">
+          <img src="/src/assets/airplane.png" />
+          <button onClick={(e) => deleteTrip(tripId, e)}>
+            <IoClose style={{ fontSize: '25px' }} />
+          </button>
+        </div>
+      </TripCardStyle>
       <TripDetailModal
         tripId={tripId}
         onClose={() => setOpen(false)}
         open={open}
       />
-    </TripCardStyle>
+    </>
   );
 };
 
