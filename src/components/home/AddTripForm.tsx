@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextInput } from '../common/Input/TextInput';
 import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
 import { TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
-import LocationInput from '../common/Input/LocationInput';
+import { usePlacesWidget } from 'react-google-autocomplete';
 import useTripForm from '../../hooks/useTripForm';
-import { Place } from '../../hooks/usePlacesSearch';
 import { useTripStore } from '../../stores/tripTapStore';
+import LocationInput from '../common/Input/LocationInput';
 
 export const AddTripForm = ({
   mainTrips,
@@ -17,20 +17,35 @@ export const AddTripForm = ({
 }) => {
   const { tripData, setTripData, handleChange, resetForm } = useTripForm();
   const { activeTab } = useTripStore();
-  const handlePlaceSelect = (place: Place) => {
-    setTripData({
-      ...tripData,
-      location: place.place_name,
-      xCoordinate: parseFloat(place.x),
-      yCoordinate: parseFloat(place.y),
-    });
-  };
+  const { ref: locationRef } = usePlacesWidget<HTMLInputElement>({
+    apiKey: import.meta.env.VITE_APP_MAP_API_KEY,
+    onPlaceSelected: (place) => {
+      const location = place.geometry?.location;
+      if (location) {
+        setTripData({
+          ...tripData,
+          location: place.formatted_address || '',
+          xCoordinate: location.lat(),
+          yCoordinate: location.lng(),
+        });
+      } else {
+        setTripData({
+          ...tripData,
+          location: '',
+          xCoordinate: 0,
+          yCoordinate: 0,
+        });
+      }
+    },
+    options: {
+      types: ['(cities)'],
+    },
+  });
 
   const mutation = useCreateTrip();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     mutation.mutate(tripData);
     console.log(tripData, 'x,y 좌표');
     resetForm();
@@ -51,14 +66,7 @@ export const AddTripForm = ({
             />
             <div className="locationDateWrapper">
               <div style={{ position: 'relative', width: '100%' }}>
-                <LocationInput
-                  name="location"
-                  label="location"
-                  value={tripData.location}
-                  onChange={handleChange}
-                  handlePlaceSelect={handlePlaceSelect}
-                  button
-                />
+                <LocationInput name="location" label="location" />
               </div>
               <DateInput
                 name="date"
