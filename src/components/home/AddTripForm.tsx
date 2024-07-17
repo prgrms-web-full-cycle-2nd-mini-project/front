@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput } from '../common/Input/TextInput';
 import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
@@ -15,32 +15,9 @@ export const AddTripForm = ({
 }: {
   mainTrips?: TripDetail[] | undefined;
 }) => {
-  const { tripData, setTripData, handleChange, resetForm } = useTripForm();
+  const { tripData, handleChange, resetForm, setTripData } = useTripForm();
   const { activeTab } = useTripStore();
-  const { ref: locationRef } = usePlacesWidget<HTMLInputElement>({
-    apiKey: import.meta.env.VITE_APP_MAP_API_KEY,
-    onPlaceSelected: (place) => {
-      const location = place.geometry?.location;
-      if (location) {
-        setTripData({
-          ...tripData,
-          location: place.formatted_address || '',
-          xCoordinate: location.lat(),
-          yCoordinate: location.lng(),
-        });
-      } else {
-        setTripData({
-          ...tripData,
-          location: '',
-          xCoordinate: 0,
-          yCoordinate: 0,
-        });
-      }
-    },
-    options: {
-      types: ['(cities)'],
-    },
-  });
+  const [isFormComplete, setIsFormComplete] = useState(false);
 
   const mutation = useCreateTrip();
 
@@ -50,6 +27,12 @@ export const AddTripForm = ({
     console.log(tripData, 'x,y 좌표');
     resetForm();
   };
+
+  useEffect(() => {
+    const isComplete =
+      !!tripData.title && !!tripData.location && !!tripData.date;
+    setIsFormComplete(isComplete);
+  }, [tripData]);
 
   return (
     <>
@@ -66,7 +49,11 @@ export const AddTripForm = ({
             />
             <div className="locationDateWrapper">
               <div style={{ position: 'relative', width: '100%' }}>
-                <LocationInput name="location" label="location" />
+                <LocationInput
+                  name="location"
+                  label="location"
+                  value={tripData.location}
+                />
               </div>
               <DateInput
                 name="date"
@@ -79,7 +66,8 @@ export const AddTripForm = ({
 
           <AddButton
             disabled={
-              activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5
+              !isFormComplete ||
+              (activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5)
             }
           />
         </AddTripFormStyle>
