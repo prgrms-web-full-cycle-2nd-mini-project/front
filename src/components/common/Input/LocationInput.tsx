@@ -25,6 +25,10 @@ const LocationInput = ({ label, name, value, setTripData }: InputProps) => {
     });
 
   useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  useEffect(() => {
     if (placePredictions.length) {
       setIsList(true);
     } else {
