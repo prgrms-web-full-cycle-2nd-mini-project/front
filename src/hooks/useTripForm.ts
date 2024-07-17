@@ -12,6 +12,7 @@ const useTripForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setTripData({ ...tripData, [name]: value });
   };
 

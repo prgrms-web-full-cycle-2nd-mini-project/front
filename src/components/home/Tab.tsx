@@ -54,8 +54,8 @@ export const TabList = () => {
 
   return (
     <ul style={{ marginBottom: '40px' }}>
-      <Tab tab="ongoing" onClick={handleClick} label="계획 중인 여행" />
-      <Tab tab="completed" onClick={handleClick} label="완료된 여행" />
+      <Tab tab="ongoing" onClick={handleClick} label="다가오는 여행" />
+      <Tab tab="completed" onClick={handleClick} label="다녀온 여행" />
     </ul>
   );
 };

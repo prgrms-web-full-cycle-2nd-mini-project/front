@@ -8,17 +8,30 @@ type InputProps = {
   name: string;
   label: string;
   value: string;
+  validLocation?: boolean;
   setTripData: React.Dispatch<React.SetStateAction<TripData>>;
+  setValidLocation: React.Dispatch<React.SetStateAction<boolean>>;
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const LocationInput = ({ label, name, value, setTripData }: InputProps) => {
-  const [inputValue, setInputValue] = useState(value);
+const LocationInput = ({
+  label,
+  name,
+  value,
+  setTripData,
+  validLocation,
+  setValidLocation,
+  inputValue,
+  setInputValue,
+}: InputProps) => {
   const [isList, setIsList] = useState(false);
 
   const { placesService, placePredictions, getPlacePredictions } =
     usePlacesService({
       apiKey: import.meta.env.VITE_APP_MAP_API_KEY,
       options: {
+        componentRestrictions: { country: 'kr' },
         input: inputValue,
         types: ['(cities)'],
       },
@@ -44,19 +57,21 @@ const LocationInput = ({ label, name, value, setTripData }: InputProps) => {
         placeDetails.geometry &&
         placeDetails.geometry.location
       ) {
-        const { lat, lng } = placeDetails.geometry.location;
+        const { lng, lat } = placeDetails.geometry.location;
         const formatted_address = placeDetails.formatted_address || '';
-        const xCoordinate = lat ? lat() : 0;
-        const yCoordinate = lng ? lng() : 0;
+        const xCoordinate = lng ? lng() : 0;
+        const yCoordinate = lat ? lat() : 0;
 
         setTripData((prevData) => ({
           ...prevData,
           location: formatted_address,
-          xCoordinate: xCoordinate,
-          yCoordinate: yCoordinate,
+          xCoordinate,
+          yCoordinate,
         }));
+
         setInputValue(formatted_address);
         setIsList(false);
+        setValidLocation(true);
       } else {
         console.error('오류', status);
       }
@@ -70,6 +85,8 @@ const LocationInput = ({ label, name, value, setTripData }: InputProps) => {
         <Input
           value={inputValue}
           onChange={(evt) => {
+            console.log(`validLocation: ${validLocation}`);
+            setValidLocation(false);
             setInputValue(evt.target.value);
             getPlacePredictions({ input: evt.target.value });
           }}

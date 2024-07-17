@@ -34,7 +34,7 @@ const usePlacesSearch = () => {
   const placesSearchCB = (data: any, status: any) => {
     if (status === window.kakao.maps.services.Status.OK) {
       console.log(data);
-      setPlaces(data.slice(0, 5));
+      setPlaces(data.slice(0, 4));
       setIsListVisible(true);
     } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
       setPlaces([]);

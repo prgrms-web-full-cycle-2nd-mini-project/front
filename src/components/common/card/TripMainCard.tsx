@@ -24,10 +24,6 @@ export const TripMainCard = ({
     setOpen(true);
   };
 
-  useEffect(() => {
-    console.log(open);
-  }, [open]);
-
   const deleteTrip = (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     mutation.mutate(id);
@@ -81,6 +77,9 @@ const TripCardStyle = styled.div`
   border-radius: 20px;
   margin-bottom: 20px;
   cursor: pointer;
+  .title {
+    width: 100%;
+  }
   .sub {
     display: flex;
     align-items: flex-start;

@@ -8,6 +8,8 @@ export function useTrip(tripPlan: boolean, current: number) {
       const response = await fetchMainTrips(tripPlan, current);
       return response;
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
   return { data, isLoading };
 }

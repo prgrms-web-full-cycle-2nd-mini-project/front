@@ -8,6 +8,7 @@ import { useCreateTrip } from '../../hooks/useCreateTrip';
 import useTripForm from '../../hooks/useTripForm';
 import { useTripStore } from '../../stores/tripTapStore';
 import LocationInput from '../common/Input/LocationInput';
+import { Alert, Snackbar } from '@mui/material';
 
 export const AddTripForm = ({
   mainTrips,
@@ -16,23 +17,68 @@ export const AddTripForm = ({
 }) => {
   const { tripData, handleChange, resetForm, setTripData } = useTripForm();
   const { activeTab } = useTripStore();
+  const [open, setOpen] = useState(false);
+  const [valid, setValid] = useState(false);
+  const [validLocation, setValidLocation] = useState(false);
+  // --
+  const [inputValue, setInputValue] = useState(tripData.location);
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
 
+    setOpen(false);
+  };
   const mutation = useCreateTrip();
+
+  const limitTrip =
+    activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    console.log(`
+      valid: ${valid},
+      validLocation: ${validLocation},
+      limitTrip: ${limitTrip},
+      `);
+
+    if (!valid || !validLocation || limitTrip) {
+      setOpen(true);
+      return;
+    }
+
     mutation.mutate(tripData);
     resetForm();
   };
 
   const isFormValid = () => {
+    // TODO: 세 인풋값이 비어있는지 확인하는 로직 추가
     return (
       tripData.title.trim() !== '' &&
-      tripData.date.trim() !== '' &&
-      tripData.location.trim() !== '' &&
-      tripData.xCoordinate !== 0 &&
-      tripData.yCoordinate !== 0
+      inputValue !== '' &&
+      tripData.date.trim() !== ''
     );
+  };
+
+  useEffect(() => {
+    setValid(isFormValid());
+  }, [tripData]);
+
+  const getAlertMessage = () => {
+    if (valid && !validLocation) {
+      return '장소를 정확히 지정해주세요!';
+    }
+    if (!valid) {
+      return '모든 항목을 입력해주세요.';
+    }
+    if (mainTrips && mainTrips.length >= 5) {
+      return '여행은 5개까지만 추가가 가능합니다.';
+    }
+    return null;
   };
 
   return (
@@ -53,8 +99,12 @@ export const AddTripForm = ({
                 <LocationInput
                   name="location"
                   label="location"
+                  inputValue={inputValue}
+                  setInputValue={setInputValue}
                   value={tripData.location}
                   setTripData={setTripData}
+                  validLocation={validLocation}
+                  setValidLocation={setValidLocation}
                 />
               </div>
               <DateInput
@@ -66,13 +116,13 @@ export const AddTripForm = ({
             </div>
           </div>
 
-          <AddButton
-            disabled={
-              (activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5) ||
-              !isFormValid()
-            }
-          />
+          <AddButton $limit={limitTrip || !isFormValid()} />
         </AddTripFormStyle>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            {getAlertMessage()}
+          </Alert>
+        </Snackbar>
       </form>
     </>
   );
