@@ -16,12 +16,12 @@ export const AddTripForm = ({
   mainTrips?: TripDetail[] | undefined;
 }) => {
   const { tripData, handleChange, resetForm, setTripData } = useTripForm();
-  const { activeTab } = useTripStore();
+  const { activeTab, setActiveTab } = useTripStore();
   const [open, setOpen] = useState(false);
   const [valid, setValid] = useState(false);
   const [validLocation, setValidLocation] = useState(false);
-  // --
   const [inputValue, setInputValue] = useState(tripData.location);
+
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string,
@@ -40,11 +40,13 @@ export const AddTripForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(`
-      valid: ${valid},
-      validLocation: ${validLocation},
-      limitTrip: ${limitTrip},
-      `);
+    const today = new Date();
+    const inputDate = new Date(tripData.date);
+    if (inputDate < today) {
+      setActiveTab('completed');
+    } else {
+      setActiveTab('ongoing');
+    }
 
     if (!valid || !validLocation || limitTrip) {
       setOpen(true);

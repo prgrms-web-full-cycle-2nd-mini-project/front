@@ -9,7 +9,6 @@ export type Tab = 'ongoing' | 'completed';
 
 type TabProps = {
   tab: Tab;
-
   onClick: (tab: Tab) => void;
   label: string;
 };
