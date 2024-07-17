@@ -9,7 +9,9 @@ type InputProps = {
   label: string;
   value: string;
 };
+
 const LocationInput = ({ label, name, value }: InputProps) => {
+  const [inputValue, setInputValue] = useState(value);
   const [isList, setIsList] = useState(false);
   const { tripData, setTripData } = useTripForm();
 
@@ -17,7 +19,7 @@ const LocationInput = ({ label, name, value }: InputProps) => {
     usePlacesService({
       apiKey: import.meta.env.VITE_APP_MAP_API_KEY,
       options: {
-        input: value,
+        input: inputValue,
         types: ['(cities)'],
       },
     });
@@ -25,13 +27,8 @@ const LocationInput = ({ label, name, value }: InputProps) => {
   useEffect(() => {
     if (placePredictions.length) {
       setIsList(true);
-
-      placesService?.getDetails(
-        {
-          placeId: placePredictions[0].place_id,
-        },
-        (placeDetails) => console.log(placeDetails),
-      );
+    } else {
+      setIsList(false);
     }
   }, [placePredictions]);
 
@@ -50,8 +47,8 @@ const LocationInput = ({ label, name, value }: InputProps) => {
           xCoordinate: lat ? lat() : 0,
           yCoordinate: lng ? lng() : 0,
         }));
+        setInputValue(placeDetails.formatted_address || '');
         setIsList(false);
-        console.log(tripData);
       } else {
         console.error('오류', status);
       }
@@ -63,14 +60,16 @@ const LocationInput = ({ label, name, value }: InputProps) => {
       <SearchForm>
         <Label htmlFor={name}>{label}</Label>
         <Input
+          value={inputValue}
           onChange={(evt) => {
+            setInputValue(evt.target.value);
             getPlacePredictions({ input: evt.target.value });
           }}
           type="text"
           placeholder="도시 검색"
         />
-        {placePredictions.length > 0 && (
-          <PlacesList $isList={isList}>
+        {isList && placePredictions.length > 0 && (
+          <PlacesList>
             {placePredictions.map((item) => (
               <PlaceItem
                 key={item.place_id}
@@ -112,8 +111,8 @@ const Input = styled.input`
   border: none;
 `;
 
-const PlacesList = styled.ul<{ $isList: boolean }>`
-  display: ${(props) => (props.$isList ? 'block' : 'none')};
+const PlacesList = styled.ul`
+  display: block;
   width: 100%;
   position: absolute;
   list-style: none;

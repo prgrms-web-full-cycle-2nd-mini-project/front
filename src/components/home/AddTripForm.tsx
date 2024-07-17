@@ -23,7 +23,7 @@ export const AddTripForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutation.mutate(tripData);
-    console.log(tripData, 'x,y 좌표');
+    console.log(tripData, 'tripDatatripData');
     resetForm();
   };
 
