@@ -23,7 +23,6 @@ export const AddTripForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutation.mutate(tripData);
-    console.log(tripData, 'tripDatatripData');
     resetForm();
   };
 
@@ -46,6 +45,7 @@ export const AddTripForm = ({
                   name="location"
                   label="location"
                   value={tripData.location}
+                  setTripData={setTripData}
                 />
               </div>
               <DateInput

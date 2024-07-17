@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { COLORS } from '../../../styles/colors';
 import styled from 'styled-components';
-import useTripForm from '../../../hooks/useTripForm';
 import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService';
+import { TripData } from '../../../types/trip';
 
 type InputProps = {
   name: string;
   label: string;
   value: string;
+  setTripData: React.Dispatch<React.SetStateAction<TripData>>;
 };
 
-const LocationInput = ({ label, name, value }: InputProps) => {
+const LocationInput = ({ label, name, value, setTripData }: InputProps) => {
   const [inputValue, setInputValue] = useState(value);
   const [isList, setIsList] = useState(false);
-  const { tripData, setTripData } = useTripForm();
 
   const { placesService, placePredictions, getPlacePredictions } =
     usePlacesService({
@@ -41,13 +41,17 @@ const LocationInput = ({ label, name, value }: InputProps) => {
         placeDetails.geometry.location
       ) {
         const { lat, lng } = placeDetails.geometry.location;
+        const formatted_address = placeDetails.formatted_address || '';
+        const xCoordinate = lat ? lat() : 0;
+        const yCoordinate = lng ? lng() : 0;
+
         setTripData((prevData) => ({
           ...prevData,
-          location: placeDetails.formatted_address || '',
-          xCoordinate: lat ? lat() : 0,
-          yCoordinate: lng ? lng() : 0,
+          location: formatted_address,
+          xCoordinate: xCoordinate,
+          yCoordinate: yCoordinate,
         }));
-        setInputValue(placeDetails.formatted_address || '');
+        setInputValue(formatted_address);
         setIsList(false);
       } else {
         console.error('오류', status);
