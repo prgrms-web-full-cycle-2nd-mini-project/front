@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { TripCard } from '../common/card/TripCard';
 import { TripMainCard } from '../common/card/TripMainCard';
+import Typography from '../common/Typography';
 
 type OngoingTripsProps = {
   mainTrips: TripDetail[] | undefined;
@@ -22,10 +23,14 @@ export const calculatePercent = ({
 
 export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   if (!mainTrips || mainTrips.length === 0) {
-    return null;
+    return (
+      <Typography $variant={'title1'}>계획중인 여행이 없습니다.</Typography>
+    );
   }
   if (isLoading) {
-    return <p>일정을 가지고 오고 있습니다.</p>;
+    return (
+      <Typography $variant={'title1'}>일정을 가지고 오고 있습니다.</Typography>
+    );
   }
 
   const mainTrip = mainTrips[0];

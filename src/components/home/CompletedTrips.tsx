@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { TripDetail } from '../../types/trip';
 import styled from 'styled-components';
 import { TripCard } from '../common/card/TripCard';
 import { calculatePercent } from './OngoingTrips';
 import Pagination from '../common/Pagination';
 import { useTrip } from '../../hooks/useTrip';
+import Typography from '../common/Typography';
 
 export const CompletedTrips = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,11 +13,13 @@ export const CompletedTrips = () => {
     currentPage,
   );
   if (!completedTripsData) {
-    return null;
+    return <Typography $variant={'title1'}>다녀온 여행이 없습니다.</Typography>;
   }
 
   if (isCompletedLoading) {
-    return <p>일정을 가지고 오고 있습니다.</p>;
+    return (
+      <Typography $variant={'title1'}>일정을 가지고 오고 있습니다.</Typography>
+    );
   }
 
   return (

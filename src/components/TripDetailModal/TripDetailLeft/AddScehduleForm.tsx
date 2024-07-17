@@ -8,6 +8,7 @@ import usePlacesSearch, { Place } from '../../../hooks/usePlacesSearch';
 import { COLORS } from '../../../styles/colors';
 import { useMapStore } from '../../../stores/mapStore';
 import { useCreateTripSchedule } from '../../../hooks/useTripDetail';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 interface FormData {
   location: string;
@@ -29,6 +30,14 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
   const locationValue = watch('location');
   const todoValue = watch('todo');
   const startTimeValue = watch('startTime');
+
+  const debounceValue = useDebounce({ value: locationValue, delay: 500 });
+
+  useEffect(() => {
+    if (debounceValue) {
+      searchPlaces(debounceValue);
+    }
+  }, [debounceValue]);
 
   useEffect(() => {
     if (locationValue && todoValue && startTimeValue) {
@@ -82,23 +91,20 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
           <Input
             {...register('location')}
             type="text"
-            style={{ width: '80%' }}
             onChange={(e) => {
               setValue('location', e.target.value);
               setValidLocation(false);
-              searchPlaces(e.target.value);
             }}
           />
-          <Button type="button" onClick={() => searchPlaces(watch('location'))}>
-            <Typography $variant="button2" $color="gray50">
-              검색
-            </Typography>
-          </Button>
+
           {isListVisible && places.length > 0 && (
             <PlacesList>
               {places.map((place, index) => (
                 <PlaceItem key={index} onClick={() => handlePlaceSelect(place)}>
                   {place.place_name}
+                  <Typography $variant={'caption1'}>
+                    {place.address_name}
+                  </Typography>
                 </PlaceItem>
               ))}
             </PlacesList>
@@ -178,6 +184,9 @@ const PlacesList = styled.ul`
 `;
 
 const PlaceItem = styled.li`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   cursor: pointer;
   padding: 15px;
   border-bottom: 1px solid #e0e0e0;

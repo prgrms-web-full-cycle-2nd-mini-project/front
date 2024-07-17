@@ -1,6 +1,6 @@
 export type ButtonProps = {
   size?: 'large' | 'small';
-  disabled?: boolean;
+  $limit?: boolean;
   type?: 'submit' | 'button';
   onClick?: () => void;
 };

@@ -6,12 +6,12 @@ import { IoAddOutline } from 'react-icons/io5';
 
 export const AddButton = ({
   size,
-  disabled = false,
+  $limit = false,
   type = 'submit',
   onClick,
 }: ButtonProps) => {
   return (
-    <Button type={type} size={size} disabled={disabled} onClick={onClick}>
+    <Button type={type} size={size} $limit={$limit} onClick={onClick}>
       <IoAddOutline />
     </Button>
   );
@@ -40,8 +40,8 @@ const Button = styled.button<ButtonProps>`
 
   ${({ size = 'large' }) => size && sizeStyles[size]}
 
-  ${({ disabled }) =>
-    disabled &&
+  ${({ $limit }) =>
+    $limit &&
     css`
       background-color: ${COLORS.gray40};
     `};

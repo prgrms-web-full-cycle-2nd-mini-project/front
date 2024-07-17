@@ -143,7 +143,7 @@ export default function TripDetailScheduleItem({
                   deleteTripSchedule(scheduleData.id);
                 }}
               />
-              {scheduleData.isChecked ? <GoCircle /> : <GoCheckCircleFill />}
+              {scheduleData.isChecked ? <GoCheckCircleFill /> : <GoCircle />}
             </ActiveBox>
           </ScheduleItemContentListStyle>
         </form>

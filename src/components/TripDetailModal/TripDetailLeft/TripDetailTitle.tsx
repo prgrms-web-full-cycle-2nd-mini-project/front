@@ -51,7 +51,7 @@ export default function TripDetailTitle({
           <Typography $variant="title1">{tripDetailData.title}</Typography>
         )}
         <Button type="submit">
-          {isEditting ? <FiSave size="medidum" /> : <FiEdit3 size="medidum" />}
+          {isEditting ? <FiSave size="1.5rem" /> : <FiEdit3 size="1.5rem" />}
         </Button>
       </Title>
       {isEditting ? (

@@ -15,7 +15,7 @@ export const Header = () => {
         <button type="button" onClick={userLogout}>
           <Typography $variant={'title1'}>로그아웃</Typography>
         </button>
-        <LoginIcon />
+        <LoginIcon onClick={userLogout} />
       </div>
     </HeaderStyle>
   );
@@ -32,6 +32,7 @@ const HeaderStyle = styled.div`
 `;
 
 const LoginIcon = styled(MdLogout)`
+  cursor: pointer;
   margin-left: 20px;
   font-size: 30px;
   color: ${COLORS.secondary};

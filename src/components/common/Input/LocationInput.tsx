@@ -1,67 +1,111 @@
-import React from 'react';
-import { AddButton } from '../button/AddButton';
+import React, { useEffect, useState } from 'react';
 import { COLORS } from '../../../styles/colors';
-import usePlacesSearch, { Place } from '../../../hooks/usePlacesSearch';
-
 import styled from 'styled-components';
+import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService';
+import { TripData } from '../../../types/trip';
 
 type InputProps = {
   name: string;
   label: string;
   value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  handlePlaceSelect: (place: Place) => void;
-  button?: boolean;
+  validLocation?: boolean;
+  setTripData: React.Dispatch<React.SetStateAction<TripData>>;
+  setValidLocation: React.Dispatch<React.SetStateAction<boolean>>;
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
 };
+
 const LocationInput = ({
   label,
   name,
-  onChange,
   value,
-  handlePlaceSelect,
-  button,
+  setTripData,
+  validLocation,
+  setValidLocation,
+  inputValue,
+  setInputValue,
 }: InputProps) => {
-  const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
-    usePlacesSearch();
+  const [isList, setIsList] = useState(false);
+
+  const { placesService, placePredictions, getPlacePredictions } =
+    usePlacesService({
+      apiKey: import.meta.env.VITE_APP_MAP_API_KEY,
+      options: {
+        componentRestrictions: { country: 'kr' },
+        input: inputValue,
+        types: ['(cities)'],
+      },
+    });
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    if (placePredictions.length) {
+      setIsList(true);
+    } else {
+      setIsList(false);
+    }
+  }, [placePredictions]);
+
+  const handleSelectPlace = (placeId: string) => {
+    placesService?.getDetails({ placeId }, (placeDetails, status) => {
+      if (
+        status === window.google.maps.places.PlacesServiceStatus.OK &&
+        placeDetails &&
+        placeDetails.geometry &&
+        placeDetails.geometry.location
+      ) {
+        const { lng, lat } = placeDetails.geometry.location;
+        const formatted_address = placeDetails.formatted_address || '';
+        const xCoordinate = lng ? lng() : 0;
+        const yCoordinate = lat ? lat() : 0;
+
+        setTripData((prevData) => ({
+          ...prevData,
+          location: formatted_address,
+          xCoordinate,
+          yCoordinate,
+        }));
+
+        setInputValue(formatted_address);
+        setIsList(false);
+        setValidLocation(true);
+      } else {
+        console.error('오류', status);
+      }
+    });
+  };
 
   return (
-    <InputWrapper ref={wrapperRef}>
+    <InputWrapper>
       <SearchForm>
         <Label htmlFor={name}>{label}</Label>
         <Input
+          value={inputValue}
+          onChange={(evt) => {
+            console.log(`validLocation: ${validLocation}`);
+            setValidLocation(false);
+            setInputValue(evt.target.value);
+            getPlacePredictions({ input: evt.target.value });
+          }}
           type="text"
-          id={name}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder="어디로 떠나시나요?"
-          $isListVisible={isListVisible}
+          placeholder="도시 검색"
         />
-        {button && (
-          <ButtonWrapper>
-            <AddButton
-              size="small"
-              type="button"
-              onClick={() => searchPlaces(value)}
-            />
-          </ButtonWrapper>
+        {isList && placePredictions.length > 0 && (
+          <PlacesList>
+            {placePredictions.map((item) => (
+              <PlaceItem
+                key={item.place_id}
+                onClick={() => handleSelectPlace(item.place_id)}
+              >
+                {item.description}
+              </PlaceItem>
+            ))}
+          </PlacesList>
         )}
       </SearchForm>
-      {isListVisible && places.length > 0 && (
-        <PlacesList>
-          {places.map((place, index) => (
-            <PlaceItem
-              key={index}
-              onClick={() => {
-                handlePlaceSelect(place);
-                setIsListVisible(false);
-              }}
-            >
-              {place.place_name}
-            </PlaceItem>
-          ))}
-        </PlacesList>
-      )}
     </InputWrapper>
   );
 };
@@ -85,27 +129,20 @@ const Label = styled.label`
   padding: 0;
 `;
 
-const Input = styled.input<{ $isListVisible: boolean }>`
+const Input = styled.input`
   width: 100%;
   padding: 24px;
-  border-radius: ${({ $isListVisible }) =>
-    $isListVisible ? '30px 30px 0 0' : '30px'};
+  border-radius: 30px;
   border: none;
 `;
 
-const ButtonWrapper = styled.div`
-  position: absolute;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-`;
-
 const PlacesList = styled.ul`
+  display: block;
   width: 100%;
   position: absolute;
   list-style: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 30px 30px;
+  border-radius: 30px;
   background-color: ${COLORS.white};
 `;
 
@@ -115,6 +152,6 @@ const PlaceItem = styled.li`
   border-bottom: 1px solid ${COLORS.gray30};
   &:last-child {
     border-bottom: none;
-    padding-bottom: 30px;
+    padding: 30p 0;
   }
 `;
