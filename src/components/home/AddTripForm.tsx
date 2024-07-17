@@ -17,7 +17,6 @@ export const AddTripForm = ({
 }) => {
   const { tripData, handleChange, resetForm, setTripData } = useTripForm();
   const { activeTab } = useTripStore();
-  const [isFormComplete, setIsFormComplete] = useState(false);
 
   const mutation = useCreateTrip();
 
@@ -27,12 +26,6 @@ export const AddTripForm = ({
     console.log(tripData, 'x,y 좌표');
     resetForm();
   };
-
-  useEffect(() => {
-    const isComplete =
-      !!tripData.title && !!tripData.location && !!tripData.date;
-    setIsFormComplete(isComplete);
-  }, [tripData]);
 
   return (
     <>
@@ -66,8 +59,7 @@ export const AddTripForm = ({
 
           <AddButton
             disabled={
-              !isFormComplete ||
-              (activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5)
+              activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5
             }
           />
         </AddTripFormStyle>

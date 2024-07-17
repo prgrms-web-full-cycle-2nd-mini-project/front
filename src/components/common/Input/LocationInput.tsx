@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { COLORS } from '../../../styles/colors';
 import styled from 'styled-components';
 import useTripForm from '../../../hooks/useTripForm';
@@ -10,6 +10,7 @@ type InputProps = {
   value: string;
 };
 const LocationInput = ({ label, name, value }: InputProps) => {
+  const [isList, setIsList] = useState(false);
   const { tripData, setTripData } = useTripForm();
 
   const { placesService, placePredictions, getPlacePredictions } =
@@ -22,13 +23,16 @@ const LocationInput = ({ label, name, value }: InputProps) => {
     });
 
   useEffect(() => {
-    if (placePredictions.length)
+    if (placePredictions.length) {
+      setIsList(true);
+
       placesService?.getDetails(
         {
           placeId: placePredictions[0].place_id,
         },
         (placeDetails) => console.log(placeDetails),
       );
+    }
   }, [placePredictions]);
 
   const handleSelectPlace = (placeId: string) => {
@@ -46,6 +50,7 @@ const LocationInput = ({ label, name, value }: InputProps) => {
           xCoordinate: lat ? lat() : 0,
           yCoordinate: lng ? lng() : 0,
         }));
+        setIsList(false);
         console.log(tripData);
       } else {
         console.error('오류', status);
@@ -65,7 +70,7 @@ const LocationInput = ({ label, name, value }: InputProps) => {
           placeholder="도시 검색"
         />
         {placePredictions.length > 0 && (
-          <PlacesList>
+          <PlacesList $isList={isList}>
             {placePredictions.map((item) => (
               <PlaceItem
                 key={item.place_id}
@@ -107,7 +112,8 @@ const Input = styled.input`
   border: none;
 `;
 
-const PlacesList = styled.ul`
+const PlacesList = styled.ul<{ $isList: boolean }>`
+  display: ${(props) => (props.$isList ? 'block' : 'none')};
   width: 100%;
   position: absolute;
   list-style: none;
