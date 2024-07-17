@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { AddButton } from '../common/button/AddButton';
 import { TripDetail } from '../../types/trip';
 import { useCreateTrip } from '../../hooks/useCreateTrip';
-import { usePlacesWidget } from 'react-google-autocomplete';
 import useTripForm from '../../hooks/useTripForm';
 import { useTripStore } from '../../stores/tripTapStore';
 import LocationInput from '../common/Input/LocationInput';
@@ -24,6 +23,16 @@ export const AddTripForm = ({
     e.preventDefault();
     mutation.mutate(tripData);
     resetForm();
+  };
+
+  const isFormValid = () => {
+    return (
+      tripData.title.trim() !== '' &&
+      tripData.date.trim() !== '' &&
+      tripData.location.trim() !== '' &&
+      tripData.xCoordinate !== 0 &&
+      tripData.yCoordinate !== 0
+    );
   };
 
   return (
@@ -59,7 +68,8 @@ export const AddTripForm = ({
 
           <AddButton
             disabled={
-              activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5
+              (activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5) ||
+              !isFormValid()
             }
           />
         </AddTripFormStyle>
