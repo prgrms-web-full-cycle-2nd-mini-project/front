@@ -11,22 +11,10 @@ import { useTripStore } from '../../stores/tripTapStore';
 export const TripList = () => {
   const { activeTab } = useTripStore();
 
-  const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(
-    true,
-    1,
-  );
-
   return (
     <TripListStyle>
       <TabList />
-      {activeTab === 'ongoing' ? (
-        <OngoingTrips
-          mainTrips={ongoingTripsData?.trips}
-          isLoading={isOngoingLoading}
-        />
-      ) : (
-        <CompletedTrips />
-      )}
+      {activeTab === 'ongoing' ? <OngoingTrips /> : <CompletedTrips />}
     </TripListStyle>
   );
 };

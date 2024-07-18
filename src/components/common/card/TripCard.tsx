@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { IoClose } from 'react-icons/io5';
 import styled from 'styled-components';
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
@@ -27,6 +27,12 @@ export const TripCard = ({
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
   const [open, setOpen] = useState(false);
+
+  // 사전로딩
+  useEffect(() => {
+    // 모듈을 미리 로드
+    import('../../TripDetailModal');
+  }, []);
 
   const deleteTrip = (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -66,9 +72,7 @@ export const TripCard = ({
           <Gauge $percent={percent} />
         </div>
       </TripCardStyle>
-      <Suspense
-        fallback={<LoadingSpinner />}
-      >
+      <Suspense fallback={<LoadingSpinner />}>
         {open && (
           <TripDetailModal
             tripId={tripId}

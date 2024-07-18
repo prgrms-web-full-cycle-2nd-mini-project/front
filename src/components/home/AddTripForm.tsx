@@ -33,6 +33,8 @@ export const AddTripForm = ({
     setOpen(false);
   };
   const mutation = useCreateTrip();
+  const today = new Date();
+  const inputDate = new Date(tripData.date);
 
   const limitTrip =
     activeTab === 'ongoing' && mainTrips && mainTrips.length >= 5;
@@ -40,15 +42,12 @@ export const AddTripForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const today = new Date();
-    const inputDate = new Date(tripData.date);
     if (inputDate < today) {
       setActiveTab('completed');
-    } else {
-      setActiveTab('ongoing');
     }
+    setActiveTab('ongoing');
 
-    if (!valid || !validLocation || limitTrip) {
+    if (!valid || !validLocation || (limitTrip && inputDate >= today)) {
       setOpen(true);
       return;
     }
@@ -76,6 +75,9 @@ export const AddTripForm = ({
     }
     if (!valid) {
       return '모든 항목을 입력해주세요.';
+    }
+    if (inputDate < today) {
+      return;
     }
     if (mainTrips && mainTrips.length >= 5) {
       return '여행은 5개까지만 추가가 가능합니다.';
@@ -118,7 +120,7 @@ export const AddTripForm = ({
             </div>
           </div>
 
-          <AddButton $limit={limitTrip || !isFormValid()} />
+          <AddButton $limit={!isFormValid()} />
         </AddTripFormStyle>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>

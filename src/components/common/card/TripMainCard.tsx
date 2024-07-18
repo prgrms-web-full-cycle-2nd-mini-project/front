@@ -8,6 +8,7 @@ import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
 import LoadingSpinner from '../LoadingSpinner';
+
 const TripDetailModal = lazy(() => import('../../TripDetailModal'));
 
 export const TripMainCard = ({
@@ -19,6 +20,10 @@ export const TripMainCard = ({
 }: TripCardProps) => {
   const mutation = useDeleteTrip();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    import('../../TripDetailModal');
+  }, []);
 
   const handleClick = () => {
     setOpen(true);

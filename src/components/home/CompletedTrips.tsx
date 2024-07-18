@@ -12,7 +12,8 @@ export const CompletedTrips = () => {
     false,
     currentPage,
   );
-  if (!completedTripsData) {
+
+  if (!completedTripsData || completedTripsData.trips.length === 0) {
     return (
       <EmptyBox>
         <img src="/src/assets/empty.png" />

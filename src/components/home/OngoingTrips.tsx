@@ -5,11 +5,7 @@ import styled from 'styled-components';
 import { TripCard } from '../common/card/TripCard';
 import { TripMainCard } from '../common/card/TripMainCard';
 import Typography from '../common/Typography';
-
-type OngoingTripsProps = {
-  mainTrips: TripDetail[] | undefined;
-  isLoading: boolean;
-};
+import { useTrip } from '../../hooks/useTrip';
 
 export const calculatePercent = ({
   totalCount,
@@ -21,8 +17,13 @@ export const calculatePercent = ({
   return totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 };
 
-export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
-  if (!mainTrips || mainTrips.length === 0) {
+export const OngoingTrips = () => {
+  const { data: ongoingTripsData, isLoading: isOngoingLoading } = useTrip(
+    true,
+    1,
+  );
+
+  if (!ongoingTripsData || ongoingTripsData.trips.length === 0) {
     return (
       <EmptyBox>
         <img src="/src/assets/empty.png" />
@@ -32,15 +33,15 @@ export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
       </EmptyBox>
     );
   }
-  if (isLoading) {
+  if (isOngoingLoading) {
     return (
       <Typography $variant={'title1'}>일정을 가지고 오고 있습니다.</Typography>
     );
   }
 
-  const mainTrip = mainTrips[0];
+  const mainTrip = ongoingTripsData.trips[0];
   const { id, completedCount, totalCount, title, location, date } = mainTrip;
-  const subTrips = mainTrips.slice(1, 5);
+  const subTrips = ongoingTripsData.trips.slice(1, 5);
 
   return (
     <div>
