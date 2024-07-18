@@ -13,7 +13,14 @@ export const CompletedTrips = () => {
     currentPage,
   );
   if (!completedTripsData) {
-    return <Typography $variant={'title1'}>다녀온 여행이 없습니다.</Typography>;
+    return (
+      <EmptyBox>
+        <img src="/src/assets/empty.png" />
+        <Typography $variant={'title1'} $color="gray50">
+          다녀온 여행이 없습니다.
+        </Typography>
+      </EmptyBox>
+    );
   }
 
   if (isCompletedLoading) {
@@ -55,4 +62,16 @@ const SubCard = styled.div`
   grid-template-columns: repeat(4, 1fr); /* 네 개의 열로 설정 */
   gap: 20px;
   flex-wrap: wrap;
+`;
+
+const EmptyBox = styled.div`
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  img {
+    width: 100px;
+    opacity: 0.3;
+  }
 `;
