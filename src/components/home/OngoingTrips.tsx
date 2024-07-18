@@ -24,7 +24,12 @@ export const calculatePercent = ({
 export const OngoingTrips = ({ mainTrips, isLoading }: OngoingTripsProps) => {
   if (!mainTrips || mainTrips.length === 0) {
     return (
-      <Typography $variant={'title1'}>계획중인 여행이 없습니다.</Typography>
+      <EmptyBox>
+        <img src="/src/assets/empty.png" />
+        <Typography $variant={'title1'} $color="gray50">
+          계획 중인 여행이 없습니다.
+        </Typography>
+      </EmptyBox>
     );
   }
   if (isLoading) {
@@ -74,4 +79,16 @@ const SubCard = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   flex-wrap: wrap;
+`;
+
+const EmptyBox = styled.div`
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  img {
+    width: 100px;
+    opacity: 0.3;
+  }
 `;

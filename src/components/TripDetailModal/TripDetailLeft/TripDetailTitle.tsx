@@ -63,7 +63,9 @@ export default function TripDetailTitle({
           </div>
           <div>
             <label htmlFor="trip-date">
-              <Typography $variant="subtitle2">날짜: </Typography>
+              <Typography $variant="subtitle2" $style={{ marginRight: '10px' }}>
+                날짜:
+              </Typography>
             </label>
             <SubtitleInput
               id="trip-date"
@@ -106,7 +108,8 @@ const TripDetailTitleStyle = styled.div`
 
 const Title = styled.form`
   display: flex;
-  justify-content: space-between;
+
+  align-items: center;
   height: 43px;
 `;
 

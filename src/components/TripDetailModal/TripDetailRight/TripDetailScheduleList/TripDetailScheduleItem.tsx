@@ -94,17 +94,29 @@ export default function TripDetailScheduleItem({
               </button>
             </>
           ) : (
-            <>
-              <Typography $variant="subtitle2" $color="gray60">
-                {`${formatToTime(scheduleData.startTime)} `}
-              </Typography>
+            <Content>
+              <div className="time">
+                <Typography $variant="subtitle2" $color="gray60">
+                  {`${formatToTime(scheduleData.startTime)} `}
+                </Typography>
+                <FiEdit3
+                  onClick={() => {
+                    setIsEditting((prev) => !prev);
+                  }}
+                />
+              </div>
 
-              <FiEdit3
-                onClick={() => {
-                  setIsEditting((prev) => !prev);
+              <FiTrash
+                style={{
+                  color: COLORS.gray100,
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  alert('일정을 삭제하시겠습니까?');
+                  deleteTripSchedule(scheduleData.id);
                 }}
               />
-            </>
+            </Content>
           )}
         </TimeBox>
         <form
@@ -114,11 +126,17 @@ export default function TripDetailScheduleItem({
         >
           <ScheduleItemContentListStyle>
             <div>
-              <Typography $variant="subtitle2">장소</Typography>
-              <Typography $variant="body2">{scheduleData.location}</Typography>
+              <Typography $variant="subtitle2" $style={{ marginBottom: '5px' }}>
+                장소
+              </Typography>
+              <Typography $variant="body2" $color="gray70">
+                {scheduleData.location}
+              </Typography>
             </div>
             <div>
-              <Typography $variant="subtitle2">메모</Typography>
+              <Typography $variant="subtitle2" $style={{ marginBottom: '5px' }}>
+                메모
+              </Typography>
               {isEditting ? (
                 <ScheduleInput
                   {...register('todo')}
@@ -126,23 +144,13 @@ export default function TripDetailScheduleItem({
                   defaultValue={scheduleData.todo}
                 />
               ) : (
-                <Typography $variant="body2">{scheduleData.todo}</Typography>
+                <Typography $variant="body2" $color="gray70">
+                  {scheduleData.todo}
+                </Typography>
               )}
             </div>
 
             <ActiveBox onClick={handleCheckClick}>
-              <FiTrash
-                style={{
-                  position: 'absolute',
-                  bottom: '65px',
-                  color: COLORS.gray100,
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  alert('일정을 삭제하시겠습니까?');
-                  deleteTripSchedule(scheduleData.id);
-                }}
-              />
               {scheduleData.isChecked ? <GoCheckCircleFill /> : <GoCircle />}
             </ActiveBox>
           </ScheduleItemContentListStyle>
@@ -185,7 +193,7 @@ const ScheduleItemContentListStyle = styled.div`
 const TimeBox = styled.div`
   display: flex;
   gap: 20px;
-  /* margin-bottom: 25px; */
+  align-items: center;
   height: 25px;
 
   svg {
@@ -196,6 +204,10 @@ const TimeBox = styled.div`
 
   svg:hover {
     color: ${COLORS.success};
+  }
+  .time {
+    display: flex;
+    gap: 5px;
   }
 `;
 
@@ -215,7 +227,14 @@ const ActiveBox = styled.div`
     color: ${COLORS.success};
   }
 `;
+
 const ScheduleInput = styled(Input)`
   font-size: 15px;
   padding: 5px 5px 10px;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;

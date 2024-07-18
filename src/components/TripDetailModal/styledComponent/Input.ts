@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { COLORS } from '../../../styles/colors';
 
 export const Input = styled.input`
   border: none;
@@ -11,6 +12,6 @@ export const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-bottom: 1.2px solid lightgreen;
+    border-bottom: 1.2px solid ${COLORS.secondary};
   }
 `;

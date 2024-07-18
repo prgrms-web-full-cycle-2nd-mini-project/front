@@ -17,10 +17,12 @@ interface FormData {
 }
 
 export default function AddScheduleForm({ tripId }: { tripId: string }) {
-  const { register, handleSubmit, setValue, watch } = useForm<FormData>();
+  const { register, handleSubmit, setValue, watch, reset } =
+    useForm<FormData>();
   const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
     usePlacesSearch();
   const [validLocation, setValidLocation] = useState(false);
+
   const [open, setOpen] = useState(false);
   const [valid, setValid] = useState(false);
   const { map } = useMapStore();
@@ -34,7 +36,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
   const debounceValue = useDebounce({ value: locationValue, delay: 500 });
 
   useEffect(() => {
-    if (debounceValue) {
+    if (debounceValue && !validLocation) {
       searchPlaces(debounceValue);
     }
   }, [debounceValue]);
@@ -72,6 +74,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
       xCoordinate: position.lng,
       yCoordinate: position.lat,
     });
+    reset();
   };
 
   const handlePlaceSelect = (place: Place) => {
@@ -79,6 +82,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
     setPosition({ lat: +place.y, lng: +place.x });
     setIsListVisible(false);
     setValidLocation(true);
+
     if (!map) return;
     map.panTo({ lat: +place.y, lng: +place.x });
   };
@@ -86,7 +90,9 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
   return (
     <AddScheduleFormStyle>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Typography $variant="subtitle2">장소</Typography>
+        <Typography $variant="body1" $style={{ marginBottom: '20px' }}>
+          장소
+        </Typography>
         <InputWrapper ref={wrapperRef}>
           <Input
             {...register('location')}
@@ -95,6 +101,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
               setValue('location', e.target.value);
               setValidLocation(false);
             }}
+            style={{ marginBottom: '20px' }}
           />
 
           {isListVisible && places.length > 0 && (
@@ -110,15 +117,18 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
             </PlacesList>
           )}
         </InputWrapper>
-        <Typography $variant="subtitle2">메모</Typography>
+        <Typography $variant="body1" $style={{ marginBottom: '20px' }}>
+          메모
+        </Typography>
         <Input {...register('todo')} type="text" />
-        <Typography $variant="subtitle2">시간</Typography>
+        <Typography $variant="body1">시간</Typography>
         <TimeInputContainer>
           <TextField
             {...register('startTime')}
             type="time"
             InputLabelProps={{ shrink: true }}
             fullWidth
+            style={{ marginBottom: '20px' }}
           />
           <div></div>
         </TimeInputContainer>
