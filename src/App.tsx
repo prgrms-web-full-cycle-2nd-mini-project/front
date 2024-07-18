@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './pages/RootLayout';
- 
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Home from './pages/home';
-import { Detail } from './pages/Detail';
+import Typography from './components/common/Typography';
+
+// Lazy import for code splitting
+const Home = lazy(() => import('./pages/home'));
+const Login = lazy(() => import('./pages/Login'));
+const Signup = lazy(() => import('./pages/Signup'));
 
 const router = createBrowserRouter([
   {
@@ -15,13 +16,16 @@ const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/login', element: <Login /> },
       { path: '/signup', element: <Signup /> },
-      { path: '/detail', element: <Detail /> },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Suspense fallback={<Typography $variant="title1">Loading...</Typography>}>
+      <RouterProvider router={router} />
+    </Suspense>
+  );
 }
 
 export default App;

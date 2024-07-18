@@ -15,7 +15,7 @@ export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
   useEffect(() => {
     const mapOptions = {
       center: new naver.maps.LatLng({ lat, lng }),
-      zoom: 15,
+      zoom: 12,
     };
     const map = new naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', () => {
@@ -30,7 +30,7 @@ export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
 
     const mapOptions = {
       center: new naver.maps.LatLng({ lat, lng }),
-      zoom: 15,
+      zoom: 12,
     };
     const map = new naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', () => {
