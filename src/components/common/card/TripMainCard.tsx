@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import Typography from '../Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../../styles/colors';
@@ -6,9 +6,9 @@ import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
-
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
-import TripDetailModal from '../../TripDetailModal';
+import LoadingSpinner from '../LoadingSpinner';
+const TripDetailModal = lazy(() => import('../../TripDetailModal'));
 
 export const TripMainCard = ({
   title,
@@ -58,11 +58,15 @@ export const TripMainCard = ({
           </button>
         </div>
       </TripCardStyle>
-      <TripDetailModal
-        tripId={tripId}
-        onClose={() => setOpen(false)}
-        open={open}
-      />
+      <Suspense fallback={<LoadingSpinner />}>
+        {open && (
+          <TripDetailModal
+            tripId={tripId}
+            onClose={() => setOpen(false)}
+            open={open}
+          />
+        )}
+      </Suspense>
     </>
   );
 };
