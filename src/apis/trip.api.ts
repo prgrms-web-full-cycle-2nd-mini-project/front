@@ -26,6 +26,8 @@ const fetchTripsByPage = async ({
 };
 
 export const fetchMainTrips = async (tripPlan: boolean, current: number) => {
+  await fetchTripsByPage({ plan: tripPlan, current });
+
   return await fetchTripsByPage({ plan: tripPlan, current });
 };
 
