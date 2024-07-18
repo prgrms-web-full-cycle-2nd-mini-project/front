@@ -22,7 +22,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Suspense fallback={<Typography $variant="title1">Loading...</Typography>}>
+    <Suspense fallback={null}>
       <RouterProvider router={router} />
     </Suspense>
   );

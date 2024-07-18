@@ -1,4 +1,4 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import styled from 'styled-components';
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
@@ -6,6 +6,7 @@ import { COLORS } from '../../../styles/colors';
 import { formatISODate } from '../../../utils/formatData';
 import { Gauge } from '../Gauge';
 import Typography from '../Typography';
+import LoadingSpinner from '../LoadingSpinner';
 
 const TripDetailModal = lazy(() => import('../../TripDetailModal'));
 
@@ -65,11 +66,17 @@ export const TripCard = ({
           <Gauge $percent={percent} />
         </div>
       </TripCardStyle>
-      <TripDetailModal
-        tripId={tripId}
-        onClose={() => setOpen(false)}
-        open={open}
-      />
+      <Suspense
+        fallback={<LoadingSpinner />}
+      >
+        {open && (
+          <TripDetailModal
+            tripId={tripId}
+            onClose={() => setOpen(false)}
+            open={open}
+          />
+        )}
+      </Suspense>
     </>
   );
 };
