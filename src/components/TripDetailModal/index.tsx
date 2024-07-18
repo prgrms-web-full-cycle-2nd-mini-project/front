@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useTripDetail from '../../hooks/useTripDetail';
 import { Box, Modal } from '@mui/material';
 import styled from 'styled-components';
 import { BookStyleContainer } from '../../styles/BookStyleStyles';
 import TripDetailLeft from './TripDetailLeft';
 import TripDetailRight from './TripDetailRight';
+import { useMapStore } from '../../stores/mapStore';
 
 interface ITripDetailModalProps {
   tripId: string;
@@ -18,6 +19,11 @@ export default function TripDetailModal({
   open,
 }: ITripDetailModalProps) {
   const { tripDetailData, isLoading } = useTripDetail(tripId);
+  const { setIsinitMap } = useMapStore();
+
+  useEffect(() => {
+    setIsinitMap(true);
+  }, []);
 
   return (
     tripDetailData && (

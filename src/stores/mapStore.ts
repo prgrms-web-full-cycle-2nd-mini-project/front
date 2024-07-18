@@ -4,10 +4,14 @@ import { Info } from '../types/info';
 // Map 상태 관리
 interface MapState {
   map: naver.maps.Map | null;
+  isInitMap: boolean;
+  setIsinitMap: (isInitMap: boolean) => void;
   setMap: (map: naver.maps.Map) => void;
 }
 export const useMapStore = create<MapState>((set) => ({
   map: null,
+  isInitMap: false,
+  setIsinitMap: (isInitMap) => set({ isInitMap }),
   setMap: (map) => set({ map }),
 }));
 
