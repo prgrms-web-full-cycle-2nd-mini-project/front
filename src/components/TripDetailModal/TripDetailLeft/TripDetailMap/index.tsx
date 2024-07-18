@@ -9,7 +9,7 @@ interface ITripDetailMapProps {
 }
 
 export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
-  const { setMap } = useMapStore();
+  const { setMap, isInitMap, setIsinitMap } = useMapStore();
   const { infos } = useInfoStore();
 
   useEffect(() => {
@@ -24,6 +24,22 @@ export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
 
     setMap(map);
   }, [infos]);
+
+  useEffect(() => {
+    if (!isInitMap) return;
+
+    const mapOptions = {
+      center: new naver.maps.LatLng({ lat, lng }),
+      zoom: 15,
+    };
+    const map = new naver.maps.Map('map', mapOptions);
+    naver.maps.Event.addListener(map, 'click', () => {
+      console.log('click');
+    });
+
+    setMap(map);
+    setIsinitMap(false);
+  }, [isInitMap]);
 
   return (
     <>
