@@ -22,6 +22,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
   const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
     usePlacesSearch();
   const [validLocation, setValidLocation] = useState(false);
+
   const [open, setOpen] = useState(false);
   const [valid, setValid] = useState(false);
   const { map } = useMapStore();
@@ -35,7 +36,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
   const debounceValue = useDebounce({ value: locationValue, delay: 500 });
 
   useEffect(() => {
-    if (debounceValue) {
+    if (debounceValue && !validLocation) {
       searchPlaces(debounceValue);
     }
   }, [debounceValue]);
@@ -81,6 +82,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
     setPosition({ lat: +place.y, lng: +place.x });
     setIsListVisible(false);
     setValidLocation(true);
+
     if (!map) return;
     map.panTo({ lat: +place.y, lng: +place.x });
   };
