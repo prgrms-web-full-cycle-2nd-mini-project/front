@@ -17,7 +17,8 @@ interface FormData {
 }
 
 export default function AddScheduleForm({ tripId }: { tripId: string }) {
-  const { register, handleSubmit, setValue, watch } = useForm<FormData>();
+  const { register, handleSubmit, setValue, watch, reset } =
+    useForm<FormData>();
   const { searchPlaces, places, isListVisible, setIsListVisible, wrapperRef } =
     usePlacesSearch();
   const [validLocation, setValidLocation] = useState(false);
@@ -72,6 +73,7 @@ export default function AddScheduleForm({ tripId }: { tripId: string }) {
       xCoordinate: position.lng,
       yCoordinate: position.lat,
     });
+    reset();
   };
 
   const handlePlaceSelect = (place: Place) => {
