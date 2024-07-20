@@ -58,9 +58,12 @@ export const TripMainCard = ({
           <Gauge $percent={percent} />
         </div>
         <div className="sub">
-          {/* <Img src="./assets/airplane.png" /> */}
-          <GiCommercialAirplane color="skyblue" />
-
+ 
+          <Image src="/src/assets/airplane.png" />
+ 
+          {/* <GiCommercialAirplane color="skyblue" /> */}
+          
+ 
           <button onClick={(e) => deleteTrip(tripId, e)}>
             <IoClose style={{ fontSize: '25px' }} />
           </button>
@@ -96,10 +99,14 @@ const TripCardStyle = styled.div`
     display: flex;
     align-items: flex-start;
     gap: 30px;
-
     svg {
       font-size: 140px;
       /* opacity: 0.3; */
     }
   }
+`;
+
+const Image = styled.img`
+  width: 150px;
+  height: 150px;
 `;

@@ -31,7 +31,11 @@ export const OngoingTrips = () => {
   if (!ongoingTripsData || ongoingTripsData.trips.length === 0) {
     return (
       <EmptyBox>
-        <Img src="./assets/empty.png" />
+        
+ 
+        <Image src="/src/assets/empty.png" />
+ 
+ 
         <Typography $variant={'title1'} $color="gray50">
           계획 중인 여행이 없습니다.
         </Typography>
@@ -89,7 +93,8 @@ const EmptyBox = styled.div`
   align-items: center;
   gap: 20px;
 `;
-const Img = styled.img`
+ 
+const Image = styled.img`
   width: 100px;
   opacity: 0.3;
 `;
