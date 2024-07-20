@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Typography from '../../common/Typography';
 import { Button } from '@mui/material';
@@ -26,7 +26,7 @@ export default function TripDetailTitle({
   const { updateTripDetail } = useUpdateTripDetail(tripDetailData.id);
 
   const onTitleSubmit = (data: FormData) => {
-    // console.log(tripDetailData);
+    //// console.log(tripDetailData);
     if (isEditting) {
       updateTripDetail({
         title: data.title,

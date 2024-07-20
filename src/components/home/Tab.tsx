@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Typography from '../common/Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../styles/colors';

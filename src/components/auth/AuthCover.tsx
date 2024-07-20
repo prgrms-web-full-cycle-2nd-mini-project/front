@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { LeftPageContainerStyle } from '../../styles/BookStyleStyles';
 
@@ -9,7 +8,7 @@ export default function AuthCover() {
         <CoverTitle>TRIP PLAN</CoverTitle>
         <CoverSubtitle>여행 투두 리스트를 만들어볼까요?</CoverSubtitle>
       </CoverDescriptions>
-      <CoverImage src="/src/assets/airplane.png" />
+      <CoverImage src="./assets/airplane.png" />
     </LeftPageContainerStyle>
   );
 }

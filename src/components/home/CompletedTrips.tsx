@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { TripCard } from '../common/card/TripCard';
 import { calculatePercent } from './OngoingTrips';
@@ -13,20 +13,26 @@ export const CompletedTrips = () => {
     currentPage,
   );
 
+  if (isCompletedLoading) {
+    return (
+      <Typography $variant={'title1'}>일정을 가지고 오고 있습니다.</Typography>
+    );
+  }
+
   if (!completedTripsData || completedTripsData.trips.length === 0) {
     return (
       <EmptyBox>
-        <img src="/src/assets/empty.png" />
+ 
+        <Image src="/src/assets/empty.png" />
+ 
+        
+          {/* <Img src="./assets/empty.png" /> */}
+ 
+ 
         <Typography $variant={'title1'} $color="gray50">
           다녀온 여행이 없습니다.
         </Typography>
       </EmptyBox>
-    );
-  }
-
-  if (isCompletedLoading) {
-    return (
-      <Typography $variant={'title1'}>일정을 가지고 오고 있습니다.</Typography>
     );
   }
 
@@ -71,8 +77,9 @@ const EmptyBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  img {
-    width: 100px;
-    opacity: 0.3;
-  }
+`;
+
+const Image = styled.img`
+  width: 100px;
+  opacity: 0.3;
 `;

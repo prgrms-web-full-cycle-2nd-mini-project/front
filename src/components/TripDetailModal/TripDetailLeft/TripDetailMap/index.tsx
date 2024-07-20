@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useInfoStore, useMapStore } from '../../../../stores/mapStore';
 import MarkerContainer from './MarkersContainer.tsx';
@@ -19,7 +19,7 @@ export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
     };
     const map = new naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', () => {
-      console.log('click');
+      // console.log('click');
     });
 
     setMap(map);
@@ -34,7 +34,7 @@ export default function TripDetailMap({ lat, lng }: ITripDetailMapProps) {
     };
     const map = new naver.maps.Map('map', mapOptions);
     naver.maps.Event.addListener(map, 'click', () => {
-      console.log('click');
+      // console.log('click');
     });
 
     setMap(map);

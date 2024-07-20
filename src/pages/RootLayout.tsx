@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ export default function RootLayout() {
   useEffect(() => {
     const checkAuth = async () => {
       await verifyAuth();
-      // console.log(isLoggedIn);
+      //// console.log(isLoggedIn);
 
       if (!isLoggedIn && !isFirstRendered) {
         navigate('/login');
