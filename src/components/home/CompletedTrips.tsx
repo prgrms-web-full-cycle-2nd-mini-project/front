@@ -22,13 +22,7 @@ export const CompletedTrips = () => {
   if (!completedTripsData || completedTripsData.trips.length === 0) {
     return (
       <EmptyBox>
- 
-        <Image src="/src/assets/empty.png" />
- 
-        
-          {/* <Img src="./assets/empty.png" /> */}
- 
- 
+        <Image src="/front/assets/empty.png" alt="empty" />
         <Typography $variant={'title1'} $color="gray50">
           다녀온 여행이 없습니다.
         </Typography>

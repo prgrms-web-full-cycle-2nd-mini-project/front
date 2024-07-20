@@ -16,8 +16,8 @@ export default function TripDetailScheduleList({
     <TripDetailScheduleListStyle>
       {scheduleListData.length === 0 && (
         <EmptyBox>
-          <Image src="/src/assets/empty.png" />
-             {/*  <TbMoodEmpty /> */}
+          <Image src="/front/assets/empty.png" alt="empty" />
+          {/*  <TbMoodEmpty /> */}
           <Typography $variant={'title1'} $color="gray50">
             추가된 일정이 없습니다.
           </Typography>
@@ -51,7 +51,7 @@ const EmptyBox = styled.div`
     color: #878d96;
   }
 `;
- 
+
 const Image = styled.img`
   width: 100px;
   opacity: 0.3;
