@@ -1,4 +1,4 @@
-import{o as t,p as o}from"./index-DpQpgYHy.js";import{L as i}from"./index.esm-DdhZwfIB.js";import{T as r}from"./Typography-vT5cGVYV.js";function m(){return t.jsxs(i,{children:[t.jsxs(s,{children:[t.jsx(a,{children:"TRIP PLAN"}),t.jsx(c,{children:"여행 투두 리스트를 만들어볼까요?"})]}),t.jsx(d,{src:"/front/src/assets/airplane.png"})]})}const s=o.div`
+import{o as t,p as o}from"./index-D-n7Wfmk.js";import{L as i}from"./index.esm-D9bder_l.js";import{T as r}from"./Typography-DGkEj0H6.js";function m(){return t.jsxs(i,{children:[t.jsxs(s,{children:[t.jsx(a,{children:"TRIP PLAN"}),t.jsx(c,{children:"여행 투두 리스트를 만들어볼까요?"})]}),t.jsx(d,{src:"/front/src/assets/airplane.png"})]})}const s=o.div`
   text-align: center;
 `,a=o.div`
   font-size: 2rem;
