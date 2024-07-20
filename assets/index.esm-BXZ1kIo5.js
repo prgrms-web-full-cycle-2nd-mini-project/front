@@ -1,4 +1,4 @@
-import{p as pe,R as N}from"./index-CftijzgA.js";const Nt=pe.section`
+import{p as pe,R as N}from"./index-COhQ_a6R.js";const Nt=pe.section`
   padding: 20px 20px;
   height: 100%;
   width: 600px;
