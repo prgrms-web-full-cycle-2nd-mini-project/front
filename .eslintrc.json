@@ -17,12 +17,20 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "varsIgnorePattern": "^React$" }
+    ],
+    "react/react-in-jsx-scope": "off", // React 17+ JSX Transform
+    "react/jsx-uses-react": "off" // React 17+ JSX Transform
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

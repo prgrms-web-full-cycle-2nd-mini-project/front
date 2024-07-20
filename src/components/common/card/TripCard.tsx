@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { IoClose } from 'react-icons/io5';
 import styled from 'styled-components';
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import './Marker.css';
 
 interface IMakerProps {
@@ -29,7 +29,7 @@ export default function Marker({
         },
       });
 
-      // console.log('마커');
+      //// console.log('마커');
       if (onClick) {
         naver.maps.Event.addListener(marker, 'click', onClick);
         map.panTo(position);

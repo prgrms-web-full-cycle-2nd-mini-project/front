@@ -1,4 +1,3 @@
-import React from 'react';
 import { TAG_MAPPING, TypoProps } from '../../types/typography';
 import styled, { css } from 'styled-components';
 import { FONT_STYLE } from '../../styles/typography';

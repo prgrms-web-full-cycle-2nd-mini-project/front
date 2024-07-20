@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ISchedule } from '../../../../apis/tripDetail';
 import styled from 'styled-components';
 import Typography from '../../../common/Typography';
