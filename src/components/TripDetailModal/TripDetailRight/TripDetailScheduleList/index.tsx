@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { ISchedule } from '../../../../apis/tripDetail';
 import TripDetailScheduleItem from './TripDetailScheduleItem';
@@ -17,7 +16,7 @@ export default function TripDetailScheduleList({
     <TripDetailScheduleListStyle>
       {scheduleListData.length === 0 && (
         <EmptyBox>
-          <img src="/src/assets/empty.png" />
+          <Img src="./assets/empty.png" />
           <Typography $variant={'title1'} $color="gray50">
             추가된 일정이 없습니다.
           </Typography>
@@ -46,8 +45,9 @@ const EmptyBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  img {
-    width: 100px;
-    opacity: 0.3;
-  }
+`;
+
+const Img = styled.img`
+  width: 100px;
+  opacity: 0.3;
 `;

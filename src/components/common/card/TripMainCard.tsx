@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import Typography from '../Typography';
 import styled from 'styled-components';
 import { COLORS } from '../../../styles/colors';
@@ -57,7 +57,7 @@ export const TripMainCard = ({
           <Gauge $percent={percent} />
         </div>
         <div className="sub">
-          <img src="/src/assets/airplane.png" />
+          <img src="./assets/airplane.png" />
           <button onClick={(e) => deleteTrip(tripId, e)}>
             <IoClose style={{ fontSize: '25px' }} />
           </button>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { SignupProps } from '../../pages/Signup';
 import { useAuth } from '../../hooks/useAuth';

@@ -27,7 +27,8 @@ export const useAuth = () => {
       storeLogin();
       navigate('/');
     } catch (error) {
-      console.log('error', error);
+      navigate('/login');
+      // console.log('error', error);
       storeLogout();
     }
   };
@@ -72,7 +73,7 @@ export const useAuth = () => {
     try {
       await fetchLogout();
       storeLogout();
-      navigate('/');
+      navigate('/login');
     } catch (error) {
       console.error('로그아웃 실패:', error);
     }

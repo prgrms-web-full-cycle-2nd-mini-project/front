@@ -1,4 +1,3 @@
-import React from 'react';
 import { LeftPageContainerStyle } from '../../../styles/BookStyleStyles';
 import TripDetailTitle from './TripDetailTitle';
 import AddScehduleForm from './AddScehduleForm';

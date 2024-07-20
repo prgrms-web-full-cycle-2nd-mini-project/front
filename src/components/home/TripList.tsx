@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Tab, TabList } from './Tab';
+import { TabList } from './Tab';
 import styled from 'styled-components';
 
 import { CompletedTrips } from './CompletedTrips';
 import { OngoingTrips } from './OngoingTrips';
-import { useTrip } from '../../hooks/useTrip';
 import { useTripStore } from '../../stores/tripTapStore';
 
 export const TripList = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import useTripDetail from '../../hooks/useTripDetail';
 import { Box, Modal } from '@mui/material';
 import styled from 'styled-components';

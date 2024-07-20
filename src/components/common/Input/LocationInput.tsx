@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { COLORS } from '../../../styles/colors';
 import styled from 'styled-components';
 import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService';
@@ -85,7 +85,7 @@ const LocationInput = ({
         <Input
           value={inputValue}
           onChange={(evt) => {
-            console.log(`validLocation: ${validLocation}`);
+            // console.log(`validLocation: ${validLocation}`);
             setValidLocation(false);
             setInputValue(evt.target.value);
             getPlacePredictions({ input: evt.target.value });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextInput } from '../common/Input/TextInput';
 import { DateInput } from '../common/Input/DateInput';
 import styled from 'styled-components';
@@ -42,17 +42,18 @@ export const AddTripForm = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (inputDate < today) {
-      setActiveTab('completed');
-    }
-    setActiveTab('ongoing');
-
     if (!valid || !validLocation || (limitTrip && inputDate >= today)) {
       setOpen(true);
       return;
     }
 
     mutation.mutate(tripData);
+
+    if (inputDate < today) {
+      setActiveTab('completed');
+    } else {
+      setActiveTab('ongoing');
+    }
     resetForm();
   };
 

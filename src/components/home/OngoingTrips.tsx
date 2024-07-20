@@ -1,4 +1,3 @@
-import React from 'react';
 import { TripDetail } from '../../types/trip';
 import styled from 'styled-components';
 
@@ -26,7 +25,7 @@ export const OngoingTrips = () => {
   if (!ongoingTripsData || ongoingTripsData.trips.length === 0) {
     return (
       <EmptyBox>
-        <img src="/src/assets/empty.png" />
+        <Img src="./assets/empty.png" />
         <Typography $variant={'title1'} $color="gray50">
           계획 중인 여행이 없습니다.
         </Typography>
@@ -88,8 +87,8 @@ const EmptyBox = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  img {
-    width: 100px;
-    opacity: 0.3;
-  }
+`;
+const Img = styled.img`
+  width: 100px;
+  opacity: 0.3;
 `;

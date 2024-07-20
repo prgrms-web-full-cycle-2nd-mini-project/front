@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { RightPageContainerStyle } from '../../../styles/BookStyleStyles';
 import Typography from '../../common/Typography';
 import TripDetailScheduleList from './TripDetailScheduleList';
