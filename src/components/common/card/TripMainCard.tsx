@@ -57,7 +57,7 @@ export const TripMainCard = ({
           <Gauge $percent={percent} />
         </div>
         <div className="sub">
-          <img src="/src/assets/airplane.png" />
+          <CoverImage src="/src/assets/airplane.png" />
           <button onClick={(e) => deleteTrip(tripId, e)}>
             <IoClose style={{ fontSize: '25px' }} />
           </button>
@@ -93,9 +93,10 @@ const TripCardStyle = styled.div`
     display: flex;
     align-items: flex-start;
     gap: 30px;
-    img {
-      width: 150px;
-      height: 150px;
-    }
   }
+`;
+
+const CoverImage = styled.img`
+  width: 150px;
+  height: 150px;
 `;
