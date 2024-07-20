@@ -22,6 +22,12 @@ export const OngoingTrips = () => {
     1,
   );
 
+  if (isOngoingLoading) {
+    return (
+      <Typography $variant={'title1'}>일정을 가지고 오고 있습니다.</Typography>
+    );
+  }
+
   if (!ongoingTripsData || ongoingTripsData.trips.length === 0) {
     return (
       <EmptyBox>
@@ -30,11 +36,6 @@ export const OngoingTrips = () => {
           계획 중인 여행이 없습니다.
         </Typography>
       </EmptyBox>
-    );
-  }
-  if (isOngoingLoading) {
-    return (
-      <Typography $variant={'title1'}>일정을 가지고 오고 있습니다.</Typography>
     );
   }
 

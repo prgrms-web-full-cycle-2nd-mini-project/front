@@ -6,6 +6,7 @@ import { IoClose } from 'react-icons/io5';
 import { formatISODate } from '../../../utils/formatData';
 import { TripCardProps } from './TripCard';
 import { Gauge } from '../Gauge';
+import { GiCommercialAirplane } from 'react-icons/gi';
 import { useDeleteTrip } from '../../../hooks/useDeleteTrip';
 import LoadingSpinner from '../LoadingSpinner';
 
@@ -57,7 +58,9 @@ export const TripMainCard = ({
           <Gauge $percent={percent} />
         </div>
         <div className="sub">
-          <img src="./assets/airplane.png" />
+          {/* <Img src="./assets/airplane.png" /> */}
+          <GiCommercialAirplane color="skyblue" />
+
           <button onClick={(e) => deleteTrip(tripId, e)}>
             <IoClose style={{ fontSize: '25px' }} />
           </button>
@@ -93,9 +96,10 @@ const TripCardStyle = styled.div`
     display: flex;
     align-items: flex-start;
     gap: 30px;
-    img {
-      width: 150px;
-      height: 150px;
+
+    svg {
+      font-size: 140px;
+      /* opacity: 0.3; */
     }
   }
 `;
