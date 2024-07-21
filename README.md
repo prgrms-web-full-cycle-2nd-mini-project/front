@@ -3,6 +3,9 @@
 ### 배포 링크
 [Trip Plan](https://prgrms-web-full-cycle-2nd-mini-project.github.io/front)
 
+### 시연 연상
+https://github.com/user-attachments/assets/57a5e8d0-9e11-410d-b039-3cf6c452a3c3
+
 ## 개발 목적
 이 프로젝트는 데브코스에서 배운 MERN 스택을 활용하여 동료들과 협업하는 방식을 경험하고자 하는 목적으로 제작되었습니다. 여행 일정을 정리하고 관리할 수 있는 서비스를 제공하며, 실제 협업 환경에서의 개발 과정을 체험하기 위해 다양한 기술 스택과 도구들을 사용하였습니다.
 
