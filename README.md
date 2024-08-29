@@ -3,7 +3,7 @@
 ### 배포 링크
 [Trip Plan](https://prgrms-web-full-cycle-2nd-mini-project.github.io/front)
 
-### 발표 연상
+### 발표 영상
 [![발표 영상](https://img.youtube.com/vi/C2cifnroLCo/maxresdefault.jpg)](https://www.youtube.com/watch?v=C2cifnroLCo)
 
 
